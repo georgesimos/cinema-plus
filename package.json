@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "connect-database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "mongoose": "^5.5.4",
     "nodemon": "^1.18.11"
   }
 }
