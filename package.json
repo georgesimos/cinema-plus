@@ -13,6 +13,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "mongoose": "^5.5.4",
-    "nodemon": "^1.18.11"
+    "nodemon": "^1.18.11",
+    "validator": "^10.11.0"
   }
 }
