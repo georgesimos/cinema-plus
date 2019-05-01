@@ -12,7 +12,8 @@ const userMetaSchema = new mongoose.Schema({
         trim: true
     },
     age: {
-        type: Number
+        type: String,
+        trim: true
     },
     website: {
         type: String,
