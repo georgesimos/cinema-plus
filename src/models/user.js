@@ -2,11 +2,6 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true
-    },
     username: {
         type: String,
         unique: true,
@@ -46,6 +41,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Address'
+    },
+    meta: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'UserMeta'
     },
     tokens: [{
         token: {
