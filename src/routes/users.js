@@ -6,6 +6,10 @@ const router = new express.Router()
 
 // Create a user
 router.post('/users', async (req, res) => {
+    if (req.body.admin) return res.status(400).send({
+        "error": "Only the god can create an admin!"
+    });
+
     const user = new User(req.body)
     try {
         await user.save()
@@ -53,6 +57,9 @@ router.post('/users/logoutAll', auth, async (req, res) => {
 })
 
 router.get('/users', auth, async (req, res) => {
+    if (!req.user.admin) return res.status(400).send({
+        "error": "Only the god can see all the users!"
+    });
     try {
         const users = await User.find({})
         res.send(users)
