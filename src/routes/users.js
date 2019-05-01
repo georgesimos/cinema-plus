@@ -40,6 +40,18 @@ router.post('/users/logout', auth, async (req, res) => {
     }
 })
 
+// Logout all
+router.post('/users/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send()
+
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 router.get('/users', auth, async (req, res) => {
     try {
         const users = await User.find({})
