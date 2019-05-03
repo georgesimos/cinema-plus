@@ -105,4 +105,58 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 })
 
+// Admin can update user by id
+router.patch('/users/:id', auth, async (req, res) => {
+    if (!req.user.admin) return res.status(400).send({
+        "error": "Only the god can update the user!"
+    });
+    const _id = req.params.id
+
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['firstname', 'lastname', 'username', 'email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+
+    try {
+        const user = await User.findById(_id)
+        updates.forEach((update) => user[update] = req.body[update])
+        await user.save()
+
+        if (!user) return res.sendStatus(404)
+        res.send(user)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
+// Delete by id
+router.delete('/users/:id', auth, async (req, res) => {
+    if (req.user.admin) return res.status(400).send({
+        "error": "Only the god can delete the user!"
+    });
+    const _id = req.params.id
+
+    try {
+        const user = await User.findByIdAndDelete(_id)
+        if (!user) return res.sendStatus(404)
+
+        res.send(user)
+    } catch (e) {
+        res.sendStatus(400)
+    }
+})
+
+router.delete('/users/me', auth, async (req, res) => {
+    if (req.user.admin) return res.status(400).send({
+        "error": "You cannot delete yourself!"
+    });
+    try {
+        await req.user.remove()
+        res.send(req.user)
+    } catch (e) {
+        res.sendStatus(400)
+    }
+})
+
 module.exports = router
