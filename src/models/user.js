@@ -62,7 +62,13 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.toJSON = function () {
     const user = this
     const userObject = user.toObject()
-    if (!userObject.admin) delete userObject.admin
+    if (!userObject.admin) {
+        delete userObject.admin
+        delete userObject._id
+        delete userObject.createdAt
+        delete userObject.updatedAt
+        delete userObject.__v
+    }
     delete userObject.password
     delete userObject.tokens
 

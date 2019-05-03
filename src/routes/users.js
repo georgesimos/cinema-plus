@@ -56,6 +56,7 @@ router.post('/users/logoutAll', auth, async (req, res) => {
     }
 })
 
+// Get all users
 router.get('/users', auth, async (req, res) => {
     if (!req.user.admin) return res.status(400).send({
         "error": "Only the god can see all the users!"
@@ -66,6 +67,10 @@ router.get('/users', auth, async (req, res) => {
     } catch (e) {
         res.status(400).send(e)
     }
+})
+// User infos
+router.get('/users/me', auth, async (req, res) => {
+    res.send(req.user)
 })
 
 module.exports = router
