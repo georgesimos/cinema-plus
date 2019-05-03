@@ -73,4 +73,36 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user)
 })
 
+// Get user by id only for admin
+router.get('/users/:id', auth, async (req, res) => {
+    if (!req.user.admin) return res.status(400).send({
+        "error": "Only the god can see the user!"
+    });
+    const _id = req.params.id
+    try {
+        const user = await User.findById(_id)
+        if (!user) return res.sendStatus(404)
+        res.send(user)
+    } catch (e) {
+        res.sendStatus(400)
+    }
+})
+
+// Edit/Update user 
+router.patch('/users/me', auth, async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['firstname', 'lastname', 'username', 'email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
+
+    try {
+        const { user } = req
+        updates.forEach((update) => user[update] = req.body[update])
+        await user.save()
+        res.send(user)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 module.exports = router
