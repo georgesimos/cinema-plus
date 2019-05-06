@@ -1,11 +1,20 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import './Login.css'
 export default class Login extends Component {
     state = {
-        activePanel: 'left'
+        activePanel: 'left',
+        username: '',
+        password: ''
     }
     onPanelChange(panel) {
         this.setState({ activePanel: panel })
+    }
+    async onUserLogin(e) {
+        e.preventDefault()
+        const { username, password } = this.state
+        const response = await axios.post('http://localhost:3001/users/login', { username, password })
+        console.log(response)
     }
     render() {
         return (
@@ -27,7 +36,7 @@ export default class Login extends Component {
                         </form>
                     </div>
                     <div className='form-container sign-in-container'>
-                        <form action='#'>
+                        <form onSubmit={(e) => this.onUserLogin(e)}>
                             <h1>Sign in</h1>
                             <div className='social-container'>
                                 <a href='#' className='social'><i className='fab fa-facebook-f'></i></a>
@@ -35,8 +44,8 @@ export default class Login extends Component {
                                 <a href='#' className='social'><i className='fab fa-linkedin-in'></i></a>
                             </div>
                             <span>or use your account</span>
-                            <input type='email' placeholder='Email' />
-                            <input type='password' placeholder='Password' />
+                            <input type='text' placeholder='Username' onChange={(e) => this.setState({ username: e.target.value })} />
+                            <input type='password' placeholder='Password' onChange={(e) => this.setState({ password: e.target.value })} />
                             <a href='#'>Forgot your password?</a>
                             <button>Sign In</button>
                         </form>
