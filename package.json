@@ -13,6 +13,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
+    "googleapis": "^39.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.4",
     "nodemon": "^1.18.11",
