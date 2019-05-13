@@ -41,6 +41,14 @@ const movieSchema = new mongoose.Schema({
     duration: {
         type: Number,
         required: true
+    },
+    releaseDate: {
+        type: Date,
+        required: true
+    },
+    endDate: {
+        type: Date,
+        required: true
     }
 })
 
