@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Redirect } from 'react-router-dom';
 import './Login.css'
 export default class Login extends Component {
     state = {
         activePanel: 'left',
         username: '',
-        password: ''
+        password: '',
+        error: ''
     }
     onPanelChange(panel) {
         this.setState({ activePanel: panel })
@@ -13,8 +15,18 @@ export default class Login extends Component {
     async onUserLogin(e) {
         e.preventDefault()
         const { username, password } = this.state
-        const response = await axios.post('http://localhost:3001/users/login', { username, password })
-        console.log(response)
+        try {
+            const response = await axios.post('http://localhost:3001/users/login', { username, password })
+            if (response.ok) console.log('Log in')
+            console.log(response)
+            // Save to localStorage
+            const { token } = response.data;
+            // Set token to localStorage
+            localStorage.setItem("jwtToken", token);
+        } catch (e) {
+            this.setState({ error: 'You have entered an invalid username or password' })
+        }
+
     }
     render() {
         return (
@@ -46,6 +58,7 @@ export default class Login extends Component {
                             <span>or use your account</span>
                             <input type='text' placeholder='Username' onChange={(e) => this.setState({ username: e.target.value })} />
                             <input type='password' placeholder='Password' onChange={(e) => this.setState({ password: e.target.value })} />
+                            {this.state.error && <span style={{ color: 'red' }}>{this.state.error}</span>}
                             <a href='#'>Forgot your password?</a>
                             <button>Sign In</button>
                         </form>
