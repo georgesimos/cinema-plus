@@ -4,7 +4,7 @@ const Cinema = require('../models/cinema')
 const router = new express.Router()
 
 // Create a cinema
-router.post('/cinema', async (req, res) => {
+router.post('/cinemas', async (req, res) => {
     const cinema = new Cinema(req.body)
     try {
         await cinema.save()
@@ -15,7 +15,7 @@ router.post('/cinema', async (req, res) => {
 })
 
 // Get all cinemas
-router.get('/cinema', async (req, res) => {
+router.get('/cinemas', async (req, res) => {
     try {
         const cinemas = await Cinema.find({})
         res.send(cinemas)
@@ -25,7 +25,7 @@ router.get('/cinema', async (req, res) => {
 })
 
 // Get cinema by id 
-router.post('/cinema/:id', async (req, res) => {
+router.post('/cinemas/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const cinema = await Cinema.findById(_id)
@@ -37,7 +37,7 @@ router.post('/cinema/:id', async (req, res) => {
 
 
 // Update cinema by id
-router.patch('/cinema/:id', async (req, res) => {
+router.patch('/cinemas/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'ticketPrice', 'city', 'seats', 'seatsAvailable']
@@ -56,7 +56,7 @@ router.patch('/cinema/:id', async (req, res) => {
 })
 
 // Delete cinema by id 
-router.delete('/cinema/:id', async (req, res) => {
+router.delete('/cinemas/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const cinema = await Cinema.findByIdAndDelete(_id)

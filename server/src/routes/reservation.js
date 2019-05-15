@@ -4,7 +4,7 @@ const Reservation = require('../models/reservation')
 const router = new express.Router()
 
 // Create a reservation
-router.post('/reservation', async (req, res) => {
+router.post('/reservations', async (req, res) => {
     const reservation = new Reservation(req.body)
     try {
         await reservation.save()
@@ -15,7 +15,7 @@ router.post('/reservation', async (req, res) => {
 })
 
 // Get all reservations
-router.get('/reservation', async (req, res) => {
+router.get('/reservations', async (req, res) => {
     try {
         const reservations = await Reservation.find({})
         res.send(reservations)
@@ -25,7 +25,7 @@ router.get('/reservation', async (req, res) => {
 })
 
 // Get reservation by id 
-router.post('/reservation/:id', async (req, res) => {
+router.post('/reservations/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const reservation = await Reservation.findById(_id)
@@ -37,10 +37,10 @@ router.post('/reservation/:id', async (req, res) => {
 
 
 // Update reservation by id
-router.patch('/reservation/:id', async (req, res) => {
+router.patch('/reservations/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['seats', 'ticketPrice', 'total']
+    const allowedUpdates = ['startAt', 'seats', 'ticketPrice', 'total']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })
@@ -56,7 +56,7 @@ router.patch('/reservation/:id', async (req, res) => {
 })
 
 // Delete reservation by id 
-router.delete('/reservation/:id', async (req, res) => {
+router.delete('/reservations/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const reservation = await Reservation.findByIdAndDelete(_id)

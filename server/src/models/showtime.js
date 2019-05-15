@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-const showtimeSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const showtimeSchema = new Schema({
     startAt: {
         type: String,
         required: true,
@@ -17,10 +18,12 @@ const showtimeSchema = new mongoose.Schema({
         lowercase: true
     },
     movieId: {
-        type: Schema.Types.ObjectId, ref: 'Movie'
+        type: Schema.Types.ObjectId, ref: 'Movie',
+        required: true
     },
     cinemaId: {
-        type: Schema.Types.ObjectId, ref: 'Cinema'
+        type: Schema.Types.ObjectId, ref: 'Cinema',
+        required: true
     }
 })
 

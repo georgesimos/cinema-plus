@@ -1,6 +1,12 @@
 const mongoose = require('mongoose')
 
-const reservationSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const reservationSchema = new Schema({
+    startAt: {
+        type: String,
+        required: true,
+        trim: true
+    },
     seats: {
         type: [Schema.Types.Mixed],
         required: true
@@ -14,10 +20,12 @@ const reservationSchema = new mongoose.Schema({
         required: true
     },
     movieId: {
-        type: Schema.Types.ObjectId, ref: 'Movie'
+        type: Schema.Types.ObjectId, ref: 'Movie',
+        required: true
     },
     cinemaId: {
-        type: Schema.Types.ObjectId, ref: 'Cinema'
+        type: Schema.Types.ObjectId, ref: 'Cinema',
+        required: true
     }
 })
 

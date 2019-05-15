@@ -4,7 +4,7 @@ const Showtime = require('../models/showtime')
 const router = new express.Router()
 
 // Create a showtime
-router.post('/showtime', async (req, res) => {
+router.post('/showtimes', async (req, res) => {
     const showtime = new Showtime(req.body)
     try {
         await showtime.save()
@@ -15,7 +15,7 @@ router.post('/showtime', async (req, res) => {
 })
 
 // Get all showtimes
-router.get('/showtime', async (req, res) => {
+router.get('/showtimes', async (req, res) => {
     try {
         const showtimes = await Showtime.find({})
         res.send(showtimes)
@@ -25,7 +25,7 @@ router.get('/showtime', async (req, res) => {
 })
 
 // Get showtime by id 
-router.post('/showtime/:id', async (req, res) => {
+router.post('/showtimes/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const showtime = await Showtime.findById(_id)
@@ -37,7 +37,7 @@ router.post('/showtime/:id', async (req, res) => {
 
 
 // Update showtime by id
-router.patch('/showtime/:id', async (req, res) => {
+router.patch('/showtimes/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
     const allowedUpdates = ['startAt', 'is3d', 'isImax']
@@ -56,7 +56,7 @@ router.patch('/showtime/:id', async (req, res) => {
 })
 
 // Delete showtime by id 
-router.delete('/showtime/:id', async (req, res) => {
+router.delete('/showtimes/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const showtime = await Showtime.findByIdAndDelete(_id)
