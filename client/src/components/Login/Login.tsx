@@ -2,21 +2,32 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom';
 import './Login.css'
-export default class Login extends Component {
-    state = {
+
+interface IProps {
+    [key: string]: any;
+}
+interface IState {
+    activePanel: string,
+    username: string,
+    password: string,
+    error: string
+}
+
+export default class Login extends Component<IProps, IState> {
+    state: IState = {
         activePanel: 'left',
         username: '',
         password: '',
         error: ''
     }
-    onPanelChange(panel) {
+    onPanelChange(panel: string) {
         this.setState({ activePanel: panel })
     }
-    async onUserLogin(e) {
+    async onUserLogin(e: any) {
         e.preventDefault()
         const { username, password } = this.state
         try {
-            const response = await axios.post('http://localhost:3001/users/login', { username, password })
+            const response: any = await axios.post('http://localhost:3001/users/login', { username, password })
             if (response.ok) console.log('Log in')
             console.log(response)
             // Save to localStorage
