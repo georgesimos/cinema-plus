@@ -2,86 +2,80 @@ import palette from './palette';
 
 export default {
     useNextVariants: true,
-    // Tell Material-UI what's the font-size on the html element is.
-    htmlFontSize: 10,
     h1: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '2rem',
+        fontSize: '35px',
         letterSpacing: '-0.24px',
-        lineHeight: '2.5rem'
-    },
-    h2: {
+        lineHeight: '40px'
+      },
+      h2: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '1.875rem',
+        fontSize: '29px',
         letterSpacing: '-0.24px',
-        lineHeight: '2rem'
-    },
-    h3: {
+        lineHeight: '32px'
+      },
+      h3: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '1.5rem',
+        fontSize: '24px',
         letterSpacing: '-0.06px',
-        lineHeight: '1.8rem'
-    },
-    h4: {
+        lineHeight: '28px'
+      },
+      h4: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '1.25rem',
+        fontSize: '20px',
         letterSpacing: '-0.06px',
-        lineHeight: '1.5rem'
-    },
-    h5: {
+        lineHeight: '24px'
+      },
+      h5: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '1rem',
+        fontSize: '16px',
         letterSpacing: '-0.05px',
-        lineHeight: '1.125rem'
-    },
-    h6: {
+        lineHeight: '20px'
+      },
+      h6: {
         color: palette.text.primary,
         fontWeight: '500',
-        fontSize: '0.875rem',
+        fontSize: '14px',
         letterSpacing: '-0.05px',
-        lineHeight: '1.125rem'
-    },
-    subtitle1: {
+        lineHeight: '20px'
+      },
+      subtitle1: {
         color: palette.text.primary,
-        fontSize: '1rem',
+        fontSize: '16px',
         letterSpacing: '-0.05px',
-        lineHeight: '1.5rem'
-    },
-    subtitle2: {
+        lineHeight: '25px'
+      },
+      subtitle2: {
         color: palette.text.primary,
-        fontSize: '0.875rem',
+        fontSize: '14px',
         letterSpacing: 0,
-        lineHeight: '1rem'
-    },
-    body1: {
+        lineHeight: '16px'
+      },
+      body1: {
         color: palette.text.primary,
-        fontSize: '0.875rem',
+        fontSize: '14px',
         letterSpacing: '-0.05px',
-        lineHeight: '1.25rem'
-    },
-    body2: {
+        lineHeight: '21px'
+      },
+      body2: {
         color: palette.text.primary,
-        fontSize: '0.75rem',
+        fontSize: '12px',
         letterSpacing: '-0.04px',
-        lineHeight: '0.875rem'
-    },
-    button: {
+        lineHeight: '14px'
+      },
+      button: {
         color: palette.text.primary,
-        fontSize: '0.875rem'
-    },
-    caption: {
+        fontSize: '14px'
+      },
+      caption: {
         color: palette.text.secondary,
-        fontSize: '0.75rem',
+        fontSize: '12px',
         letterSpacing: '0.3px',
-        lineHeight: '1rem'
-    },
-    overline: {
-        color: palette.text.primary,
-        fontSize: '0.75rem'
-    }
+        lineHeight: '16px'
+      }
 };
