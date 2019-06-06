@@ -31,7 +31,6 @@ class UserList extends Component {
   getUsers = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      console.log(token);
       const url = 'http://localhost:3001/users';
       const response = await fetch(url, {
         method: 'GET',

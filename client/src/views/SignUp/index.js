@@ -82,7 +82,6 @@ class SignUp extends Component {
         body: JSON.stringify(body)
       });
       if (response.ok) {
-        console.log(response);
         const responseData = await response.json();
         // Save to localStorage
         const { token } = responseData;
