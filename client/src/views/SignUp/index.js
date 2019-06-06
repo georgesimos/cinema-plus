@@ -13,14 +13,6 @@ import {
 } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import styles from './styles';
-// Service methods
-const signUp = () => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(true);
-        }, 1500);
-    });
-};
 
 class SignUp extends Component {
     state = {

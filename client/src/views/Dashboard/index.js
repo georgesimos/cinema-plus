@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core';
-import withRoot from '../../withRoot'
 import Dashboard from '../../layouts/Dashboard/Dashboard'
 
 const styles = theme => ({

@@ -11,51 +11,81 @@ import InputIcon from '@material-ui/icons/Input';
 import styles from './styles';
 
 class Topbar extends Component {
-    static defaultProps = {
-        title: 'Dashboard',
-        isSidebarOpen: false
-    };
-    static propTypes = {
-        children: PropTypes.node,
-        classes: PropTypes.object.isRequired,
-        isSidebarOpen: PropTypes.bool,
-        title: PropTypes.string,
-    };
-    render() {
+  static defaultProps = {
+    title: 'Dashboard',
+    isSidebarOpen: false
+  };
+  static propTypes = {
+    children: PropTypes.node,
+    classes: PropTypes.object.isRequired,
+    isSidebarOpen: PropTypes.bool,
+    title: PropTypes.string
+  };
 
-        const { title, classes, ToolbarClasses, children, isSidebarOpen, onToggleSidebar } = this.props;
-        return (
-            <div className={`${classes.root} , ${ToolbarClasses}`}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton className={classes.menuButton} aria-label="Menu" onClick={onToggleSidebar}>
-                        {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
-                    </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.title}>
-                        {title}
-                    </Typography>
-                    <IconButton
-                        className={classes.notificationsButton}
-                        onClick={() => console.log('Notification')}
-                    >
-                        <Badge
-                            badgeContent={4}
-                            color="primary"
-                            variant="dot"
-                        >
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
-                    <IconButton
-                        className={classes.signOutButton}
-                        onClick={() => console.log('Sign Out')}
-                    >
-                        <InputIcon />
-                    </IconButton>
-                </Toolbar>
-                {children}
-            </div >
-        )
+  handleSignOut = async () => {
+    try {
+      const { history } = this.props;
+      const token = localStorage.getItem('jwtToken');
+      const url = 'http://localhost:3001/users/logout';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+        // remove from localStorage
+        localStorage.removeItem('jwtToken');
+        history.push('/dashboard');
+      }
+    } catch (error) {
+      this.setState({
+        error
+      });
     }
+  };
+
+  render() {
+    const {
+      title,
+      classes,
+      ToolbarClasses,
+      children,
+      isSidebarOpen,
+      onToggleSidebar
+    } = this.props;
+    return (
+      <div className={`${classes.root} , ${ToolbarClasses}`}>
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+            className={classes.menuButton}
+            aria-label="Menu"
+            onClick={onToggleSidebar}>
+            {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+          <Typography variant="h6" color="inherit" className={classes.title}>
+            {title}
+          </Typography>
+          <IconButton
+            className={classes.notificationsButton}
+            onClick={() => console.log('Notification')}>
+            <Badge badgeContent={4} color="primary" variant="dot">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            className={classes.signOutButton}
+            onClick={this.handleSignOut}>
+            <InputIcon />
+          </IconButton>
+        </Toolbar>
+        {children}
+      </div>
+    );
+  }
 }
 
 export default withStyles(styles)(Topbar);

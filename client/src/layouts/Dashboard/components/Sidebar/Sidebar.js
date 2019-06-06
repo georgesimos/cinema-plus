@@ -5,10 +5,7 @@ import {
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined'
 import PeopleIcon from '@material-ui/icons/PeopleOutlined'
-import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasketOutlined'
 import LockOpenIcon from '@material-ui/icons/LockOpenOutlined'
-import TextFieldsIcon from '@material-ui/icons/TextFields'
-import ImageIcon from '@material-ui/icons/ImageOutlined'
 import InfoIcon from '@material-ui/icons/InfoOutlined'
 import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined'
 import SettingsIcon from '@material-ui/icons/SettingsOutlined'
@@ -93,20 +90,6 @@ class Sidebar extends Component {
                         activeClassName={classes.activeListItem}
                         className={classes.listItem}
                         component={NavLink}
-                        to="/products"
-                    >
-                        <ListItemIcon className={classes.listItemIcon}>
-                            <ShoppingBasketIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            classes={{ primary: classes.listItemText }}
-                            primary="Products"
-                        />
-                    </ListItem>
-                    <ListItem
-                        activeClassName={classes.activeListItem}
-                        className={classes.listItem}
-                        component={NavLink}
                         to="/sign-in"
                     >
                         <ListItemIcon className={classes.listItemIcon}>
@@ -117,34 +100,7 @@ class Sidebar extends Component {
                             primary="Authentication"
                         />
                     </ListItem>
-                    <ListItem
-                        activeClassName={classes.activeListItem}
-                        className={classes.listItem}
-                        component={NavLink}
-                        to="/typography"
-                    >
-                        <ListItemIcon className={classes.listItemIcon}>
-                            <TextFieldsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            classes={{ primary: classes.listItemText }}
-                            primary="Typography"
-                        />
-                    </ListItem>
-                    <ListItem
-                        activeClassName={classes.activeListItem}
-                        className={classes.listItem}
-                        component={NavLink}
-                        to="/icons"
-                    >
-                        <ListItemIcon className={classes.listItemIcon}>
-                            <ImageIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            classes={{ primary: classes.listItemText }}
-                            primary="Icons and Images"
-                        />
-                    </ListItem>
+
                     <ListItem
                         activeClassName={classes.activeListItem}
                         className={classes.listItem}

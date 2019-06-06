@@ -2,12 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import theme from './theme'
+import theme from './theme';
 // import Login from './views/Login'
-import SignIn from './views/SignIn'
-import SignUp from './views/SignUp'
-import Dashboard from './views/Dashboard'
-import UserList from './views/UserList'
+import SignIn from './views/SignIn';
+import SignUp from './views/SignUp';
+import Dashboard from './views/Dashboard';
+import UserList from './views/UserList';
+import Account from './views/Account';
 
 const App = () => {
   return (
@@ -19,11 +20,12 @@ const App = () => {
           <Route exact path="/sign-in" component={SignIn} />
           <Route exact path="/sign-up" component={SignUp} />
           <Route exact path="/" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/users" component={UserList} />
+          <Route exact path="/account" component={Account} />
         </Switch>
       </Router>
     </MuiThemeProvider>
-
   );
-}
+};
 export default App;
