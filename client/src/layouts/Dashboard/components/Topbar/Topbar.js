@@ -6,6 +6,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
+import history from '../../../../history';
 
 // Component styles
 import styles from './styles';
@@ -24,7 +25,6 @@ class Topbar extends Component {
 
   handleSignOut = async () => {
     try {
-      const { history } = this.props;
       const token = localStorage.getItem('jwtToken');
       const url = 'http://localhost:3001/users/logout';
       const response = await fetch(url, {
@@ -34,13 +34,10 @@ class Topbar extends Component {
           'Content-Type': 'application/json'
         }
       });
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        // remove from localStorage
-        localStorage.removeItem('jwtToken');
-        history.push('/dashboard');
-      }
+      await response.json();
+      history.push('/sign-in');
+      // remove from localStorage
+      localStorage.removeItem('jwtToken');
     } catch (error) {
       this.setState({
         error
