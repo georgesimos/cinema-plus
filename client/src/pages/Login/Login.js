@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { login } from '../../store/actions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
@@ -13,7 +15,7 @@ import {
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import styles from './styles';
 
-class SignIn extends Component {
+class Login extends Component {
   state = {
     values: {
       username: '',
@@ -29,13 +31,24 @@ class SignIn extends Component {
     },
     isValid: true,
     isLoading: false,
-    submitError: null
+    submitError: null,
+    isLogin: false
   };
 
   handleBack = () => {
     const { history } = this.props;
     history.goBack();
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isAuthenticated !== this.props.isAuthenticated ||
+      this.props.isAuthenticated
+    ) {
+      const { history } = this.props;
+      history.push('/admin/dashboard');
+    }
+  }
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
@@ -47,42 +60,9 @@ class SignIn extends Component {
     this.setState(newState);
   };
 
-  handleSignIn = async () => {
-    try {
-      const { history } = this.props;
-      const { values } = this.state;
-
-      this.setState({ isLoading: true });
-
-      const body = { username: values.username, password: values.password };
-      const url = 'http://localhost:3001/users/login';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        const responseData = await response.json();
-        // Save to localStorage
-        const { token } = responseData;
-        // Set token to localStorage
-        localStorage.setItem('jwtToken', token);
-        history.push('/dashboard');
-      } else {
-        const responseData = await response.json();
-        // Save to state
-        const { error } = responseData;
-        this.setState({
-          isLoading: false,
-          submitError: error
-        });
-      }
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
-      });
-    }
+  handleLogin = async () => {
+    const { values } = this.state;
+    this.props.login(values.username, values.password);
   };
 
   render() {
@@ -158,19 +138,19 @@ class SignIn extends Component {
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button
-                      className={classes.signInButton}
+                      className={classes.loginButton}
                       color="primary"
                       disabled={!isValid}
-                      onClick={this.handleSignIn}
+                      onClick={this.handleLogin}
                       size="large"
                       variant="contained">
-                      Sign in now
+                      Login now
                     </Button>
                   )}
-                  <Typography className={classes.signUp} variant="body1">
+                  <Typography className={classes.register} variant="body1">
                     Don't have an account?{' '}
-                    <Link className={classes.signUpUrl} to="/sign-up">
-                      Sign up
+                    <Link className={classes.registerUrl} to="/register">
+                      register
                     </Link>
                   </Typography>
                 </form>
@@ -183,10 +163,19 @@ class SignIn extends Component {
   }
 }
 
-SignIn.propTypes = {
+Login.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  login: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(SignIn);
+const mapStateToProps = state => ({
+  isAuthenticated: state.authState.isAuthenticated
+});
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    { login }
+  )(Login)
+);

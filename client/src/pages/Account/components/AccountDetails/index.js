@@ -74,6 +74,7 @@ class Account extends Component {
       });
       if (response.ok && this.signal) {
         const user = await response.json();
+        console.log(user);
       }
     } catch (error) {
       if (this.signal) {

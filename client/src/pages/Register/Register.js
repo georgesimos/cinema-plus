@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { register } from '../../store/actions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
@@ -14,7 +16,7 @@ import {
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import styles from './styles';
 
-class SignUp extends Component {
+class Register extends Component {
   state = {
     values: {
       firstName: '',
@@ -61,48 +63,17 @@ class SignUp extends Component {
     this.setState(newState);
   };
 
-  handleSignUp = async () => {
-    try {
-      const { history } = this.props;
-      const { values } = this.state;
+  handleRegister = async () => {
+    const { values } = this.state;
 
-      this.setState({ isLoading: true });
-
-      const body = {
-        firstname: values.firstName,
-        lastname: values.lastName,
-        username: values.userName,
-        email: values.email,
-        password: values.password
-      };
-      const url = 'http://localhost:3001/users';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        const responseData = await response.json();
-        // Save to localStorage
-        const { token } = responseData;
-        // Set token to localStorage
-        localStorage.setItem('jwtToken', token);
-        history.push('/dashboard');
-      } else {
-        const responseData = await response.json();
-        // Save to state
-        const { message } = responseData;
-        this.setState({
-          isLoading: false,
-          submitError: message
-        });
-      }
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
-      });
-    }
+    const body = {
+      firstname: values.firstName,
+      lastname: values.lastName,
+      username: values.userName,
+      email: values.email,
+      password: values.password
+    };
+    this.props.register(body);
   };
 
   render() {
@@ -250,19 +221,19 @@ class SignUp extends Component {
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button
-                      className={classes.signUpButton}
+                      className={classes.registerButton}
                       color="primary"
                       disabled={!isValid}
-                      onClick={this.handleSignUp}
+                      onClick={this.handleRegister}
                       size="large"
                       variant="contained">
-                      Sign up now
+                      Register now
                     </Button>
                   )}
-                  <Typography className={classes.signIn} variant="body1">
+                  <Typography className={classes.login} variant="body1">
                     Have an account?{' '}
-                    <Link className={classes.signInUrl} to="/sign-in">
-                      Sign In
+                    <Link className={classes.loginUrl} to="/login">
+                      Login
                     </Link>
                   </Typography>
                 </form>
@@ -275,10 +246,16 @@ class SignUp extends Component {
   }
 }
 
-SignUp.propTypes = {
+Register.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  register: PropTypes.func.isRequired
 };
 
-export default withStyles(styles)(SignUp);
+export default withStyles(styles)(
+  connect(
+    null,
+    { register }
+  )(Register)
+);

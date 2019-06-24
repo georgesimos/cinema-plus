@@ -1,34 +1,51 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import history from './history';
+//Redux
+import { Provider } from 'react-redux';
+import store from './store';
+import history from './utils/history';
 import theme from './theme';
 // import Login from './views/Login'
-import SignIn from './views/SignIn';
-import SignUp from './views/SignUp';
-import Dashboard from './views/Dashboard';
-import UserList from './views/UserList';
-import Account from './views/Account';
-import { ProtectedRoute } from './routes/ProtectedRoute';
+import Register from './pages/Register/Register';
+import Login from './pages/Login/Login';
+import DashboardPage from './pages/DashboardPage/DashboardPage';
+import UserList from './pages/UserList';
+import Account from './pages/Account';
+import ProtectedRoute from './components/routes/ProtectedRoute';
+import Alert from './layouts/Alert/Alert';
+import { loadUser } from './store/actions';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
-    <MuiThemeProvider theme={theme}>
-      {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
-      <Router history={history}>
-        <Switch>
-          <Route exact path="/sign-in" component={SignIn} />
-          <Route exact path="/sign-up" component={SignUp} />
-          <Route exact path="/" component={SignIn} />
-          <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-          <ProtectedRoute exact path="/users" component={UserList} />
-          <ProtectedRoute exact path="/account" component={Account} />
-          <Route path="*" component={() => '404 NOT FOUND'} />
-        </Switch>
-      </Router>
-    </MuiThemeProvider>
+    <Provider store={store}>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <Alert />
+        <Router history={history}>
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
+
+            <Route exact path="/" component={LandingPage} />
+            <ProtectedRoute
+              exact
+              path="/admin/dashboard"
+              component={DashboardPage}
+            />
+            <ProtectedRoute exact path="/admin/users" component={UserList} />
+            <ProtectedRoute exact path="/admin/account" component={Account} />
+            <Route path="*" component={() => '404 NOT FOUND'} />
+          </Switch>
+        </Router>
+      </MuiThemeProvider>
+    </Provider>
   );
 };
 export default App;

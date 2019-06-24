@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { logout } from '../../../../store/actions';
 import { withStyles } from '@material-ui/core/styles';
 import { Badge, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
-import history from '../../../../history';
 
 // Component styles
 import styles from './styles';
@@ -20,29 +21,13 @@ class Topbar extends Component {
     children: PropTypes.node,
     classes: PropTypes.object.isRequired,
     isSidebarOpen: PropTypes.bool,
-    title: PropTypes.string
+    title: PropTypes.string,
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
   };
 
   handleSignOut = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const url = 'http://localhost:3001/users/logout';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      await response.json();
-      history.push('/sign-in');
-      // remove from localStorage
-      localStorage.removeItem('jwtToken');
-    } catch (error) {
-      this.setState({
-        error
-      });
-    }
+    this.props.logout();
   };
 
   render() {
@@ -84,5 +69,12 @@ class Topbar extends Component {
     );
   }
 }
-
-export default withStyles(styles)(Topbar);
+const mapStateToProps = state => ({
+  auth: state.authState
+});
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    { logout }
+  )(Topbar)
+);

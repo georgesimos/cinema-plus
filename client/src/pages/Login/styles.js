@@ -132,15 +132,15 @@ export default theme => ({
     marginLeft: 'auto',
     marginRight: 'auto'
   },
-  signInButton: {
+  loginButton: {
     marginTop: theme.spacing.unit * 2,
     width: '100%'
   },
-  signUp: {
+  register: {
     marginTop: theme.spacing.unit * 2,
     color: theme.palette.text.secondary
   },
-  signUpUrl: {
+  registerUrl: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
     '&:hover': {

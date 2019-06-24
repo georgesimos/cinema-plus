@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
-import LockOpenIcon from '@material-ui/icons/LockOpenOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
@@ -36,7 +35,7 @@ class Sidebar extends Component {
         </div>
         <Divider className={classes.logoDivider} />
         <div className={classes.profile}>
-          <Link to="/account">
+          <Link to="/admin/account">
             <Avatar
               alt="George Simos"
               className={classes.avatar}
@@ -56,7 +55,7 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/dashboard">
+            to="/admin/dashboard">
             <ListItemIcon className={classes.listItemIcon}>
               <DashboardIcon />
             </ListItemIcon>
@@ -69,7 +68,7 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/users">
+            to="/admin/users">
             <ListItemIcon className={classes.listItemIcon}>
               <PeopleIcon />
             </ListItemIcon>
@@ -78,25 +77,12 @@ class Sidebar extends Component {
               primary="Users"
             />
           </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/sign-in">
-            <ListItemIcon className={classes.listItemIcon}>
-              <LockOpenIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Authentication"
-            />
-          </ListItem>
 
           <ListItem
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/account">
+            to="/admin/account">
             <ListItemIcon className={classes.listItemIcon}>
               <AccountBoxIcon />
             </ListItemIcon>
@@ -109,7 +95,7 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/settings">
+            to="/admin/settings">
             <ListItemIcon className={classes.listItemIcon}>
               <SettingsIcon />
             </ListItemIcon>
