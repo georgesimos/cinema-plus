@@ -45,7 +45,7 @@ router.post("/users/logout", auth, async (req, res) => {
       return token.token !== req.token;
     });
     await req.user.save();
-    res.send();
+    res.send({});
   } catch (e) {
     res.status(400).send(e);
   }
@@ -75,9 +75,14 @@ router.get("/users", auth, async (req, res) => {
     res.status(400).send(e);
   }
 });
+
 // User infos
 router.get("/users/me", auth, async (req, res) => {
-  res.send(req.user);
+  try {
+    res.send(req.user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
 });
 
 // Get user by id only for admin

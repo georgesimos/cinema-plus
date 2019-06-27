@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import Container from '@material-ui/core/Container';
 
-import { Grid, GridList } from '@material-ui/core';
+import { Grid, GridList, Typography } from '@material-ui/core';
 import styles from './styles';
 import MovieCard from '../MovieCard/MovieCard';
 
-class Movies extends Component {
+class MovieList extends Component {
   state = {
     movies: []
   };
@@ -42,8 +42,12 @@ class Movies extends Component {
           spacing={5}>
           <Grid item xs={3}>
             <div className={classes.title}>
-              <h2 className={classes.h2}>Latest News</h2>
-              <h4 className={classes.h4}>Covering March & April 2015</h4>
+              <Typography className={classes.h2} variant="h2" color="inherit">
+                Latest News
+              </Typography>
+              <Typography className={classes.h4} variant="h4" color="inherit">
+                Covering March & April 2015
+              </Typography>
             </div>
           </Grid>
           <Grid item xs={9}>
@@ -59,10 +63,10 @@ class Movies extends Component {
   }
 }
 
-Movies.propTypes = {
+MovieList.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Movies);
+export default withStyles(styles)(MovieList);

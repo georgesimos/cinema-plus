@@ -29,6 +29,9 @@ export default theme => ({
     overflowX: 'auto',
     '-webkit-overflow-scrolling': 'touch',
     marginTop: 0,
+    cursor: 'grab',
+    touchAction: 'pan-y',
+    userSelect: 'none',
     ' &::-webkit-scrollbar': {
       display: 'none'
     }

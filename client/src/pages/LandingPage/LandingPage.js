@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 import styles from './styles';
 import Navbar from '../../layouts/Public/components/Navbar/Navbar';
 import MovieList from './components/MovieList/MovieList';
+import MoviePopup from './components/MoviePopup/MoviePopup';
 
 class LandingPage extends Component {
   render() {
