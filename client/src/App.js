@@ -13,10 +13,11 @@ import Login from './pages/Login/Login';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import UserList from './pages/UserList';
 import Account from './pages/Account';
-import ProtectedRoute from './components/routes/ProtectedRoute';
+import ProtectedRoute from './routes/ProtectedRoute';
 import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
 import LandingPage from './pages/LandingPage/LandingPage';
+import MovieList from './pages/MovieList/MovieList';
 
 const App = () => {
   useEffect(() => {
@@ -40,6 +41,7 @@ const App = () => {
               component={DashboardPage}
             />
             <ProtectedRoute exact path="/admin/users" component={UserList} />
+            <Route exact path="/admin/movies" component={MovieList} />
             <ProtectedRoute exact path="/admin/account" component={Account} />
             <Route path="*" component={() => '404 NOT FOUND'} />
           </Switch>
