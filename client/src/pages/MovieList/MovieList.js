@@ -107,19 +107,10 @@ class MovieList extends Component {
     const { classes } = this.props;
 
     return (
-      <Dashboard title="Products">
+      <Dashboard title="Movies">
         <div className={classes.root}>
           <MovieToolbar />
           <div className={classes.content}>{this.renderMovies()}</div>
-          <div className={classes.pagination}>
-            <Typography variant="caption">1-6 of 20</Typography>
-            <IconButton>
-              <ChevronLeftIcon />
-            </IconButton>
-            <IconButton>
-              <ChevronRightIcon />
-            </IconButton>
-          </div>
         </div>
       </Dashboard>
     );

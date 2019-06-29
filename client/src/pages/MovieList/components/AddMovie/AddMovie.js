@@ -29,7 +29,8 @@ class AddMovie extends Component {
     director: '',
     cast: '',
     releaseDate: new Date(),
-    endDate: new Date()
+    endDate: new Date(),
+    status: ''
   };
 
   componentDidUpdate(prevProps) {
@@ -86,16 +87,18 @@ class AddMovie extends Component {
         },
         body: JSON.stringify(body)
       });
-      if (response.ok && this.signal) {
+      if (response.ok) {
         const movie = await response.json();
         console.log(movie);
-      }
-    } catch (error) {
-      if (this.signal) {
         this.setState({
-          error
+          status: 'success'
         });
       }
+    } catch (error) {
+      this.setState({
+        error,
+        status: 'fail'
+      });
     }
   };
 
@@ -110,7 +113,8 @@ class AddMovie extends Component {
       director,
       cast,
       releaseDate,
-      endDate
+      endDate,
+      status
     } = this.state;
 
     const rootClassName = classNames(classes.root, className);
@@ -243,18 +247,23 @@ class AddMovie extends Component {
           <Button color="primary" variant="contained" onClick={this.onAddMovie}>
             Save details
           </Button>
-          <Typography
-            className={classes.infoMessage}
-            color="primary"
-            variant="caption">
-            Movie have been saved!
-          </Typography>
-          <Typography
-            className={classes.infoMessage}
-            color="error"
-            variant="caption">
-            Movie have not been saved, try again.
-          </Typography>
+          {status ? (
+            status === 'success' ? (
+              <Typography
+                className={classes.infoMessage}
+                color="primary"
+                variant="caption">
+                Movie have been saved!
+              </Typography>
+            ) : (
+              <Typography
+                className={classes.infoMessage}
+                color="error"
+                variant="caption">
+                Movie have not been saved, try again.
+              </Typography>
+            )
+          ) : null}
         </PortletFooter>
       </Portlet>
     );
