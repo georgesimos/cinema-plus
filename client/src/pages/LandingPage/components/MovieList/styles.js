@@ -2,7 +2,7 @@ export default theme => ({
   container: {
     minHeight: '100vh',
     color: theme.palette.common.white,
-    backgroundColor: '#341cac'
+    backgroundColor: theme.palette.background.dark
   },
   fullHeight: {
     minHeight: '100vh'

@@ -4,7 +4,7 @@ export default theme => ({
     flex: ' 0 0 auto',
     flexDirection: 'column',
     width: '400px',
-    boxShadow: '10px 5px 40px 20px #2d1896',
+    boxShadow: `10px 5px 40px 20px ${theme.palette.background.dark}`,
     margin: '60px 30px'
   },
   header: {
