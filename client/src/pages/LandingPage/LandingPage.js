@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core';
 import styles from './styles';
 import Navbar from '../../layouts/Public/components/Navbar/Navbar';
 import MovieList from './components/MovieList/MovieList';
-import MoviePopup from './components/MoviePopup/MoviePopup';
 
 class LandingPage extends Component {
   componentDidMount() {
@@ -27,20 +26,6 @@ class LandingPage extends Component {
         cursor3.style.left = event.clientX + 'px';
         cursor3.style.top = event.clientY + 'px';
       });
-
-    function addHoverClass(cursor1) {
-      cursor2.classList.add('hover');
-      cursor3.classList.add('hover');
-    }
-    function removeHoverClass(cursor1) {
-      cursor2.classList.remove('hover');
-      cursor3.classList.remove('hover');
-    }
-
-    function o(t) {
-      t.addEventListener('mouseover', addHoverClass);
-      t.addEventListener('mouseout', removeHoverClass);
-    }
   }
 
   render() {

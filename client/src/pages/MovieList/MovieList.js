@@ -5,17 +5,7 @@ import PropTypes from 'prop-types';
 // Material helpers
 import { withStyles } from '@material-ui/core';
 // Material components
-import {
-  IconButton,
-  CircularProgress,
-  Grid,
-  Typography
-} from '@material-ui/core';
-// Material icons
-import {
-  ChevronRight as ChevronRightIcon,
-  ChevronLeft as ChevronLeftIcon
-} from '@material-ui/icons';
+import { CircularProgress, Grid, Typography } from '@material-ui/core';
 
 // Custom components
 import { MovieToolbar, MovieCard } from './components';
@@ -23,7 +13,6 @@ import { MovieToolbar, MovieCard } from './components';
 // Component styles
 import styles from './styles';
 import Dashboard from '../../layouts/Dashboard/Dashboard';
-import { ResponsiveDialog } from '../../components';
 
 class MovieList extends Component {
   signal = true;

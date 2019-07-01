@@ -65,8 +65,7 @@ class MovieList extends Component {
 
 MovieList.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(MovieList);

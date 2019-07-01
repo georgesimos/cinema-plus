@@ -31,10 +31,9 @@ const App = () => {
         <Alert />
         <Router history={history}>
           <Switch>
+            <Route exact path="/" component={LandingPage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-
-            <Route exact path="/" component={LandingPage} />
             <ProtectedRoute
               exact
               path="/admin/dashboard"

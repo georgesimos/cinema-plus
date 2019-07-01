@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
-import { withStyles, Button, Typography } from '@material-ui/core';
-import history from '../../../../utils/history';
+import { withStyles, Typography } from '@material-ui/core';
+
 // Component styles
 import styles from './styles';
 
@@ -57,7 +57,24 @@ class Navbar extends Component {
             [classes.nav]: true
           })}>
           <div className={classes.navContent}>
-            <ul className="nav__list" />
+            <div className={classes.currentPageShadow}>Movies</div>
+            <ul className={classes.innerNav}>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/admin/users">
+                  Home
+                </Link>
+              </li>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/admin/users">
+                  Movies
+                </Link>
+              </li>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/admin/users">
+                  Login
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </Fragment>

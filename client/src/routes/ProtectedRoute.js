@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import PropTypes from 'process';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const ProtectedRoute = ({ component: Component, isAuthenticated, ...rest }) => (

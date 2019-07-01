@@ -72,9 +72,7 @@ class Topbar extends Component {
 const mapStateToProps = state => ({
   auth: state.authState
 });
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    { logout }
-  )(Topbar)
-);
+export default connect(
+  mapStateToProps,
+  { logout }
+)(withStyles(styles)(Topbar));

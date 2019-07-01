@@ -98,10 +98,9 @@ export default theme => ({
   nav: {
     display: 'flex',
     position: 'fixed',
-    flexWrap: 'wrap',
+
     paddingLeft: 0,
     marginBottom: 0,
-    listStyle: 'none',
     '&:before, &:after': {
       content: '""',
       position: 'fixed',
@@ -113,7 +112,7 @@ export default theme => ({
       transform: 'translateX(0%) translateY(-100%)'
     },
     '&:before': {
-      background: theme.palette.background.dark,
+      background: theme.palette.common.black,
       transitionDelay: '0s'
     },
     '&:after': {
@@ -129,6 +128,85 @@ export default theme => ({
     '&:after': {
       transitionDelay: '.1s',
       transform: 'translateX(0%) translateY(0%)'
+    },
+    '& $navContent': {
+      visibility: 'visible'
+    },
+    '& $navContent $currentPageShadow': {
+      transitionDelay: '.5s',
+      opacity: 0.03,
+      marginTop: '0'
+    },
+    '& $navContent $innerNavListItem': {
+      transitionDelay: '.5s',
+      opacity: 1,
+      transform: 'translateX(0%)',
+      transition: 'opacity .3s ease, transform .3s ease, color .3s ease'
+    }
+  },
+  navContent: {
+    position: 'fixed',
+    visibility: 'hidden',
+    top: '50%',
+    transform: 'translate(0%, -50%)',
+    width: '100%'
+  },
+  currentPageShadow: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontFamily: 'sans-serif',
+    fontSize: '10rem',
+    fontWeight: 800,
+    marginTop: '25px',
+    color: '#fff',
+    opacity: 0,
+    transition: 'all 300ms linear'
+  },
+  innerNav: {
+    position: 'relative',
+    padding: 0,
+    margin: 0,
+    zIndex: 2
+  },
+  innerNavListItem: {
+    opacity: 0,
+    position: 'relative',
+    display: 'block',
+    textAlign: 'center',
+    fontSize: '4rem',
+    lineHeight: '1.05',
+    letterSpacing: '3px',
+    transform: 'translate(0%, 100%)',
+    transition: 'opacity .2s ease, transform .3s ease'
+  },
+  innerNavLink: {
+    position: 'relative',
+    color: theme.palette.common.white,
+    padding: '0 .5rem',
+    margin: '0 1rem',
+    fontSize: '3rem',
+    fontWeight: '600',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    zIndex: 2,
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      opacity: 0,
+      height: 0,
+      marginTop: '3px',
+      backgroundColor: 'rgba(255,255,255,0.5)',
+      transition: 'all 200ms linear',
+      zIndex: 1
+    },
+    '&:hover:after': {
+      opacity: 1,
+      height: '20px'
     }
   }
 });
