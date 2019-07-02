@@ -13,8 +13,8 @@ const styles = theme => ({
     display: 'flex',
     height: '64px',
     justifyContent: 'space-between',
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 3,
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
     position: 'relative'
   },
   noDivider: {

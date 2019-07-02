@@ -8,7 +8,7 @@ import { AccountProfile, AccountDetails } from './components';
 // Component styles
 const styles = theme => ({
   root: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   }
 });
 
