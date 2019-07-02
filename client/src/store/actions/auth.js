@@ -75,7 +75,6 @@ export const loadUser = () => async dispatch => {
       headers: setAuthHeaders()
     });
     const responseData = await response.json();
-    console.log(responseData);
     if (response.ok) dispatch({ type: USER_LOADED, payload: responseData });
     if (!response.ok) dispatch({ type: AUTH_ERROR });
   } catch (error) {

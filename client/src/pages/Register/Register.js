@@ -47,6 +47,16 @@ class Register extends Component {
     submitError: null
   };
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isAuthenticated !== this.props.isAuthenticated &&
+      this.props.isAuthenticated
+    ) {
+      const { history } = this.props;
+      history.push('/login');
+    }
+  }
+
   handleBack = () => {
     const { history } = this.props;
 

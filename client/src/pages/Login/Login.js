@@ -42,11 +42,12 @@ class Login extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.isAuthenticated !== this.props.isAuthenticated ||
+      prevProps.isAuthenticated !== this.props.isAuthenticated &&
       this.props.isAuthenticated
     ) {
-      const { history } = this.props;
-      history.push('/admin/dashboard');
+      const { history, user } = this.props;
+      if (user && user.admin) return history.push('/admin/dashboard');
+      return history.push('/');
     }
   }
 
@@ -171,7 +172,8 @@ Login.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authState.isAuthenticated
+  isAuthenticated: state.authState.isAuthenticated,
+  user: state.authState.user
 });
 export default connect(
   mapStateToProps,

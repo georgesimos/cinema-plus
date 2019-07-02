@@ -24,8 +24,6 @@ class MovieCard extends Component {
     const { classes, className, movie } = this.props;
 
     const rootClassName = classNames(classes.root, className);
-
-    console.log(movie);
     return (
       <Paper className={rootClassName}>
         <div className={classes.imageWrapper}>

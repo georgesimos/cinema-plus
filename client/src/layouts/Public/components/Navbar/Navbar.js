@@ -60,17 +60,17 @@ class Navbar extends Component {
             <div className={classes.currentPageShadow}>Movies</div>
             <ul className={classes.innerNav}>
               <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/admin/users">
+                <Link className={classes.innerNavLink} to="/">
                   Home
                 </Link>
               </li>
               <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/admin/users">
+                <Link className={classes.innerNavLink} to="/movies">
                   Movies
                 </Link>
               </li>
               <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/admin/users">
+                <Link className={classes.innerNavLink} to="/login">
                   Login
                 </Link>
               </li>
