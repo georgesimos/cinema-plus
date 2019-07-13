@@ -16,7 +16,7 @@ import Account from './pages/Account';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
-import LandingPage from './pages/LandingPage/LandingPage';
+import MoviePage from './pages/Public/MoviePage/MoviePage';
 import MovieList from './pages/MovieList/MovieList';
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
         <Alert />
         <Router history={history}>
           <Switch>
-            <Route exact path="/" component={LandingPage} />
+            <Route exact path="/" component={MoviePage} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <ProtectedRoute

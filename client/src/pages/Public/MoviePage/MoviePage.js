@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import styles from './styles';
-import Navbar from '../../layouts/Public/components/Navbar/Navbar';
-import MovieList from './components/MovieList/MovieList';
+import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
+import LatestMovieList from './components/LatestMovieList/LatestMovieList';
 
-class LandingPage extends Component {
+class MoviePage extends Component {
   componentDidMount() {
     this.addPageCursors();
   }
@@ -34,9 +34,8 @@ class LandingPage extends Component {
       <Fragment>
         <div className={classes.root}>
           <Navbar />
-          <MovieList />
+          <LatestMovieList />
         </div>
-
         <div className="cursor" id="cursor" />
         <div className="cursor2" id="cursor2" />
         <div className="cursor3" id="cursor3" />
@@ -45,10 +44,10 @@ class LandingPage extends Component {
   }
 }
 
-LandingPage.propTypes = {
+MoviePage.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(LandingPage);
+export default withStyles(styles)(MoviePage);

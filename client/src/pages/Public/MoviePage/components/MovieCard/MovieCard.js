@@ -15,10 +15,10 @@ const MovieCard = props => {
       </header>
       <div className={classes.body}>
         <p>{movie.duration}</p>
-        <h2>{movie.director}</h2>
+        <h2>{movie.title}</h2>
         <p>{movie.language}</p>
         <p>{movie.cast}</p>
-        <p>{movie.title}</p>
+        <p>{movie.director}</p>
         <p>{movie.description}</p>
       </div>
     </div>

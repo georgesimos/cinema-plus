@@ -7,7 +7,7 @@ import { Grid, GridList, Typography } from '@material-ui/core';
 import styles from './styles';
 import MovieCard from '../MovieCard/MovieCard';
 
-class MovieList extends Component {
+class LatestMovieList extends Component {
   state = {
     movies: []
   };
@@ -21,9 +21,15 @@ class MovieList extends Component {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });
-      const responseData = await response.json();
+      const movies = await response.json();
       if (response.ok) {
-        this.setState({ movies: responseData });
+        const lastMovies = movies
+          .sort((a, b) => Date.parse(b.releaseDate) - Date.parse(a.releaseDate))
+          .slice(0, 5);
+        console.log(lastMovies);
+        this.setState({
+          movies: lastMovies
+        });
       }
     } catch (error) {
       console.log(error);
@@ -32,6 +38,7 @@ class MovieList extends Component {
   render() {
     const { classes } = this.props;
     const { movies } = this.state;
+    console.log(movies);
     return (
       <Container maxWidth="xl" className={classes.container}>
         <Grid
@@ -43,10 +50,10 @@ class MovieList extends Component {
           <Grid item xs={3}>
             <div className={classes.title}>
               <Typography className={classes.h2} variant="h2" color="inherit">
-                Latest News
+                Latest Movies
               </Typography>
               <Typography className={classes.h4} variant="h4" color="inherit">
-                Covering March & April 2015
+                Covering March & April 2019
               </Typography>
             </div>
           </Grid>
@@ -63,9 +70,9 @@ class MovieList extends Component {
   }
 }
 
-MovieList.propTypes = {
+LatestMovieList.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MovieList);
+export default withStyles(styles)(LatestMovieList);

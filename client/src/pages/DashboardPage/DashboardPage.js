@@ -5,7 +5,7 @@ import Dashboard from '../../layouts/Dashboard/Dashboard';
 const styles = theme => ({
   root: {
     textAlign: 'center',
-    paddingTop: theme.spacing(2)0
+    paddingTop: theme.spacing(2)
   }
 });
 
