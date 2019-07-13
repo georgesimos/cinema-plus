@@ -14,7 +14,7 @@ import { Typography, Divider } from '@material-ui/core';
 import { AccessTime as AccessTimeIcon } from '@material-ui/icons';
 
 // Shared components
-import { Paper } from '../../../../components';
+import { Paper } from '../../../../../components';
 
 // Component styles
 import styles from './styles';

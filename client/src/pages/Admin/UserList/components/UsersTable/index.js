@@ -15,7 +15,7 @@ import {
   TablePagination
 } from '@material-ui/core';
 
-import { Portlet, PortletContent } from '../../../../components';
+import { Portlet, PortletContent } from '../../../../../components';
 import styles from './styles';
 
 class UsersTable extends Component {

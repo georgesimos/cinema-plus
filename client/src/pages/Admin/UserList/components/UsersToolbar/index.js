@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core';
 import { Button, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 
-import { SearchInput } from '../../../../components';
+import { SearchInput } from '../../../../../components';
 import styles from './styles';
 
 class UsersToolbar extends Component {

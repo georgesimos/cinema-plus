@@ -9,15 +9,15 @@ import history from './utils/history';
 import theme from './theme';
 // import Login from './views/Login'
 import Register from './pages/Admin/Register/Register';
-import Login from './pages/Login/Login';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
-import UserList from './pages/UserList';
-import Account from './pages/Account';
+import Login from './pages/Admin/Login/Login';
+import DashboardPage from './pages/Admin/DashboardPage/DashboardPage';
+import UserList from './pages/Admin/UserList';
+import Account from './pages/Admin/Account';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
 import MoviePage from './pages/Public/MoviePage/MoviePage';
-import MovieList from './pages/MovieList/MovieList';
+import MovieList from './pages/Admin/MovieList/MovieList';
 
 const App = () => {
   useEffect(() => {

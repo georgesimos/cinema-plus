@@ -12,7 +12,7 @@ import { MovieToolbar, MovieCard } from './components';
 
 // Component styles
 import styles from './styles';
-import Dashboard from '../../layouts/Dashboard/Dashboard';
+import Dashboard from '../../../layouts/Dashboard/Dashboard';
 
 class MovieList extends Component {
   signal = true;

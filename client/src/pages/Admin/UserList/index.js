@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, CircularProgress, Typography } from '@material-ui/core';
-import Dashboard from '../../layouts/Dashboard/Dashboard';
+import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import styles from './styles';
 import { UsersToolbar, UsersTable } from './components';
 

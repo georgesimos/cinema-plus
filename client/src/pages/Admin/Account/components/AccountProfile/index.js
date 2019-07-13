@@ -4,7 +4,11 @@ import classNames from 'classnames';
 import moment from 'moment';
 import { withStyles } from '@material-ui/core';
 import { Avatar, Typography, Button } from '@material-ui/core';
-import { Portlet, PortletContent, PortletFooter } from '../../../../components';
+import {
+  Portlet,
+  PortletContent,
+  PortletFooter
+} from '../../../../../components';
 
 // Component styles
 import styles from './styles';

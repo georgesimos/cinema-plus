@@ -80,8 +80,27 @@ export default theme => ({
     color: theme.palette.text.secondary,
     marginTop: theme.spacing(0.5)
   },
+  facebookButton: {
+    marginTop: theme.spacing(3),
+    width: '100%'
+  },
+  facebookIcon: {
+    marginRight: theme.spacing(1)
+  },
+  googleButton: {
+    marginTop: theme.spacing(2),
+    width: '100%'
+  },
+  googleIcon: {
+    marginRight: theme.spacing(1)
+  },
+  sugestion: {
+    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(2),
+    textAlign: 'center'
+  },
   fields: {
-    marginTop: theme.spacing(5)
+    marginTop: theme.spacing(2)
   },
   textField: {
     width: '100%',
@@ -113,15 +132,15 @@ export default theme => ({
     marginLeft: 'auto',
     marginRight: 'auto'
   },
-  registerButton: {
+  loginButton: {
     marginTop: theme.spacing(2),
     width: '100%'
   },
-  login: {
+  register: {
     marginTop: theme.spacing(2),
     color: theme.palette.text.secondary
   },
-  loginUrl: {
+  registerUrl: {
     color: theme.palette.primary.main,
     fontWeight: 'bold',
     '&:hover': {
