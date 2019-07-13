@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { register } from "../../../store/actions";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { register } from '../../../store/actions';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core';
 import {
   Button,
   Checkbox,
@@ -12,18 +12,18 @@ import {
   IconButton,
   TextField,
   Typography
-} from "@material-ui/core";
-import { ArrowBack as ArrowBackIcon } from "@material-ui/icons";
-import styles from "./styles";
+} from '@material-ui/core';
+import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
+import styles from './styles';
 
 class Register extends Component {
   state = {
     values: {
-      firstName: "",
-      lastName: "",
-      userName: "",
-      email: "",
-      password: "",
+      firstName: '',
+      lastName: '',
+      userName: '',
+      email: '',
+      password: '',
       policy: false
     },
     touched: {
@@ -53,7 +53,7 @@ class Register extends Component {
       this.props.isAuthenticated
     ) {
       const { history } = this.props;
-      history.push("/login");
+      history.push('/login');
     }
   }
 
@@ -126,8 +126,7 @@ class Register extends Component {
               <div className={classes.contentHeader}>
                 <IconButton
                   className={classes.backButton}
-                  onClick={this.handleBack}
-                >
+                  onClick={this.handleBack}>
                   <ArrowBackIcon />
                 </IconButton>
               </div>
@@ -145,7 +144,7 @@ class Register extends Component {
                       label="First name"
                       name="firstName"
                       onChange={event =>
-                        this.handleFieldChange("firstName", event.target.value)
+                        this.handleFieldChange('firstName', event.target.value)
                       }
                       value={values.firstName}
                       variant="outlined"
@@ -156,7 +155,7 @@ class Register extends Component {
                       label="Last name"
                       name="lastName"
                       onChange={event =>
-                        this.handleFieldChange("lastName", event.target.value)
+                        this.handleFieldChange('lastName', event.target.value)
                       }
                       value={values.lastName}
                       variant="outlined"
@@ -167,7 +166,7 @@ class Register extends Component {
                       label="User name"
                       name="userName"
                       onChange={event =>
-                        this.handleFieldChange("userName", event.target.value)
+                        this.handleFieldChange('userName', event.target.value)
                       }
                       value={values.userName}
                       variant="outlined"
@@ -178,7 +177,7 @@ class Register extends Component {
                       label="Email address"
                       name="email"
                       onChange={event =>
-                        this.handleFieldChange("email", event.target.value)
+                        this.handleFieldChange('email', event.target.value)
                       }
                       value={values.email}
                       variant="outlined"
@@ -188,7 +187,7 @@ class Register extends Component {
                       className={classes.textField}
                       label="Password"
                       onChange={event =>
-                        this.handleFieldChange("password", event.target.value)
+                        this.handleFieldChange('password', event.target.value)
                       }
                       type="password"
                       value={values.password}
@@ -202,13 +201,12 @@ class Register extends Component {
                         color="primary"
                         name="policy"
                         onChange={() =>
-                          this.handleFieldChange("policy", !values.policy)
+                          this.handleFieldChange('policy', !values.policy)
                         }
                       />
                       <Typography
                         className={classes.policyText}
-                        variant="body1"
-                      >
+                        variant="body1">
                         I have read the &nbsp;
                         <Link className={classes.policyUrl} to="#">
                           Terms and Conditions
@@ -219,8 +217,7 @@ class Register extends Component {
                     {showPolicyError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.policy[0]}
                       </Typography>
                     )}
@@ -239,13 +236,12 @@ class Register extends Component {
                       disabled={!isValid}
                       onClick={this.handleRegister}
                       size="large"
-                      variant="contained"
-                    >
+                      variant="contained">
                       Register now
                     </Button>
                   )}
                   <Typography className={classes.login} variant="body1">
-                    Have an account?{" "}
+                    Have an account?{' '}
                     <Link className={classes.loginUrl} to="/login">
                       Login
                     </Link>

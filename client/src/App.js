@@ -8,7 +8,7 @@ import store from './store';
 import history from './utils/history';
 import theme from './theme';
 // import Login from './views/Login'
-import Register from './pages/Register/Register';
+import Register from './pages/Admin/Register/Register';
 import Login from './pages/Login/Login';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import UserList from './pages/UserList';
