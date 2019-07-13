@@ -8,32 +8,12 @@ export default theme => ({
     minHeight: '100vh'
   },
   title: {
-    width: '50%',
-    color: theme.palette.common.white
-  },
-  h2: {
     fontSize: '3rem',
-    lineHeight: '3rem'
+    lineHeight: '3rem',
+    marginBottom: theme.spacing(3)
   },
-  h4: {
-    fontSize: '1rem'
-  },
-  body2: {
-    paddingTop: '10px',
-    fontSize: '1.2rem',
-    lineHeight: '1.8rem'
-  },
-  gridList: {
-    display: 'flex',
-    flexWrap: 'nowrap',
-    overflowX: 'auto',
-    '-webkit-overflow-scrolling': 'touch',
-    marginTop: 0,
-    cursor: 'grab',
-    touchAction: 'pan-y',
-    userSelect: 'none',
-    ' &::-webkit-scrollbar': {
-      display: 'none'
-    }
+
+  [theme.breakpoints.down('sm')]: {
+    fullWidth: { width: '100%' }
   }
 });

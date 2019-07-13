@@ -8,7 +8,8 @@ export default theme => ({
     margin: '60px 30px'
   },
   header: {
-    backgroundImage: 'url("https://source.unsplash.com/user/erondu/600x400")',
+    backgroundImage:
+      'url("https://occ-0-2433-448.1.nflxso.net/art/cd5c9/3e192edf2027c536e25bb5d3b6ac93ced77cd5c9.jpg")',
     backgroundSize: 'cover',
     height: '200px',
     padding: '5px 10px',

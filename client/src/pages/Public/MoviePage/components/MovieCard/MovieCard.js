@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Typography } from '@material-ui/core';
 import styles from './styles';
+import { textTruncate } from '../../../../../utils/utils';
 
 const MovieCard = props => {
   const { classes, movie } = props;
@@ -19,7 +20,7 @@ const MovieCard = props => {
         <p>{movie.language}</p>
         <p>{movie.cast}</p>
         <p>{movie.director}</p>
-        <p>{movie.description}</p>
+        <p>{textTruncate(movie.description)}</p>
       </div>
     </div>
   );
