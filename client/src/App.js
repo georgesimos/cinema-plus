@@ -18,6 +18,7 @@ import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
 import MoviePage from './pages/Public/MoviePage/MoviePage';
 import MovieList from './pages/Admin/MovieList/MovieList';
+import Movie from './pages/Public/Movie/Movie';
 
 const App = () => {
   useEffect(() => {
@@ -32,6 +33,7 @@ const App = () => {
         <Router history={history}>
           <Switch>
             <Route exact path="/" component={MoviePage} />
+            <Route exact path="/movie/:id" component={Movie} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <ProtectedRoute

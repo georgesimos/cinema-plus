@@ -14,7 +14,7 @@ class Navbar extends Component {
     return (
       <Fragment>
         <nav className={classes.navbar}>
-          <Link className={classes.logoLink} to="/dashboard">
+          <Link className={classes.logoLink} to="/">
             <Typography className={classes.logo} variant="h1">
               Movie App
             </Typography>
@@ -29,11 +29,15 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/admin/dashboard">
               Dashboard
             </Link>
+            <Link className={classes.navLink} to="/login">
+              Login
+            </Link>
           </div>
 
           <div
             className={classes.navBtn}
-            onClick={() => this.setState({ showMenu: !this.state.showMenu })}>
+            // onClick={() => this.setState({ showMenu: !this.state.showMenu })}
+          >
             <div className={classes.navIcon}>
               <div
                 className={classnames(

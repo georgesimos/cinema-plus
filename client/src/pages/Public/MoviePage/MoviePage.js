@@ -1,10 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import styles from './styles';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import LatestMovieList from './components/LatestMovieList/LatestMovieList';
 import AllMovieList from './components/AllMovieList/AllMovieList';
+
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    height: '100%'
+  },
+  grid: {
+    height: '100%'
+  }
+});
 
 class MoviePage extends Component {
   state = {

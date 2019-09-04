@@ -97,6 +97,7 @@ export default theme => ({
 
   nav: {
     display: 'flex',
+    display: 'none',
     position: 'fixed',
 
     paddingLeft: 0,
