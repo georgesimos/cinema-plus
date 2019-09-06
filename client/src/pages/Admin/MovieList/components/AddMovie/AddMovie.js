@@ -22,6 +22,7 @@ import styles from './styles';
 class AddMovie extends Component {
   state = {
     title: '',
+    image: '',
     genre: '',
     language: '',
     duration: '',
@@ -56,6 +57,7 @@ class AddMovie extends Component {
     try {
       const {
         title,
+        image,
         genre,
         language,
         duration,
@@ -68,6 +70,7 @@ class AddMovie extends Component {
       const token = localStorage.getItem('jwtToken');
       const body = {
         title,
+        image,
         genre,
         language,
         duration,
@@ -106,6 +109,7 @@ class AddMovie extends Component {
     const { movie, classes, className, ...rest } = this.props;
     const {
       title,
+      image,
       genre,
       language,
       duration,
@@ -153,11 +157,23 @@ class AddMovie extends Component {
             </div>
             <div className={classes.field}>
               <TextField
+                className={classes.textField}
+                label="Image Url"
+                margin="dense"
+                required
+                value={image}
+                variant="outlined"
+                onChange={event =>
+                  this.handleFieldChange('image', event.target.value)
+                }
+              />
+              <TextField
                 fullWidth
                 className={classes.textField}
                 label="Description"
                 margin="dense"
                 required
+                variant="outlined"
                 value={description}
                 onChange={event =>
                   this.handleFieldChange('description', event.target.value)

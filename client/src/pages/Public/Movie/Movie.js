@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 
 const backgroundImage =
-  'https://image.tmdb.org/t/p/original/dKxkwAJfGuznW8Hu0mhaDJtna0n.jpg';
+  'https://image.tmdb.org/t/p/original/dihW2yTsvQlust7mSuAqJDtqW7k.jpg';
 
 const styles = theme => ({
   root: {
@@ -45,7 +45,7 @@ const styles = theme => ({
     zIndex: -1
   },
   background: {
-    backgroundImage: `url(${backgroundImage})`,
+    // backgroundImage: `url(${backgroundImage})`,
     backgroundColor: '#7fc7d9', // Average color of the background image.
     backgroundPosition: 'center',
     position: 'absolute',
@@ -115,8 +115,13 @@ class Movie extends Component {
             <section className={classes.heroSection}>
               <Container className={classes.container}>
                 <div className={classes.backdrop} />
-                <div className={classes.background} />
-                <img style={{ display: 'none' }} src={backgroundImage} alt="" />
+                <div
+                  className={classes.background}
+                  style={{
+                    backgroundImage: `url(${movie.image})`
+                  }}
+                />
+                <img style={{ display: 'none' }} src={movie.image} alt="" />
                 <Typography
                   color="inherit"
                   align="center"
