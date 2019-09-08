@@ -7,8 +7,7 @@ export default theme => ({
     paddingLeft: theme.spacing(3)
   },
   imageWrapper: {
-    height: '64px',
-    width: '64px',
+    height: '200px',
     margin: '0 auto',
     border: '1px solid #EDF0F2',
     borderRadius: '5px',
@@ -18,7 +17,9 @@ export default theme => ({
     justifyContent: 'center'
   },
   image: {
-    width: '100%'
+    width: '100%',
+    height: '100%',
+    'object-fit': 'cover'
   },
   details: {},
   title: {
