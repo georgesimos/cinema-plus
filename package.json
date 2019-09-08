@@ -1,0 +1,26 @@
+{
+  "name": "booking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && npm run dev",
+    "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data",
+    "start": "concurrently --kill-others \"npm run database\" \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgesimos/Movie-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgesimos/Movie-app/issues"
+  },
+  "homepage": "https://github.com/georgesimos/Movie-app#readme",
+  "dependencies": {
+    "concurrently": "^4.1.2"
+  }
+}
