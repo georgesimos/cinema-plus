@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import { Typography, Divider } from '@material-ui/core';
+import { Typography, Divider, Button } from '@material-ui/core';
 
 // Material icons
 import { AccessTime as AccessTimeIcon } from '@material-ui/icons';

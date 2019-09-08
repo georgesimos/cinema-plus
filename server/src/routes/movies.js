@@ -37,7 +37,7 @@ router.get('/movies/:id', async (req, res) => {
 });
 
 // Update movie by id
-router.patch('/movies/:id', async (req, res) => {
+router.put('/movies/:id', async (req, res) => {
   const _id = req.params.id;
   const updates = Object.keys(req.body);
   const allowedUpdates = [
@@ -48,7 +48,9 @@ router.patch('/movies/:id', async (req, res) => {
     'director',
     'cast',
     'description',
-    'duration'
+    'duration',
+    'releaseDate',
+    'endDate'
   ];
   const isValidOperation = updates.every(update =>
     allowedUpdates.includes(update)

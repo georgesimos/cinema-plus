@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles, Grid } from '@material-ui/core';
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -19,6 +19,9 @@ import {
 // Component styles
 import styles from './styles';
 
+//MovieData
+import { genreData, languageData } from '../../../../../data/MovieDataService';
+
 class AddMovie extends Component {
   state = {
     title: '',
@@ -33,6 +36,14 @@ class AddMovie extends Component {
     endDate: new Date(),
     status: ''
   };
+
+  componentWillMount() {
+    if(this.props.edit){
+      console.log(this.props.edit)
+      this.setState(this.props.edit);
+      console.log(this.props.edit)
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.movie !== this.props.movie) {
@@ -105,6 +116,58 @@ class AddMovie extends Component {
     }
   };
 
+  onUpdateMovie = async () => {
+    try {
+      const {
+        title,
+        image,
+        genre,
+        language,
+        duration,
+        description,
+        director,
+        cast,
+        releaseDate,
+        endDate
+      } = this.state;
+      const token = localStorage.getItem('jwtToken');
+      const body = {
+        title,
+        image,
+        genre,
+        language,
+        duration,
+        description,
+        director,
+        cast,
+        releaseDate,
+        endDate
+      };
+      debugger;
+      const url = 'http://localhost:3001/movies/'+this.state._id;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      if (response.ok) {
+        const movie = await response.json();
+        console.log(movie);
+        this.setState({
+          status: 'success'
+        });
+      }
+    } catch (error) {
+      this.setState({
+        error,
+        status: 'fail'
+      });
+    }
+  };
+
   render() {
     const { movie, classes, className, ...rest } = this.props;
     const {
@@ -122,11 +185,14 @@ class AddMovie extends Component {
     } = this.state;
 
     const rootClassName = classNames(classes.root, className);
+    const subtitle = this.props.edit?"Edit Movie":"Add Movie";
+    const submitButton = this.props.edit?"Update Movie":"Save Details";
+    const submitAction = this.props.edit?()=> this.onUpdateMovie():()=> this.onAddMovie();
 
     return (
       <Portlet {...rest} className={rootClassName}>
         <PortletHeader>
-          <PortletLabel subtitle="Add a new one" title="Movie" />
+          <PortletLabel subtitle={subtitle} title="Movie" />
         </PortletHeader>
         <PortletContent noPadding>
           <form autoComplete="off" noValidate>
@@ -143,9 +209,11 @@ class AddMovie extends Component {
                   this.handleFieldChange('title', event.target.value)
                 }
               />
+
               <TextField
-                className={classes.textField}
-                label="Genre"
+              select
+              className={classes.textField}
+              label="Genre"
                 margin="dense"
                 required
                 value={genre}
@@ -153,7 +221,13 @@ class AddMovie extends Component {
                 onChange={event =>
                   this.handleFieldChange('genre', event.target.value)
                 }
-              />
+            >
+            { genreData.map((genreItem) => <MenuItem value={genreItem}>{genreItem}</MenuItem>) }
+            </TextField>
+
+             
+              
+              
             </div>
             <div className={classes.field}>
               <TextField
@@ -181,7 +255,9 @@ class AddMovie extends Component {
               />
             </div>
             <div className={classes.field}>
+
               <TextField
+                select
                 className={classes.textField}
                 label="Language"
                 margin="dense"
@@ -191,7 +267,10 @@ class AddMovie extends Component {
                 onChange={event =>
                   this.handleFieldChange('language', event.target.value)
                 }
-              />
+              >
+              { languageData.map((langItem)=><MenuItem value={langItem}>{langItem}</MenuItem>) }
+              </TextField>
+
               <TextField
                 className={classes.textField}
                 label="Duration"
@@ -260,8 +339,8 @@ class AddMovie extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" onClick={this.onAddMovie}>
-            Save details
+          <Button color="primary" variant="contained" onClick={submitAction}>
+            {submitButton}
           </Button>
           {status ? (
             status === 'success' ? (
