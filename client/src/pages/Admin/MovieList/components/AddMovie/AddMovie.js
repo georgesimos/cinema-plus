@@ -155,7 +155,6 @@ class AddMovie extends Component {
       });
       if (response.ok) {
         const movie = await response.json();
-        console.log(movie);
         this.setState({
           status: 'success'
         });
@@ -167,6 +166,33 @@ class AddMovie extends Component {
       });
     }
   };
+
+  onRemoveMovie = async ()=>{
+    try {
+      const token = localStorage.getItem('jwtToken');
+      debugger;
+      const url = 'http://localhost:3001/movies/'+this.state._id;
+      const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        //const movie = await response.json();
+        this.setState({
+          status: 'success'
+        });
+      }
+    } catch (error) {
+      this.setState({
+        error,
+        status: 'fail'
+      });
+    }
+
+  }
 
   render() {
     const { movie, classes, className, ...rest } = this.props;
@@ -225,9 +251,6 @@ class AddMovie extends Component {
             { genreData.map((genreItem) => <MenuItem value={genreItem}>{genreItem}</MenuItem>) }
             </TextField>
 
-             
-              
-              
             </div>
             <div className={classes.field}>
               <TextField
@@ -339,9 +362,16 @@ class AddMovie extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button color="primary" variant="contained" onClick={submitAction}>
+          <Button className={classes.buttonFooter} color="primary" variant="contained" onClick={submitAction}>
             {submitButton}
           </Button>
+          {
+            this.props.edit &&
+            <Button className={classes.buttonFooter} color="dafault" variant="contained" onClick={this.onRemoveMovie}>
+            Delete Movie
+            </Button>
+          }
+          
           {status ? (
             status === 'success' ? (
               <Typography

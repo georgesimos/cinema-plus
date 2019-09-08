@@ -17,6 +17,9 @@ export default theme => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2)
   },
+  buttonFooter: {
+    marginRight: theme.spacing(1)
+  },
   infoMessage: {
     marginLeft: theme.spacing(3)
   }
