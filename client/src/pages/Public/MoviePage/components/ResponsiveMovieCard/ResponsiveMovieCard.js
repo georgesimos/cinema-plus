@@ -16,7 +16,6 @@ const MovieCard = props => {
       <Paper className={classes.movieCard} elevation={20}>
         <div className={classes.infoSection}>
           <header className={classes.movieHeader}>
-            <img className={classes.imageHeader} src={movie.image} />
             <Typography
               className={classes.movieTitle}
               variant="h1"

@@ -27,14 +27,6 @@ export default theme => ({
     height: '40%',
     width: '60%'
   },
-  imageHeader: {
-    position: 'relative',
-    float: 'left',
-    marginRight: theme.spacing(2),
-    height: 125,
-    maxWidth: 150,
-    boxShadow: '0 0 20px -10px rgba(0,0,0,0.5)'
-  },
   movieTitle: { fontWeight: 400 },
   director: {
     color: '#9ac7fa',
