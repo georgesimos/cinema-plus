@@ -63,7 +63,7 @@ class Account extends Component {
       const { firstname, lastname, email } = this.state;
       const token = localStorage.getItem('jwtToken');
       const body = { firstname, lastname, email };
-      const url = 'http://localhost:3001/users/me';
+      const url = '/users/me';
       const response = await fetch(url, {
         method: 'PATCH',
         headers: {

@@ -70,7 +70,7 @@ class Movie extends Component {
 
   async getMovie() {
     try {
-      const url = 'http://localhost:3001/movies/' + this.props.match.params.id;
+      const url = '/movies/' + this.props.match.params.id;
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }

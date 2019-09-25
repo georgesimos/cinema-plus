@@ -9,7 +9,7 @@ import { CircularProgress, Grid, Typography } from '@material-ui/core';
 
 // Custom components
 import { MovieToolbar, MovieCard } from './components';
-import { ResponsiveDialog } from '../../../components'
+import { ResponsiveDialog } from '../../../components';
 
 // Component styles
 import styles from './styles';
@@ -20,14 +20,14 @@ class MovieList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    isLoading: false,
-    limit: 6,
-    movies: [],
-    moviesTotal: 0,
-    error: null,
-    openEditDialog: false
-  };
-  this.signal = true;
+      isLoading: false,
+      limit: 6,
+      movies: [],
+      moviesTotal: 0,
+      error: null,
+      openEditDialog: false
+    };
+    this.signal = true;
     this.editMovie = this.editMovie.bind(this);
   }
   //signal = true;
@@ -44,7 +44,7 @@ class MovieList extends Component {
   getMovies = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      const url = 'http://localhost:3001/movies';
+      const url = '/movies';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -98,41 +98,47 @@ class MovieList extends Component {
     return (
       <Grid container spacing={3}>
         {movies.map(movie => (
-          <Grid item key={movie._id} lg={4} md={6} xs={12}  onClick={()=>this.editMovie(movie)}>
-              <MovieCard movie={movie} />
+          <Grid
+            item
+            key={movie._id}
+            lg={4}
+            md={6}
+            xs={12}
+            onClick={() => this.editMovie(movie)}>
+            <MovieCard movie={movie} />
           </Grid>
         ))}
       </Grid>
     );
   }
 
-  OpenEditDialog = (movie) => {
+  OpenEditDialog = movie => {
     this.setState({ openEditDialog: true, editMovie: movie });
-  }
+  };
 
   CloseEditDialog = () => {
     this.setState({ openEditDialog: false, editMovie: null });
-  }
+  };
 
-  editMovie(movie){
+  editMovie(movie) {
     this.OpenEditDialog(movie);
   }
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.editMovie)
-    const editMovie = this.state.editMovie
+    console.log(this.state.editMovie);
+    const editMovie = this.state.editMovie;
     return (
       <Dashboard title="Movies">
         <div className={classes.root}>
           <MovieToolbar />
           <div className={classes.content}>{this.renderMovies()}</div>
           <ResponsiveDialog
-          id="Edit-movie"
-          open={this.state.openEditDialog}
-          handleClose={() => this.CloseEditDialog()}>
-          <AddMovie edit={editMovie} />
-      </ResponsiveDialog>
+            id="Edit-movie"
+            open={this.state.openEditDialog}
+            handleClose={() => this.CloseEditDialog()}>
+            <AddMovie edit={editMovie} />
+          </ResponsiveDialog>
         </div>
       </Dashboard>
     );

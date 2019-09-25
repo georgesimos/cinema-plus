@@ -31,7 +31,7 @@ class UserList extends Component {
   getUsers = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      const url = 'http://localhost:3001/users';
+      const url = '/users';
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -55,7 +55,7 @@ class UserList extends Component {
   handleDeleteUsers = async userId => {
     try {
       const token = localStorage.getItem('jwtToken');
-      const url = 'http://localhost:3001/users/' + userId;
+      const url = '/users/' + userId;
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {

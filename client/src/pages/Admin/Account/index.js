@@ -32,7 +32,7 @@ class Account extends Component {
   getUserProfile = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      const url = 'http://localhost:3001/users/me';
+      const url = '/users/me';
       const response = await fetch(url, {
         method: 'GET',
         headers: {

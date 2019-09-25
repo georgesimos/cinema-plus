@@ -38,10 +38,10 @@ class AddMovie extends Component {
   };
 
   componentWillMount() {
-    if(this.props.edit){
-      console.log(this.props.edit)
+    if (this.props.edit) {
+      console.log(this.props.edit);
       this.setState(this.props.edit);
-      console.log(this.props.edit)
+      console.log(this.props.edit);
     }
   }
 
@@ -92,7 +92,7 @@ class AddMovie extends Component {
         endDate
       };
       debugger;
-      const url = 'http://localhost:3001/movies/';
+      const url = '/movies/';
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -144,7 +144,7 @@ class AddMovie extends Component {
         endDate
       };
       debugger;
-      const url = 'http://localhost:3001/movies/'+this.state._id;
+      const url = '/movies/' + this.state._id;
       const response = await fetch(url, {
         method: 'PUT',
         headers: {
@@ -167,11 +167,11 @@ class AddMovie extends Component {
     }
   };
 
-  onRemoveMovie = async ()=>{
+  onRemoveMovie = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
       debugger;
-      const url = 'http://localhost:3001/movies/'+this.state._id;
+      const url = '/movies/' + this.state._id;
       const response = await fetch(url, {
         method: 'DELETE',
         headers: {
@@ -191,8 +191,7 @@ class AddMovie extends Component {
         status: 'fail'
       });
     }
-
-  }
+  };
 
   render() {
     const { movie, classes, className, ...rest } = this.props;
@@ -211,9 +210,11 @@ class AddMovie extends Component {
     } = this.state;
 
     const rootClassName = classNames(classes.root, className);
-    const subtitle = this.props.edit?"Edit Movie":"Add Movie";
-    const submitButton = this.props.edit?"Update Movie":"Save Details";
-    const submitAction = this.props.edit?()=> this.onUpdateMovie():()=> this.onAddMovie();
+    const subtitle = this.props.edit ? 'Edit Movie' : 'Add Movie';
+    const submitButton = this.props.edit ? 'Update Movie' : 'Save Details';
+    const submitAction = this.props.edit
+      ? () => this.onUpdateMovie()
+      : () => this.onAddMovie();
 
     return (
       <Portlet {...rest} className={rootClassName}>
@@ -237,20 +238,20 @@ class AddMovie extends Component {
               />
 
               <TextField
-              select
-              className={classes.textField}
-              label="Genre"
+                select
+                className={classes.textField}
+                label="Genre"
                 margin="dense"
                 required
                 value={genre}
                 variant="outlined"
                 onChange={event =>
                   this.handleFieldChange('genre', event.target.value)
-                }
-            >
-            { genreData.map((genreItem) => <MenuItem value={genreItem}>{genreItem}</MenuItem>) }
-            </TextField>
-
+                }>
+                {genreData.map(genreItem => (
+                  <MenuItem value={genreItem}>{genreItem}</MenuItem>
+                ))}
+              </TextField>
             </div>
             <div className={classes.field}>
               <TextField
@@ -278,7 +279,6 @@ class AddMovie extends Component {
               />
             </div>
             <div className={classes.field}>
-
               <TextField
                 select
                 className={classes.textField}
@@ -289,9 +289,10 @@ class AddMovie extends Component {
                 variant="outlined"
                 onChange={event =>
                   this.handleFieldChange('language', event.target.value)
-                }
-              >
-              { languageData.map((langItem)=><MenuItem value={langItem}>{langItem}</MenuItem>) }
+                }>
+                {languageData.map(langItem => (
+                  <MenuItem value={langItem}>{langItem}</MenuItem>
+                ))}
               </TextField>
 
               <TextField
@@ -362,16 +363,23 @@ class AddMovie extends Component {
           </form>
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
-          <Button className={classes.buttonFooter} color="primary" variant="contained" onClick={submitAction}>
+          <Button
+            className={classes.buttonFooter}
+            color="primary"
+            variant="contained"
+            onClick={submitAction}>
             {submitButton}
           </Button>
-          {
-            this.props.edit &&
-            <Button className={classes.buttonFooter} color="dafault" variant="contained" onClick={this.onRemoveMovie}>
-            Delete Movie
+          {this.props.edit && (
+            <Button
+              className={classes.buttonFooter}
+              color="dafault"
+              variant="contained"
+              onClick={this.onRemoveMovie}>
+              Delete Movie
             </Button>
-          }
-          
+          )}
+
           {status ? (
             status === 'success' ? (
               <Typography

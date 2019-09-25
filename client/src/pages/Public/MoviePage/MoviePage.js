@@ -27,7 +27,7 @@ class MoviePage extends Component {
 
   async getMovies() {
     try {
-      const url = 'http://localhost:3001/movies';
+      const url = '/movies';
       const response = await fetch(url, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }

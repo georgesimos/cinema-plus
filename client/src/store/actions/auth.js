@@ -13,7 +13,7 @@ import setAuthHeaders from '../../utils/setAuthHeaders';
 // Login user
 export const login = (username, password) => async dispatch => {
   try {
-    const url = 'http://localhost:3001/users/login';
+    const url = '/users/login';
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@ export const register = ({
   password
 }) => async dispatch => {
   try {
-    const url = 'http://localhost:3001/users';
+    const url = '/users';
     const body = { firstname, lastname, username, email, password };
     const response = await fetch(url, {
       method: 'POST',
@@ -69,7 +69,7 @@ export const register = ({
 // Load user
 export const loadUser = () => async dispatch => {
   try {
-    const url = 'http://localhost:3001/users/me';
+    const url = '/users/me';
     const response = await fetch(url, {
       method: 'GET',
       headers: setAuthHeaders()
@@ -86,7 +86,7 @@ export const loadUser = () => async dispatch => {
 export const logout = () => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
-    const url = 'http://localhost:3001/users/logout';
+    const url = '/users/logout';
     const response = await fetch(url, {
       method: 'POST',
       headers: {
