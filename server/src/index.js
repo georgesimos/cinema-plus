@@ -43,4 +43,5 @@ app.get('/api/test', (req, res) => res.send('Hello World'))
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname +  '..' , 'client', 'build', 'index.html'));
   });
+  console.log(`app is running in PORT: ${port} and ${path.join(__dirname, '../client/build')} and ${path.join(__dirname +  '..' , 'client', 'build', 'index.html')}`)
 app.listen(port, () => console.log(`app is running in PORT: ${port} and ${path.join(__dirname, '../client/build')} and ${path.join(__dirname +  '..' , 'client', 'build', 'index.html')}`))
