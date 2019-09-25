@@ -12,6 +12,9 @@ const app = express()
 app.disable('x-powered-by');
 const port = process.env.PORT || 3001
 
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,13 +37,10 @@ app.use(cinemaRouter)
 app.use(showtimeRouter)
 app.use(reservationRouter)
 
-// app.get('/', (req, res) => res.send('Hello World'))
-
-// Serving static files (Heroku)
-if (process.env.NODE_ENV ===  'production'){
-    app.use(express.static(path.join(__dirname + "../client/build")))
-    app.get("*", (req, res) => {
-        res.sendFile(path.join(__dirname + "../client/build/index.html"));
-        });
-} 
+app.get('/api/test', (req, res) => res.send('Hello World'))
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  });
 app.listen(port, () => console.log(`app is running in PORT: ${port}`))
