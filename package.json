@@ -7,7 +7,7 @@
     "client": "cd client && npm start",
     "server": "cd server && npm run dev",
     "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data",
-    "start": "cd server && npm install && && npm run start",
+    "start": "cd server && npm install && npm start",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
