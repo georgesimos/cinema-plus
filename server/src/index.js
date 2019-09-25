@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 require('./db/mongoose')
 
 const userRouter = require('./routes/users')
@@ -10,9 +11,6 @@ const reservationRouter = require('./routes/reservation')
 const app = express()
 app.disable('x-powered-by');
 const port = process.env.PORT || 3001
-
-// Serving static files (Heroku)
-if (process.env.NODE_ENV ===  'production') app.use(express.static('client/build'))
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
@@ -36,7 +34,13 @@ app.use(cinemaRouter)
 app.use(showtimeRouter)
 app.use(reservationRouter)
 
-app.get('/', (req, res) => res.send('Hello World'))
+// app.get('/', (req, res) => res.send('Hello World'))
 
-
+// Serving static files (Heroku)
+if (process.env.NODE_ENV ===  'production'){
+    app.use(express.static(path.join(__dirname + "../client/build")))
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname + "../client/build/index.html"));
+        });
+} 
 app.listen(port, () => console.log(`app is running in PORT: ${port}`))
