@@ -11,6 +11,9 @@ const app = express()
 app.disable('x-powered-by');
 const port = process.env.PORT || 3001
 
+// Serving static files (Heroku)
+if (process.env.NODE_ENV ===  'production') app.use(express.static('client/build'))
+
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');

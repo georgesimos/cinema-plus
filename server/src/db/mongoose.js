@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1:27017/booking-api', {
+mongoose.connect('mongodb://user:user123456@ds159112.mlab.com:59112/heroku_pcxv37mj', {
     useNewUrlParser: true,
     useCreateIndex: true
 })
+
