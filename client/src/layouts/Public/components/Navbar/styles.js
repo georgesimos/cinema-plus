@@ -103,7 +103,7 @@ export default theme => ({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 9,
+    zIndex: -1,
     paddingLeft: 0,
     marginBottom: 0,
     '&:before, &:after': {
@@ -126,6 +126,7 @@ export default theme => ({
   },
   navActive: {
     visibility: 'visible',
+    zIndex: 9,
     '&:before': {
       transitionDelay: '0s',
       transform: 'translateX(0%) translateY(0%)'
