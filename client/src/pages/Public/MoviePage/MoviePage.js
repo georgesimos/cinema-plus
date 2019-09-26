@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import LatestMovieList from './components/LatestMovieList/LatestMovieList';
@@ -38,7 +37,6 @@ class MoviePage extends Component {
         const latestMovies = movies
           .sort((a, b) => Date.parse(b.releaseDate) - Date.parse(a.releaseDate))
           .slice(0, 5);
-        console.log(latestMovies);
         this.setState({
           movies,
           latestMovies
@@ -69,11 +67,11 @@ class MoviePage extends Component {
 
   render() {
     const { movies, latestMovies } = this.state;
-    const { classes, isAuth } = this.props;
+    const { classes } = this.props;
     return (
       <Fragment>
         <div className={classes.root}>
-          <Navbar isAuth={isAuth} />
+          <Navbar />
           <LatestMovieList movies={latestMovies} />
           <AllMovieList movies={movies} />
         </div>
@@ -91,7 +89,4 @@ MoviePage.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  isAuth: state.authState.isAuthenticated
-});
-export default connect(mapStateToProps)(withStyles(styles)(MoviePage));
+export default withStyles(styles)(MoviePage);

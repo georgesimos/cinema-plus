@@ -46,8 +46,7 @@ const MovieCard = props => {
             <Typography
               className={classes.descriptionText}
               variant="body1"
-              color="inherit"
-              nowrap>
+              color="inherit">
               {textTruncate(movie.description, 250)}
             </Typography>
           </div>

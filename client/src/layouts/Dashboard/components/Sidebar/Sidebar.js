@@ -3,8 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import {
   withStyles,
   Divider,
-  Avatar,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
@@ -15,7 +13,6 @@ import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined';
-import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 // Component styles
 import styles from './styles';
 

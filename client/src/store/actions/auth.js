@@ -83,6 +83,7 @@ export const loadUser = () => async dispatch => {
 
 // Logout
 export const logout = () => async dispatch => {
+  console.log('logout');
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/users/logout';

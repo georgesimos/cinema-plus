@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../../../store/actions';
 import classnames from 'classnames';
 import { withStyles, Typography } from '@material-ui/core';
 
@@ -10,7 +12,7 @@ class Navbar extends Component {
   state = { showMenu: false };
   render() {
     const { showMenu } = this.state;
-    const { classes, isAuth } = this.props;
+    const { classes, isAuth, logout } = this.props;
     return (
       <Fragment>
         <nav className={classes.navbar}>
@@ -67,18 +69,31 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
-              {isAuth && (
+              {isAuth ? (
+                <>
+                  <li className={classes.innerNavListItem}>
+                    <Link
+                      className={classes.innerNavLink}
+                      to="/admin/dashboard">
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className={classes.innerNavListItem}>
+                    <Link
+                      className={classes.innerNavLink}
+                      onClick={logout}
+                      to="/">
+                      Logout
+                    </Link>
+                  </li>
+                </>
+              ) : (
                 <li className={classes.innerNavListItem}>
-                  <Link className={classes.innerNavLink} to="/admin/dashboard">
-                    Dashboard
+                  <Link className={classes.innerNavLink} to="/login">
+                    Login
                   </Link>
                 </li>
               )}
-              <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/login">
-                  Login
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -87,4 +102,15 @@ class Navbar extends Component {
   }
 }
 
-export default withStyles(styles)(Navbar);
+const mapStateToProps = state => ({
+  isAuth: state.authState.isAuthenticated
+});
+
+const mapDispatchToProps = {
+  logout
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Navbar));
