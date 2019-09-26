@@ -34,22 +34,6 @@ class Sidebar extends Component {
           </Link>
         </div>
         <Divider className={classes.logoDivider} />
-        <div className={classes.profile}>
-          <Link to="/admin/account">
-            <Avatar
-              alt="George Simos"
-              className={classes.avatar}
-              src="/images/avatars/avatar.png"
-            />
-          </Link>
-          <Typography className={classes.nameText} variant="h6">
-            George Simos
-          </Typography>
-          <Typography className={classes.bioText} variant="caption">
-            Software Engineer
-          </Typography>
-        </div>
-        <Divider className={classes.profileDivider} />
         <List component="div" disablePadding>
           <ListItem
             activeClassName={classes.activeListItem}
@@ -104,7 +88,7 @@ class Sidebar extends Component {
               primary="Account"
             />
           </ListItem>
-          <ListItem
+          {/* <ListItem
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
@@ -116,7 +100,7 @@ class Sidebar extends Component {
               classes={{ primary: classes.listItemText }}
               primary="Settings"
             />
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider className={classes.listDivider} />
         <List

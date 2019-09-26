@@ -1,11 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Container, Typography, Button } from '@material-ui/core';
-import classnames from 'classnames';
+import { withStyles, Container, Typography } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-
-const backgroundImage =
-  'https://image.tmdb.org/t/p/original/dihW2yTsvQlust7mSuAqJDtqW7k.jpg';
 
 const styles = theme => ({
   root: {
@@ -45,7 +41,6 @@ const styles = theme => ({
     zIndex: -1
   },
   background: {
-    // backgroundImage: `url(${backgroundImage})`,
     backgroundColor: '#7fc7d9', // Average color of the background image.
     backgroundPosition: 'center',
     position: 'absolute',

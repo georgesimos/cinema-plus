@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import { Typography, Divider, Button } from '@material-ui/core';
+import { Typography, Divider } from '@material-ui/core';
 
 // Material icons
 import { AccessTime as AccessTimeIcon } from '@material-ui/icons';
@@ -24,7 +24,6 @@ class MovieCard extends Component {
     const { classes, className, movie } = this.props;
 
     const rootClassName = classNames(classes.root, className);
-    console.log(movie);
     return (
       <Paper className={rootClassName}>
         <div className={classes.imageWrapper}>

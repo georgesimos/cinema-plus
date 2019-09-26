@@ -10,7 +10,7 @@ export default theme => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: 'transparent',
+    background: '#1d252e',
     transition: 'all 300ms linear',
     transform: 'translate3d(0,0,0)',
     backfaceVisibility: 'hidden',
@@ -97,9 +97,13 @@ export default theme => ({
 
   nav: {
     display: 'flex',
-    display: 'none',
+    // display: 'none',
     position: 'fixed',
-
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9,
     paddingLeft: 0,
     marginBottom: 0,
     '&:before, &:after': {

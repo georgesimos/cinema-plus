@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import styles from './styles';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import CaledarIcon from '@material-ui/icons/CalendarToday';
-import { textTruncate } from '../../../../../utils/utils';
 import ResponsiveMovieCard from '../ResponsiveMovieCard/ResponsiveMovieCard';
 
 const AllMovieList = props => {

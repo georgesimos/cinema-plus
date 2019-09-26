@@ -10,16 +10,16 @@ class Navbar extends Component {
   state = { showMenu: false };
   render() {
     const { showMenu } = this.state;
-    const { classes } = this.props;
+    const { classes, isAuth } = this.props;
     return (
       <Fragment>
         <nav className={classes.navbar}>
           <Link className={classes.logoLink} to="/">
-            <Typography className={classes.logo} variant="h1">
-              Movie App
+            <Typography className={classes.logo} variant="h2">
+              Movie|App
             </Typography>
           </Link>
-          <div className={classes.navLinks}>
+          {/* <div className={classes.navLinks}>
             <Link className={classes.navLink} to="/admin/users">
               Users
             </Link>
@@ -32,12 +32,11 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/login">
               Login
             </Link>
-          </div>
+          </div> */}
 
           <div
             className={classes.navBtn}
-            // onClick={() => this.setState({ showMenu: !this.state.showMenu })}
-          >
+            onClick={() => this.setState({ showMenu: !this.state.showMenu })}>
             <div className={classes.navIcon}>
               <div
                 className={classnames(
@@ -68,11 +67,13 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
-              <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/movies">
-                  Movies
-                </Link>
-              </li>
+              {isAuth && (
+                <li className={classes.innerNavListItem}>
+                  <Link className={classes.innerNavLink} to="/admin/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               <li className={classes.innerNavListItem}>
                 <Link className={classes.innerNavLink} to="/login">
                   Login

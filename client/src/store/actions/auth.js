@@ -57,10 +57,9 @@ export const register = ({
     }
     if (responseData._message) {
       dispatch({ type: REGISTER_FAIL });
-      dispatch(setAlert(responseData._message, 'error', 5000));
+      dispatch(setAlert(responseData.message, 'error', 5000));
     }
   } catch (error) {
-    console.log(error);
     dispatch({ type: REGISTER_FAIL });
     dispatch(setAlert(error.message, 'error', 5000));
   }

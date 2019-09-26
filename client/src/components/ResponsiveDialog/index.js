@@ -6,23 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-
-const useStyles = makeStyles(theme => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 'auto',
-    width: 'fit-content'
-  },
-  formControl: {
-    marginTop: theme.spacing(2),
-    minWidth: 120
-  },
-  formControlLabel: {
-    marginTop: theme.spacing(1)
-  }
-}));
+import { useTheme } from '@material-ui/core/styles';
 
 const ResponsiveDialog = ({
   id,
@@ -32,7 +16,6 @@ const ResponsiveDialog = ({
   open,
   handleClose
 }) => {
-  const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 

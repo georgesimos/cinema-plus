@@ -39,9 +39,7 @@ class AddMovie extends Component {
 
   componentWillMount() {
     if (this.props.edit) {
-      console.log(this.props.edit);
       this.setState(this.props.edit);
-      console.log(this.props.edit);
     }
   }
 
@@ -91,7 +89,6 @@ class AddMovie extends Component {
         releaseDate,
         endDate
       };
-      debugger;
       const url = '/movies/';
       const response = await fetch(url, {
         method: 'POST',
@@ -102,8 +99,7 @@ class AddMovie extends Component {
         body: JSON.stringify(body)
       });
       if (response.ok) {
-        const movie = await response.json();
-        console.log(movie);
+        // const movie = await response.json();
         this.setState({
           status: 'success'
         });
@@ -143,7 +139,6 @@ class AddMovie extends Component {
         releaseDate,
         endDate
       };
-      debugger;
       const url = '/movies/' + this.state._id;
       const response = await fetch(url, {
         method: 'PUT',
@@ -154,7 +149,7 @@ class AddMovie extends Component {
         body: JSON.stringify(body)
       });
       if (response.ok) {
-        const movie = await response.json();
+        // const movie = await response.json();
         this.setState({
           status: 'success'
         });
@@ -170,7 +165,6 @@ class AddMovie extends Component {
   onRemoveMovie = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      debugger;
       const url = '/movies/' + this.state._id;
       const response = await fetch(url, {
         method: 'DELETE',
