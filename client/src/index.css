@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -13,6 +11,6 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }

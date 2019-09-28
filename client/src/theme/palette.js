@@ -51,7 +51,7 @@ export default {
   },
   background: {
     default: '#f8fafc',
-    dark: '#1d252e',
+    dark: 'rgb(26, 26, 26)',
     paper: white
   },
   border: '#DFE3E8',

@@ -9,19 +9,39 @@ import { withStyles, Typography } from '@material-ui/core';
 import styles from './styles';
 
 class Navbar extends Component {
-  state = { showMenu: false };
+  state = { showMenu: false, scrollPos: window.pageYOffset };
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = () => {
+    this.setState({
+      scrollPos: window.pageYOffset
+    });
+  };
+
   render() {
-    const { showMenu } = this.state;
+    const { showMenu, scrollPos } = this.state;
+    console.log(scrollPos);
     const { classes, isAuth, logout } = this.props;
     return (
       <Fragment>
-        <nav className={classes.navbar}>
+        <nav
+          className={classnames({
+            [classes.navbar]: true,
+            [classes.navbarColor]: scrollPos > 100
+          })}>
           <Link className={classes.logoLink} to="/">
             <Typography className={classes.logo} variant="h2">
-              Movie|App
+              Movie +
             </Typography>
           </Link>
-          {/* <div className={classes.navLinks}>
+          <div className={classes.navLinks}>
             <Link className={classes.navLink} to="/admin/users">
               Users
             </Link>
@@ -34,7 +54,7 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/login">
               Login
             </Link>
-          </div> */}
+          </div>
 
           <div
             className={classes.navBtn}

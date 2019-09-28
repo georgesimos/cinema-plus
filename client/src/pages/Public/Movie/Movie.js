@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Rating } from '@material-ui/lab';
+import { Link } from 'react-router-dom';
 import {
   Box,
   withStyles,
@@ -65,16 +66,16 @@ const styles = theme => ({
   movieHeader: {
     position: 'relative',
     padding: theme.spacing(3)
-    // maxWidth: '50%'
   },
   tag: {
-    padding: theme.spacing(0.3, 2),
+    padding: theme.spacing(0.3, 3),
     marginRight: theme.spacing(1),
     border: '1px solid rgba(255,255,255,0.9)',
     borderRadius: 25
   },
   movieTitle: {
-    fontSize: theme.spacing(6),
+    maxWidth: '60%',
+    fontSize: theme.spacing(10),
     lineHeight: 1.2,
     fontWeight: 400,
     textTransform: 'capitalize'
@@ -97,13 +98,29 @@ const styles = theme => ({
     color: '#cee4fd',
     marginLeft: theme.spacing(2)
   },
-  description: {
-    padding: theme.spacing(3),
-    height: '50%',
-    width: '50%'
-  },
   descriptionText: {
-    color: '#cfd6e1'
+    color: '#cfd6e1',
+    padding: theme.spacing(2, 0),
+    maxWidth: '60%'
+  },
+  footer: {
+    position: 'absolute',
+    left: theme.spacing(4),
+    bottom: theme.spacing(2),
+    zIndex: 2
+  },
+  icons: {
+    display: 'inline-block',
+    cursor: 'pointer',
+    color: 'rgba(255, 255, 255, 0.4)',
+    margin: theme.spacing(0, 1),
+    transition: 'all 0.3s',
+    '&:hover': {
+      color: 'rgba(255, 255, 255, 0.8)',
+      transform: 'scale(1.25)',
+      transition: 'all 0.3s',
+      transitionDelay: '0.15s'
+    }
   },
   movieActions: { position: 'absolute', bottom: 0, right: 0 },
   button: {
@@ -214,6 +231,12 @@ class Movie extends Component {
                     {movie.title}
                   </Typography>
                   <Typography
+                    className={classes.descriptionText}
+                    variant="body1"
+                    color="inherit">
+                    {textTruncate(movie.description, 450)}
+                  </Typography>
+                  <Typography
                     className={classes.director}
                     variant="h4"
                     color="inherit">
@@ -232,14 +255,6 @@ class Movie extends Component {
                     {movie.genre}
                   </Typography>
                 </header>
-                {/* <div className={classes.description}>
-                  <Typography
-                    className={classes.descriptionText}
-                    variant="body1"
-                    color="inherit">
-                    {textTruncate(movie.description, 250)}
-                  </Typography>
-                </div> */}
               </div>
               <div
                 className={classes.blurBackground}
@@ -254,12 +269,16 @@ class Movie extends Component {
                   Learn More
                   <ArrowRightAlt className={classes.buttonIcon} />
                 </Button>
-                <Button variant="contained" className={classes.button}>
-                  Buy Tickets
-                  <ArrowRightAlt className={classes.buttonIcon} />
-                </Button>
+                <Link
+                  to={`booking/${movie._id}`}
+                  style={{ textDecoration: 'none' }}>
+                  <Button variant="contained" className={classes.button}>
+                    Buy Tickets
+                    <ArrowRightAlt className={classes.buttonIcon} />
+                  </Button>
+                </Link>
               </div>
-              {/* <div className={classes.footer}>
+              <div className={classes.footer}>
                 <div className={classes.icons}>
                   <ShareIcon fontSize="small" />
                 </div>
@@ -269,7 +288,7 @@ class Movie extends Component {
                 <div className={classes.icons}>
                   <CaledarIcon fontSize="small" />
                 </div>
-              </div> */}
+              </div>
             </Paper>
           )}
 

@@ -19,6 +19,7 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "typeface-montserrat": "0.0.75",
     "uuid": "^3.3.2"
   },
   "scripts": {

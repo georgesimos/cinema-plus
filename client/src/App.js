@@ -19,6 +19,7 @@ import { loadUser } from './store/actions';
 import MoviePage from './pages/Public/MoviePage/MoviePage';
 import MovieList from './pages/Admin/MovieList/MovieList';
 import Movie from './pages/Public/Movie/Movie';
+import MovieBooking from './pages/Public/MovieBooking/MovieBooking';
 
 const App = () => {
   useEffect(() => {
@@ -34,6 +35,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={MoviePage} />
             <Route exact path="/movie/:id" component={Movie} />
+            <Route exact path="/movie/booking/:id" component={MovieBooking} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <ProtectedRoute

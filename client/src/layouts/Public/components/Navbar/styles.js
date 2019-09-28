@@ -10,11 +10,14 @@ export default theme => ({
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'space-between',
-    background: '#1d252e',
-    transition: 'all 300ms linear',
     transform: 'translate3d(0,0,0)',
     backfaceVisibility: 'hidden',
-    zIndex: 999
+    zIndex: 999,
+    transition: 'all 300ms ease-in'
+  },
+  navbarColor: {
+    background: theme.palette.background.dark,
+    transition: 'all 200ms ease-out'
   },
   logoLink: {
     display: 'inline-block',
@@ -69,6 +72,7 @@ export default theme => ({
     marginRight: '50px'
   },
   navIcon: {
+    display: 'none',
     height: '30px',
     width: '30px',
     position: 'relative',
@@ -97,7 +101,6 @@ export default theme => ({
 
   nav: {
     display: 'flex',
-    // display: 'none',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -214,5 +217,9 @@ export default theme => ({
       opacity: 1,
       height: '20px'
     }
+  },
+  [theme.breakpoints.down('sm')]: {
+    navIcon: { display: 'block' },
+    navLinks: { display: 'none' }
   }
 });

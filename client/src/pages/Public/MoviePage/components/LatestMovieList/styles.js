@@ -1,11 +1,10 @@
 export default theme => ({
   container: {
-    minHeight: '100vh',
     color: theme.palette.common.white,
     backgroundColor: theme.palette.background.dark
   },
   fullHeight: {
-    minHeight: '100vh'
+    height: '100vh'
   },
   title: {
     width: '50%',
@@ -35,5 +34,9 @@ export default theme => ({
     ' &::-webkit-scrollbar': {
       display: 'none'
     }
+  },
+  [theme.breakpoints.down('sm')]: {
+    title: { width: '100%', textAlign: 'center' },
+    fullHeight: { height: '100%', paddingTop: theme.spacing(20) }
   }
 });
