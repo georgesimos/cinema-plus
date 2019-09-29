@@ -16,9 +16,9 @@ import {
 } from '@material-ui/core';
 import ArrowRightAlt from '@material-ui/icons/ArrowRightAlt';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import CaledarIcon from '@material-ui/icons/CalendarToday';
+// import ShareIcon from '@material-ui/icons/Share';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
+// import CaledarIcon from '@material-ui/icons/CalendarToday';
 import { textTruncate } from '../../../utils/utils';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieOverview from './components/MovieOverview';

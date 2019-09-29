@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../../../store/actions';
 import { withStyles } from '@material-ui/core/styles';
-import { Badge, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { Badge, Toolbar, IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -32,7 +32,6 @@ class Topbar extends Component {
 
   render() {
     const {
-      title,
       classes,
       ToolbarClasses,
       children,

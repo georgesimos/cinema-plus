@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Paper, Typography } from '@material-ui/core';
 import styles from './styles';
-import ShareIcon from '@material-ui/icons/Share';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import CaledarIcon from '@material-ui/icons/CalendarToday';
+// import ShareIcon from '@material-ui/icons/Share';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
+// import CaledarIcon from '@material-ui/icons/CalendarToday';
 import { textTruncate } from '../../../../../utils/utils';
 import { Link } from 'react-router-dom';
 
