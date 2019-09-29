@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import history from './utils/history';
+// import history from './utils/history';
 import theme from './theme';
 // import Login from './views/Login'
 import Register from './pages/Admin/Register/Register';
@@ -31,7 +31,7 @@ const App = () => {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Alert />
-        <Router history={history}>
+        <HashRouter>
           <Switch>
             <Route exact path="/" component={MoviePage} />
             <Route exact path="/movie/:id" component={Movie} />
@@ -48,7 +48,7 @@ const App = () => {
             <ProtectedRoute exact path="/admin/account" component={Account} />
             <Route path="*" component={() => '404 NOT FOUND'} />
           </Switch>
-        </Router>
+        </HashRouter>
       </MuiThemeProvider>
     </Provider>
   );
