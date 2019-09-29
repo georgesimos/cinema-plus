@@ -44,7 +44,7 @@ const MovieOverview = ({ title, description, image }) => {
     <Grid container spacing={5}>
       <Grid item>
         <ButtonBase className={classes.image}>
-          <img className={classes.img} alt="movie-image" src={image} />
+          <img className={classes.img} alt="movie" src={image} />
         </ButtonBase>
       </Grid>
       <Grid item xs={8} container direction="column" spacing={2}>

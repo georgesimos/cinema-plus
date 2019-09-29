@@ -42,15 +42,15 @@ class Topbar extends Component {
     return (
       <div className={`${classes.root} , ${ToolbarClasses}`}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            className={classes.menuButton}
-            aria-label="Menu"
-            onClick={onToggleSidebar}>
-            {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
-          </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.title}>
-            {title}
-          </Typography>
+          <div className={classes.brandWrapper}>
+            <div className={classes.logo}>Movie +</div>
+            <IconButton
+              className={classes.menuButton}
+              aria-label="Menu"
+              onClick={onToggleSidebar}>
+              {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+          </div>
           <IconButton
             className={classes.notificationsButton}
             onClick={() => console.log('Notification')}>

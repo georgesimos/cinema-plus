@@ -75,7 +75,7 @@ const styles = theme => ({
   },
   movieTitle: {
     maxWidth: '60%',
-    fontSize: theme.spacing(10),
+    fontSize: '32px',
     lineHeight: 1.2,
     fontWeight: 400,
     textTransform: 'capitalize'
@@ -130,7 +130,29 @@ const styles = theme => ({
     zIndex: 2
   },
   learnMore: { color: theme.palette.common.white },
-  buttonIcon: { marginLeft: theme.spacing(2) }
+  buttonIcon: { marginLeft: theme.spacing(2) },
+  [theme.breakpoints.down('sm')]: {
+    movieTitle: {
+      maxWidth: '100%',
+      fontSize: '16px'
+    },
+    descriptionText: {
+      maxWidth: '100%',
+      fontSize: '12px'
+    },
+    tag: { padding: theme.spacing(0.3, 1), margin: theme.spacing(1, 1, 1, 0) },
+    movieActions: { display: 'flex', width: '100%' },
+    button: {
+      flex: 1,
+      fontSize: 13,
+      height: 'auto',
+      padding: theme.spacing(2)
+    },
+    footer: {
+      left: theme.spacing(1),
+      bottom: theme.spacing(12)
+    }
+  }
 });
 
 const StyledRating = withStyles({
@@ -198,7 +220,11 @@ class Movie extends Component {
             <Paper className={classes.movieHero} elevation={20}>
               <div className={classes.infoSection}>
                 <header className={classes.movieHeader}>
-                  <Box mb={3} display="flex" alignItems="center">
+                  <Box
+                    mb={3}
+                    display="flex"
+                    alignItems="center"
+                    flexWrap="wrap">
                     <Typography
                       className={classes.tag}
                       variant="body1"
@@ -263,6 +289,17 @@ class Movie extends Component {
                 }}
               />
 
+              <div className={classes.footer}>
+                <div className={classes.icons}>
+                  <ShareIcon fontSize="small" />
+                </div>
+                <div className={classes.icons}>
+                  <FavoriteIcon fontSize="small" />
+                </div>
+                <div className={classes.icons}>
+                  <CaledarIcon fontSize="small" />
+                </div>
+              </div>
               <div className={classes.movieActions}>
                 <Button
                   className={classnames(classes.button, classes.learnMore)}>
@@ -277,17 +314,6 @@ class Movie extends Component {
                     <ArrowRightAlt className={classes.buttonIcon} />
                   </Button>
                 </Link>
-              </div>
-              <div className={classes.footer}>
-                <div className={classes.icons}>
-                  <ShareIcon fontSize="small" />
-                </div>
-                <div className={classes.icons}>
-                  <FavoriteIcon fontSize="small" />
-                </div>
-                <div className={classes.icons}>
-                  <CaledarIcon fontSize="small" />
-                </div>
               </div>
             </Paper>
           )}

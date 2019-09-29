@@ -1,28 +1,12 @@
 export default theme => ({
   root: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.background.paper,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    paddingTop: theme.spacing(3),
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1)
-  },
-  logoWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '63px',
-    flexShrink: 0
-  },
-  logoLink: {
-    fontSize: 0
-  },
-  logoImage: {
-    width: '12rem',
-    cursor: 'pointer'
-  },
-  logoDivider: {
-    marginBottom: theme.spacing(2)
   },
   profile: {
     display: 'flex',
@@ -48,11 +32,11 @@ export default theme => ({
   listItem: {
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: theme.palette.primary.light,
-      borderLeft: `4px solid ${theme.palette.primary.main}`,
+      backgroundColor: theme.palette.default.light,
+      borderLeft: `4px solid ${theme.palette.default.dark}`,
       borderRadius: '4px',
       '& $listItemIcon': {
-        color: theme.palette.primary.main,
+        // color: theme.palette.default.dark,
         marginLeft: '-4px'
       }
     },
@@ -61,14 +45,14 @@ export default theme => ({
     }
   },
   activeListItem: {
-    borderLeft: `4px solid ${theme.palette.primary.main}`,
+    borderLeft: `4px solid ${theme.palette.default.dark}`,
     borderRadius: '4px',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.default.light,
     '& $listItemText': {
       color: theme.palette.text.primary
     },
     '& $listItemIcon': {
-      color: theme.palette.primary.main,
+      // color: theme.palette.default.dark,
       marginLeft: '-4px'
     }
   },
@@ -82,5 +66,34 @@ export default theme => ({
   listDivider: {
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2)
+  },
+  'Mui-selected': {
+    display: 'none'
+  },
+  collapseContainer: { marginTop: theme.spacing(2) },
+  nestedItem: {
+    cursor: 'pointer',
+    paddingLeft: theme.spacing(4),
+    position: 'relative',
+    paddingTop: '3px',
+    paddingBottom: 0,
+    '&:before': {
+      content: '""',
+      position: 'absolute',
+      top: '0px',
+      left: '20px',
+      display: 'block',
+      height: ' 100%',
+      width: '2px',
+      background: '#eee'
+    },
+    '&:hover:before': {
+      background: theme.palette.default.dark
+    }
+  },
+  activeNestedItem: {
+    '&:before': {
+      background: theme.palette.default.dark
+    }
   }
 });

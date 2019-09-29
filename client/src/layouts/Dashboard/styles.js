@@ -1,7 +1,4 @@
 export default theme => ({
-  root: {
-    padding: theme.spacing(4)
-  },
   topbar: {
     position: 'fixed',
     width: '100%',
@@ -13,19 +10,19 @@ export default theme => ({
       duration: theme.transitions.duration.leavingScreen
     })
   },
-  topbarShift: {
-    marginLeft: '271px',
-    width: 'calc(-271px + 100vw)'
-  },
   drawerPaper: {
+    borderRight: 0,
     zIndex: 1200,
-    width: '271px'
+    width: '271px',
+    top: theme.topBar.height
   },
   sidebar: {
     width: '270px'
   },
   content: {
-    marginTop: '64px',
+    height: '100%',
+    padding: theme.spacing(3),
+    paddingTop: theme.spacing(9),
     backgroundColor: theme.palette.background.default,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,

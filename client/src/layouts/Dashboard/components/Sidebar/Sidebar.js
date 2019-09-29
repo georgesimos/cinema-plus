@@ -21,16 +21,6 @@ class Sidebar extends Component {
     const { classes } = this.props;
     return (
       <section className={classes.root}>
-        <div className={classes.logoWrapper}>
-          <Link className={classes.logoLink} to="/dashboard">
-            <img
-              alt="Logo"
-              className={classes.logoImage}
-              src="/images/logos/logo.png"
-            />
-          </Link>
-        </div>
-        <Divider className={classes.logoDivider} />
         <List component="div" disablePadding>
           <ListItem
             activeClassName={classes.activeListItem}

@@ -1,9 +1,7 @@
 // @ts-nocheck
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import { Rating } from '@material-ui/lab';
-import { withStyles, Box } from '@material-ui/core';
+import { withStyles, Box, Typography } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 
 const styles = theme => ({
@@ -18,14 +16,18 @@ const styles = theme => ({
     width: '100%'
   },
   seat: {
+    cursor: 'pointer',
     color: 'rgba(255,255,255,0.7)',
     borderRadius: 2,
     padding: theme.spacing(2),
     margin: theme.spacing(1),
-    fontWeight: 600
+    fontWeight: 600,
+    '&:hover': {
+      background: 'rgb(120, 205, 4)'
+    }
   },
   [theme.breakpoints.down('sm')]: {
-    seat: { padding: theme.spacing(1), margin: theme.spacing(0.5) }
+    seat: { padding: theme.spacing(0.8), margin: theme.spacing(0.5) }
   }
 });
 
@@ -95,7 +97,7 @@ class MovieBooking extends Component {
   }
 
   render() {
-    const { movie, cinemaSeats } = this.state;
+    const { cinemaSeats } = this.state;
     const { classes } = this.props;
     return (
       <Fragment>
@@ -121,6 +123,48 @@ class MovieBooking extends Component {
                 ))}
               </div>
             ))}
+          </Box>
+          <Box width={1} mt={10}>
+            <Box
+              width="50%"
+              margin="auto"
+              display="flex"
+              alignItems="center"
+              textAlign="center"
+              color="#eee">
+              <Typography color="inherit">
+                <Box
+                  mr={1}
+                  display="inline-block"
+                  width={10}
+                  height={10}
+                  bgcolor="rgb(96, 93, 169)"
+                />
+                Seat Available
+              </Typography>
+              <Typography color="inherit">
+                <Box
+                  mr={1}
+                  ml={2}
+                  display="inline-block"
+                  width={10}
+                  height={10}
+                  bgcolor="rgb(65, 66, 70)"
+                />
+                Reserved Seat
+              </Typography>
+              <Typography color="inherit">
+                <Box
+                  mr={1}
+                  ml={2}
+                  display="inline-block"
+                  width={10}
+                  height={10}
+                  bgcolor="rgb(120, 205, 4)"
+                />
+                Your Seat
+              </Typography>
+            </Box>
           </Box>
         </div>
         <div className="cursor" id="cursor" />

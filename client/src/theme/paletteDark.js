@@ -3,12 +3,12 @@ const white = '#FFF';
 const black = '#000';
 
 export default {
-  type: 'light',
+  type: 'dark',
   common: {
     black,
     white,
-    commonBackground: white,
-    contrastText: black,
+    commonBackground: 'rgb(55, 55, 63)',
+    contrastText: white,
     neutral: '#E4E7EB',
     muted: '#9EA0A4'
   },
@@ -62,9 +62,9 @@ export default {
     disabled: '#A6B1BB'
   },
   background: {
-    default: '#f8fafc',
-    dark: 'rgb(26, 26, 26)',
-    paper: white
+    paper: 'rgb(55, 55, 63)',
+    default: 'rgb(51, 51, 60)',
+    dark: 'rgb(26, 26, 26)'
   },
   border: '#DFE3E8',
   divider: '#DFE3E8',
