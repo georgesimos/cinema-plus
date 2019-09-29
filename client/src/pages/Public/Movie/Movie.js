@@ -289,7 +289,7 @@ class Movie extends Component {
                 }}
               />
 
-              <div className={classes.footer}>
+              {/* <div className={classes.footer}>
                 <div className={classes.icons}>
                   <ShareIcon fontSize="small" />
                 </div>
@@ -299,7 +299,7 @@ class Movie extends Component {
                 <div className={classes.icons}>
                   <CaledarIcon fontSize="small" />
                 </div>
-              </div>
+              </div> */}
               <div className={classes.movieActions}>
                 <Button
                   className={classnames(classes.button, classes.learnMore)}>

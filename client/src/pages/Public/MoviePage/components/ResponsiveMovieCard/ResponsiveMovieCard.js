@@ -50,7 +50,7 @@ const MovieCard = props => {
               {textTruncate(movie.description, 250)}
             </Typography>
           </div>
-          <div className={classes.footer}>
+          {/* <div className={classes.footer}>
             <div className={classes.icons}>
               <ShareIcon fontSize="small" />
             </div>
@@ -60,7 +60,7 @@ const MovieCard = props => {
             <div className={classes.icons}>
               <CaledarIcon fontSize="small" />
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           className={classes.blurBackground}
