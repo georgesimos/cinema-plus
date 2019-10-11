@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, lazy, Suspense } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -10,7 +11,7 @@ import theme from './theme';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
-
+import Loading from './components/Loading';
 const Register = lazy(() => import('./pages/Admin/Register/Register'));
 const Login = lazy(() => import('./pages/Admin/Login/Login'));
 const DashboardPage = lazy(() =>
@@ -36,7 +37,7 @@ const App = () => {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Alert />
-        <Suspense fallback={<h1>Loading route ...</h1>}>
+        <Suspense fallback={<Loading />}>
           <HashRouter>
             <Switch>
               <Route exact path="/" component={MoviePage} />

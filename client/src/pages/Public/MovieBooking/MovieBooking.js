@@ -6,7 +6,8 @@ import {
   Box,
   Typography,
   Grid,
-  Container
+  Container,
+  Button
 } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 
@@ -73,6 +74,18 @@ const styles = theme => ({
       background: 'rgb(120, 205, 4)'
     }
   },
+  bookingBanner: {},
+  bannerTitle: {
+    fontSize: theme.spacing(1.4),
+    textTransform: 'uppercase',
+    color: 'rgb(93, 93, 97)',
+    marginBottom: theme.spacing(1)
+  },
+  bannerContent: {
+    fontSize: theme.spacing(2),
+    textTransform: 'capitalize',
+    color: theme.palette.common.white
+  },
   [theme.breakpoints.down('md')]: {
     root: { height: '100%' },
     movieInfos: { minHeight: '30vh' },
@@ -91,32 +104,108 @@ const styles = theme => ({
 class MovieBooking extends Component {
   state = {
     movie: null,
-    cinemaSeats: [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
-      [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-    ]
+    cinema: { seats: [] },
+    selectedSeats: 0
   };
   componentDidMount() {
     this.addPageCursors();
+    this.getCinema();
     this.getMovie();
   }
 
-  onSelectSeat = (row, seat) => {
-    const { cinemaSeats } = this.state;
-    if (cinemaSeats[row][seat] === 1) return;
-    const newSeats = [...cinemaSeats];
-    cinemaSeats[row][seat] === 2
+  onSelectSeat = async (row, seat) => {
+    const {
+      cinema: { seats }
+    } = this.state;
+    if (seats[row][seat] === 1) return;
+    const newSeats = [...seats];
+    seats[row][seat] === 2
       ? (newSeats[row][seat] = 0)
       : (newSeats[row][seat] = 2);
-    this.setState({ cinemaSeats: newSeats });
+    this.setState(({ cinema, selectedSeats }) => ({
+      cinema: { ...cinema, seats: newSeats },
+      selectedSeats: selectedSeats + 1
+    }));
   };
 
+  async checkout() {
+    const { selectedSeats, cinema, movie } = this.state;
+    if (!selectedSeats) return;
+    try {
+      const url = '/reservations';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          startAt: '20:00',
+          seats: [[1, 7], [1, 18]],
+          ticketPrice: cinema.ticketPrice,
+          total: selectedSeats * cinema.ticketPrice,
+          movieId: movie._id,
+          cinemaId: cinema._id
+        })
+      });
+      const reservation = await response.json();
+      if (response.ok) {
+        console.log(reservation);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async bookSeat() {
+    const {
+      selectedSeats,
+      cinema: { seats, seatsAvailable }
+    } = this.state;
+    if (!selectedSeats) return;
+    const bookedSeats = seats.map(row =>
+      row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
+    );
+    // const totalBookedSeats = bookedSeats
+    //   .reduce((a, b) => a.concat(b))
+    //   .reduce((a, b) => a + b);
+    try {
+      const url = '/cinemas/5da0a9281583f225bcc9b310';
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          seats: bookedSeats,
+          seatsAvailable: seatsAvailable - selectedSeats
+        })
+      });
+      const cinema = await response.json();
+      if (response.ok) {
+        this.checkout();
+        this.setState({
+          cinema,
+          selectedSeats: 0
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getCinema() {
+    try {
+      const url = '/cinemas/5da0a9281583f225bcc9b310';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const cinema = await response.json();
+      if (response.ok) {
+        this.setState({
+          cinema
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async getMovie() {
     try {
       const url = '/movies/' + this.props.match.params.id;
@@ -154,7 +243,11 @@ class MovieBooking extends Component {
   }
 
   render() {
-    const { movie, cinemaSeats } = this.state;
+    const {
+      movie,
+      selectedSeats,
+      cinema: { seats, ticketPrice, seatsAvailable }
+    } = this.state;
     const { classes } = this.props;
     return (
       <Fragment>
@@ -211,25 +304,26 @@ class MovieBooking extends Component {
               )}
               <Grid item lg={9} xs={12} md={12}>
                 <Box width={1} pt={15}>
-                  {cinemaSeats.map((seatRows, indexRow) => (
-                    <div key={indexRow} className={classes.row}>
-                      {seatRows.map((seat, index) => (
-                        <Box
-                          key={`seat-${index}`}
-                          onClick={() => this.onSelectSeat(indexRow, index)}
-                          className={classes.seat}
-                          bgcolor={
-                            seat === 1
-                              ? 'rgb(65, 66, 70)'
-                              : seat === 2
-                              ? 'rgb(120, 205, 4)'
-                              : 'rgb(96, 93, 169)'
-                          }>
-                          {index + 1}
-                        </Box>
-                      ))}
-                    </div>
-                  ))}
+                  {seats.length > 0 &&
+                    seats.map((seatRows, indexRow) => (
+                      <div key={indexRow} className={classes.row}>
+                        {seatRows.map((seat, index) => (
+                          <Box
+                            key={`seat-${index}`}
+                            onClick={() => this.onSelectSeat(indexRow, index)}
+                            className={classes.seat}
+                            bgcolor={
+                              seat === 1
+                                ? 'rgb(65, 66, 70)'
+                                : seat === 2
+                                ? 'rgb(120, 205, 4)'
+                                : 'rgb(96, 93, 169)'
+                            }>
+                            {index + 1}
+                          </Box>
+                        ))}
+                      </div>
+                    ))}
                 </Box>
                 <Box width={1} mt={10}>
                   <Box
@@ -239,7 +333,7 @@ class MovieBooking extends Component {
                     alignItems="center"
                     textAlign="center"
                     color="#eee">
-                    <Typography color="inherit">
+                    <div>
                       <Box
                         mr={1}
                         display="inline-block"
@@ -248,8 +342,8 @@ class MovieBooking extends Component {
                         bgcolor="rgb(96, 93, 169)"
                       />
                       Seat Available
-                    </Typography>
-                    <Typography color="inherit">
+                    </div>
+                    <div>
                       <Box
                         mr={1}
                         ml={2}
@@ -259,8 +353,8 @@ class MovieBooking extends Component {
                         bgcolor="rgb(65, 66, 70)"
                       />
                       Reserved Seat
-                    </Typography>
-                    <Typography color="inherit">
+                    </div>
+                    <div>
                       <Box
                         mr={1}
                         ml={2}
@@ -270,8 +364,62 @@ class MovieBooking extends Component {
                         bgcolor="rgb(120, 205, 4)"
                       />
                       Your Seat
-                    </Typography>
+                    </div>
                   </Box>
+                </Box>
+                <Box marginTop={2} bgcolor="rgb(18, 20, 24)">
+                  <Grid container>
+                    <Grid item xs={10}>
+                      <Grid container spacing={3} style={{ padding: 20 }}>
+                        <Grid item>
+                          <Typography className={classes.bannerTitle}>
+                            Name
+                          </Typography>
+                          <Typography className={classes.bannerContent}>
+                            George Simos
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <Typography className={classes.bannerTitle}>
+                            Tickets
+                          </Typography>
+                          {selectedSeats > 0 ? (
+                            <Typography className={classes.bannerContent}>
+                              {selectedSeats} tickets
+                            </Typography>
+                          ) : (
+                            <Typography className={classes.bannerContent}>
+                              None
+                            </Typography>
+                          )}
+                        </Grid>
+                        <Grid item>
+                          <Typography className={classes.bannerTitle}>
+                            Price
+                          </Typography>
+                          <Typography className={classes.bannerContent}>
+                            {ticketPrice * selectedSeats} Euro
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      style={{
+                        color: 'rgb(120, 205, 4)',
+                        background: 'black',
+                        display: 'flex'
+                      }}>
+                      <Button
+                        color="inherit"
+                        fullWidth
+                        disabled={seatsAvailable <= 0}
+                        onClick={() => this.bookSeat()}>
+                        Checkout
+                      </Button>
+                    </Grid>
+                  </Grid>
                 </Box>
               </Grid>
             </Grid>
