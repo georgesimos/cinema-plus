@@ -61,7 +61,19 @@ class Sidebar extends Component {
               primary="Users"
             />
           </ListItem>
-
+          <ListItem
+            activeClassName={classes.activeListItem}
+            className={classes.listItem}
+            component={NavLink}
+            to="/admin/reservations">
+            <ListItemIcon className={classes.listItemIcon}>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Reservations"
+            />
+          </ListItem>
           <ListItem
             activeClassName={classes.activeListItem}
             className={classes.listItem}

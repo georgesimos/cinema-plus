@@ -12,6 +12,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
 import Loading from './components/Loading';
+import ReservationList from './pages/Admin/ReservationList';
 const Register = lazy(() => import('./pages/Admin/Register/Register'));
 const Login = lazy(() => import('./pages/Admin/Login/Login'));
 const DashboardPage = lazy(() =>
@@ -51,6 +52,11 @@ const App = () => {
                 component={DashboardPage}
               />
               <ProtectedRoute exact path="/admin/users" component={UserList} />
+              <ProtectedRoute
+                exact
+                path="/admin/reservations"
+                component={ReservationList}
+              />
               <Route exact path="/admin/movies" component={MovieList} />
               <ProtectedRoute exact path="/admin/account" component={Account} />
               <Route path="*" component={() => '404 NOT FOUND'} />
