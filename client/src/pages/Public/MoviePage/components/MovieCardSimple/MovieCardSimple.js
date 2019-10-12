@@ -13,10 +13,14 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 400,
     backgroundColor: 'transparent',
     borderRadius: 0,
-    color: theme.palette.common.white
+    color: theme.palette.common.white,
+    boxShadow: 'unset'
   },
   media: {
     height: 300
+  },
+  h5: {
+    textTransform: 'capitalize'
   }
 }));
 
@@ -35,6 +39,7 @@ const MovieCardSimple = props => {
           />
           <CardContent>
             <Typography
+              className={classes.h5}
               gutterBottom
               variant="h5"
               component="h2"

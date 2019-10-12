@@ -1,12 +1,23 @@
 import React from 'react';
 import classnames from 'classnames';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography, Button } from '@material-ui/core';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
 import MovieCardSimple from '../MovieCardSimple/MovieCardSimple';
+
 const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    alignItems: 'baseline'
+  },
+  h2: {
+    color: theme.palette.common.white,
+    margin: theme.spacing(3),
+    textTransform: 'capitalize'
+  },
+  button: {},
   carousel: {
     width: '85%',
     height: '100%',
@@ -35,22 +46,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
 
-  sliderContainer: {
-    width: '100%',
-    height: '100%',
-    padding: theme.spacing(1),
-    '& .swiper-wrapper': {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      maxWidth: '75%',
-      margin: 'auto',
-      '& .swiper-slide': {
-        width: 'auto',
-        height: 'auto'
-      }
-    }
-  }
+  slider: { '& .slick-slide': { padding: theme.spacing(1) } }
 }));
 
 function NextArrow(props) {
@@ -73,7 +69,8 @@ function PrevArrow(props) {
   );
 }
 
-function MovieCarousel({ movies = [] }) {
+function MovieCarousel({ carouselClass, movies = [], title }) {
+  const classes = useStyles();
   const settings = {
     centerMode: true,
     infinite: true,
@@ -104,13 +101,21 @@ function MovieCarousel({ movies = [] }) {
     ]
   };
   return (
-    <Slider {...settings}>
-      {movies.map(movie => (
-        <div key={movie._id}>
-          <MovieCardSimple movie={movie} />
-        </div>
-      ))}
-    </Slider>
+    <div className={carouselClass}>
+      <div className={classes.container}>
+        <Typography className={classes.h2} variant="h2" color="inherit">
+          {title}
+        </Typography>
+        <Button className={classes.button} color="primary">
+          Explore All
+        </Button>
+      </div>
+      <Slider {...settings} className={classes.slider}>
+        {movies.map(movie => (
+          <MovieCardSimple key={movie._id} movie={movie} />
+        ))}
+      </Slider>
+    </div>
   );
 }
 export default MovieCarousel;
