@@ -27,7 +27,6 @@ class Navbar extends Component {
 
   render() {
     const { showMenu, scrollPos } = this.state;
-    console.log(scrollPos);
     const { classes, isAuth, logout } = this.props;
     return (
       <Fragment>

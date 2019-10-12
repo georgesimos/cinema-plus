@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   arrow: {
     position: 'absolute',
     top: 0,
-    bottom: 0,
+    bottom: 60,
     width: 60,
     display: 'flex',
     justifyContent: 'center',
@@ -25,10 +25,13 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center',
     zIndex: 1,
     '&.prevArrow': {
-      left: 0
+      left: 0,
+      opacity: ({ currentSlide }) => (currentSlide ? 1 : 0)
     },
     '&.nextArrow': {
-      right: 0
+      right: 0,
+      opacity: ({ currentSlide, slideCount }) =>
+        currentSlide === slideCount ? 0 : 1
     }
   },
 
@@ -51,7 +54,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function NextArrow(props) {
-  const { classes, onClick } = props;
+  const { currentSlide, slideCount, onClick } = props;
+  const classes = useStyles({ currentSlide, slideCount });
   return (
     <div className={classnames(classes.arrow, 'nextArrow')} onClick={onClick}>
       <ArrowForwardIos color="inherit" />
@@ -60,7 +64,8 @@ function NextArrow(props) {
 }
 
 function PrevArrow(props) {
-  const { classes, onClick } = props;
+  const { currentSlide, onClick } = props;
+  const classes = useStyles({ currentSlide });
   return (
     <div className={classnames(classes.arrow, 'prevArrow')} onClick={onClick}>
       <ArrowBackIos color="inherit" />
@@ -69,14 +74,13 @@ function PrevArrow(props) {
 }
 
 function MovieCarousel({ movies = [] }) {
-  const classes = useStyles();
   const settings = {
     centerMode: true,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
-    nextArrow: <NextArrow classes={classes} />,
-    prevArrow: <PrevArrow classes={classes} />,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 1600,
