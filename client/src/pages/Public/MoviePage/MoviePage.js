@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import LatestMovieList from './components/LatestMovieList/LatestMovieList';
 import AllMovieList from './components/AllMovieList/AllMovieList';
+import MovieCarousel from './components/MovieCarousel/MovieCarousel';
+import MovieCardSimple from './components/MovieCardSimple/MovieCardSimple';
 
 const styles = theme => ({
   root: {
@@ -73,6 +75,7 @@ class MoviePage extends Component {
         <div className={classes.root}>
           <Navbar />
           <LatestMovieList movies={latestMovies} />
+          <MovieCarousel movies={movies} />
           <AllMovieList movies={movies} />
         </div>
         <div className="cursor" id="cursor" />
