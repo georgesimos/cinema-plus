@@ -79,6 +79,7 @@ function MovieCarousel({ movies = [] }) {
     infinite: true,
     speed: 500,
     slidesToShow: 4,
+    swipeToSlide: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
@@ -89,13 +90,13 @@ function MovieCarousel({ movies = [] }) {
         }
       },
       {
-        breakpoint: 1300,
+        breakpoint: 1250,
         settings: {
           slidesToShow: 2
         }
       },
       {
-        breakpoint: 900,
+        breakpoint: 750,
         settings: {
           slidesToShow: 1
         }
