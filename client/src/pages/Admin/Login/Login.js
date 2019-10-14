@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 import { login } from '../../../store/actions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import {
-  Grid,
   Button,
   IconButton,
   CircularProgress,
@@ -13,7 +14,112 @@ import {
   Typography
 } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
-import styles from './styles';
+
+const styles = theme => ({
+  root: {
+    backgroundColor: theme.palette.background.default,
+    height: '100vh'
+  },
+
+  content: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  contentHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    paddingTop: theme.spacing(5),
+    paddingBototm: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
+  },
+
+  contentBody: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down('md')]: {
+      justifyContent: 'center'
+    }
+  },
+  socialLogin: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: theme.spacing(4, 0)
+  },
+  facebookButton: {
+    marginTop: theme.spacing(3),
+    width: '100%'
+  },
+
+  googleButton: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(1),
+    width: '100%'
+  },
+  form: {
+    paddingLeft: '100px',
+    paddingRight: '100px',
+    paddingBottom: '125px',
+    flexBasis: '700px',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
+    }
+  },
+  title: {
+    marginTop: theme.spacing(3)
+  },
+  subtitle: {
+    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(0.5)
+  },
+  fields: {
+    marginTop: theme.spacing(2)
+  },
+  textField: {
+    width: '100%',
+    '& + & ': {
+      marginTop: theme.spacing(2)
+    }
+  },
+
+  progress: {
+    display: 'block',
+    marginTop: theme.spacing(2),
+    marginLeft: 'auto',
+    marginRight: 'auto'
+  },
+  loginButton: {
+    marginTop: theme.spacing(2),
+    width: '100%'
+  },
+  register: {
+    marginTop: theme.spacing(2),
+    color: theme.palette.text.secondary
+  },
+  registerUrl: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
+    '&:hover': {
+      color: theme.palette.primary.main
+    }
+  },
+  fieldError: {
+    color: theme.palette.danger.main,
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(1)
+  },
+  submitError: {
+    color: theme.palette.danger.main,
+    alignText: 'center',
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(2)
+  }
+});
 
 class Login extends Component {
   state = {
@@ -66,99 +172,101 @@ class Login extends Component {
     this.props.login(values.username, values.password);
   };
 
+  responseFacebook = response => {
+    console.log(response);
+  };
+
+  responseGoogle = response => {
+    console.log(response);
+  };
+
   render() {
     const { classes } = this.props;
     const { values, isValid, submitError, isLoading } = this.state;
 
     return (
       <div className={classes.root}>
-        <Grid className={classes.grid} container>
-          <Grid className={classes.quoteWrapper} item lg={5}>
-            <div className={classes.quote}>
-              <div className={classes.quoteInner}>
-                <Typography className={classes.quoteText} variant="h1">
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
-                </Typography>
-                <div className={classes.person}>
-                  <Typography className={classes.name} variant="body1">
-                    Takamaru Ayako
-                  </Typography>
-                  <Typography className={classes.bio} variant="body2">
-                    Manager at inVision
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </Grid>
-          <Grid className={classes.content} item lg={7} xs={12}>
-            <div className={classes.content}>
-              <div className={classes.contentHeader}>
-                <IconButton
-                  className={classes.backButton}
-                  onClick={this.handleBack}>
-                  <ArrowBackIcon />
-                </IconButton>
-              </div>
-              <div className={classes.contentBody}>
-                <form className={classes.form}>
-                  <Typography className={classes.title} variant="h2">
-                    Sign in
-                  </Typography>
+        <div className={classes.content}>
+          <div className={classes.contentHeader}>
+            <IconButton
+              className={classes.backButton}
+              onClick={this.handleBack}>
+              <ArrowBackIcon />
+            </IconButton>
+          </div>
+          <div className={classes.contentBody}>
+            <form className={classes.form}>
+              <Typography className={classes.title} variant="h2">
+                Sign in
+              </Typography>
 
-                  <div className={classes.fields}>
-                    <TextField
-                      className={classes.textField}
-                      label="username"
-                      name="username"
-                      onChange={event =>
-                        this.handleFieldChange('username', event.target.value)
-                      }
-                      type="text"
-                      value={values.username}
-                      variant="outlined"
-                    />
-                    <TextField
-                      className={classes.textField}
-                      label="Password"
-                      name="password"
-                      onChange={event =>
-                        this.handleFieldChange('password', event.target.value)
-                      }
-                      type="password"
-                      value={values.password}
-                      variant="outlined"
-                    />
-                  </div>
-                  {submitError && (
-                    <Typography className={classes.submitError} variant="body2">
-                      {submitError.message}
-                    </Typography>
-                  )}
-                  {isLoading ? (
-                    <CircularProgress className={classes.progress} />
-                  ) : (
-                    <Button
-                      className={classes.loginButton}
-                      color="primary"
-                      disabled={!isValid}
-                      onClick={this.handleLogin}
-                      size="large"
-                      variant="contained">
-                      Login now
-                    </Button>
-                  )}
-                  <Typography className={classes.register} variant="body1">
-                    Don't have an account?{' '}
-                    <Link className={classes.registerUrl} to="/register">
-                      register
-                    </Link>
-                  </Typography>
-                </form>
+              <div className={classes.socialLogin}>
+                <FacebookLogin
+                  buttonStyle={{ width: '100%' }}
+                  appId="3151046571580745" //APP ID NOT CREATED YET
+                  fields="name,email,picture"
+                  callback={this.responseFacebook}
+                />
+                <GoogleLogin
+                  className={classes.googleButton}
+                  clientId="794162856058-buhtf925b2p3q2v05aes5ievt2vknccs.apps.googleusercontent.com" //CLIENTID NOT CREATED YET
+                  buttonText="LOGIN WITH GOOGLE"
+                  onSuccess={this.responseGoogle}
+                  onFailure={this.responseGoogle}
+                />
               </div>
-            </div>
-          </Grid>
-        </Grid>
+
+              <div className={classes.fields}>
+                <TextField
+                  className={classes.textField}
+                  label="username"
+                  name="username"
+                  onChange={event =>
+                    this.handleFieldChange('username', event.target.value)
+                  }
+                  type="text"
+                  value={values.username}
+                  variant="outlined"
+                />
+                <TextField
+                  className={classes.textField}
+                  label="Password"
+                  name="password"
+                  onChange={event =>
+                    this.handleFieldChange('password', event.target.value)
+                  }
+                  type="password"
+                  value={values.password}
+                  variant="outlined"
+                />
+              </div>
+              {submitError && (
+                <Typography className={classes.submitError} variant="body2">
+                  {submitError.message}
+                </Typography>
+              )}
+              {isLoading ? (
+                <CircularProgress className={classes.progress} />
+              ) : (
+                <Button
+                  className={classes.loginButton}
+                  color="primary"
+                  disabled={!isValid}
+                  onClick={this.handleLogin}
+                  size="large"
+                  variant="contained">
+                  Login now
+                </Button>
+              )}
+              <Typography className={classes.register} variant="body1">
+                Don't have an account?{' '}
+                <Link className={classes.registerUrl} to="/register">
+                  register
+                </Link>
+              </Typography>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
