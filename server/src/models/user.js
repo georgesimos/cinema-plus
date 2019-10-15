@@ -50,20 +50,10 @@ const userSchema = Schema(
       type: Boolean,
       default: false
     },
-    facebookProvider: {
-      type: {
-          id: String,
-          token: String
-      },
-      select: false
-    },
-    googleProvider: {
-        type: {
-            id: String,
-            token: String
-        },
-        select: false
-      },
+
+    facebook: String,
+    google: String,
+    
     tokens: [
       {
         token: {

@@ -44,19 +44,16 @@ router.post("/users/login/facebook", async (req, res) => {
   const nameArray = name.split(' ');
 
 
-    const user = await User.findOne({'facebookProvider.id' : userID });
+    const user = await User.findOne({facebook : userID });
     console.log(user)
     if (!user) {
       // throw new Error("Unable to login");
       const newUser = new User({
         firstname: nameArray[0],
         lastname: nameArray[1],
-        username: name,
+        username: nameArray.join('') + userID,
         email,
-        facebookProvider: {
-          id: userID,
-          token: accessToken
-        }
+        facebook: userID
       })
       try {
         await newUser.save();
