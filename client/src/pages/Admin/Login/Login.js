@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
-import { login } from '../../../store/actions';
+import { login, facebookLogin } from '../../../store/actions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
@@ -14,6 +14,7 @@ import {
   Typography
 } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
+import config from '../../../config.json';
 
 const styles = theme => ({
   root: {
@@ -86,7 +87,6 @@ const styles = theme => ({
       marginTop: theme.spacing(2)
     }
   },
-
   progress: {
     display: 'block',
     marginTop: theme.spacing(2),
@@ -172,16 +172,29 @@ class Login extends Component {
     this.props.login(values.username, values.password);
   };
 
-  responseFacebook = response => {
-    console.log(response);
+  googleResponse = async e => {
+    const tokenBlob = new Blob(
+      [JSON.stringify({ access_token: e.accessToken }, null, 2)],
+      { type: 'applocation/json' }
+    );
+    const options = {
+      method: 'POST',
+      body: tokenBlob
+    };
+    const url = '/users/login/google';
+    const response = await fetch(url, options);
+    const responseData = await response.json();
+    if (response.ok) {
+      console.log(responseData);
+    }
   };
 
-  responseGoogle = response => {
-    console.log(response);
+  onFailure = error => {
+    alert(error);
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, facebookLogin } = this.props;
     const { values, isValid, submitError, isLoading } = this.state;
 
     return (
@@ -203,16 +216,16 @@ class Login extends Component {
               <div className={classes.socialLogin}>
                 <FacebookLogin
                   buttonStyle={{ width: '100%' }}
-                  appId="3151046571580745" //APP ID NOT CREATED YET
+                  appId={config.FACEBOOK_APP_ID} //APP ID NOT CREATED YET
                   fields="name,email,picture"
-                  callback={this.responseFacebook}
+                  callback={facebookLogin}
                 />
                 <GoogleLogin
                   className={classes.googleButton}
-                  clientId="794162856058-buhtf925b2p3q2v05aes5ievt2vknccs.apps.googleusercontent.com" //CLIENTID NOT CREATED YET
+                  clientId={config.GOOGLE_CLIENT_ID} //CLIENTID NOT CREATED YET
                   buttonText="LOGIN WITH GOOGLE"
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle}
+                  onSuccess={this.googleResponse}
+                  onFailure={this.onFailure}
                 />
               </div>
 
@@ -285,5 +298,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { login }
+  { login, facebookLogin }
 )(withStyles(styles)(Login));

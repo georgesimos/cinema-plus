@@ -38,6 +38,56 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+router.post("/users/login/facebook", async (req, res) => {
+  console.log(req.body);
+  const { accessToken, email, userID, name } = req.body;
+  const nameArray = name.split(' ');
+
+
+    const user = await User.findOne({'facebookProvider.id' : userID });
+    console.log(user)
+    if (!user) {
+      // throw new Error("Unable to login");
+      const newUser = new User({
+        firstname: nameArray[0],
+        lastname: nameArray[1],
+        username: name,
+        email,
+        facebookProvider: {
+          id: userID,
+          token: accessToken
+        }
+      })
+      try {
+        await newUser.save();
+        const token = await newUser.generateAuthToken();
+        res.status(201).send({ user: newUser, token });
+      } catch (e) {
+        res.status(400).send(e);
+      }
+    } else {
+      const token = await user.generateAuthToken();
+      res.send({ user, token });
+    }
+
+});
+
+router.post("/users/login/google", async (req, res) => {
+  console.log(req.body);
+  try {
+    const user = await User.findByCredentials(
+      req.body.username,
+      req.body.password
+    );
+    const token = await user.generateAuthToken();
+    res.send({ user, token });
+  } catch (e) {
+    res.status(400).send({
+      error: { message: "You have entered an invalid username or password" }
+    });
+  }
+});
+
 // Logout user
 router.post("/users/logout", auth, async (req, res) => {
   try {

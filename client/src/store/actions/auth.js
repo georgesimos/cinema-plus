@@ -34,6 +34,32 @@ export const login = (username, password) => async dispatch => {
   }
 };
 
+export const facebookLogin = e => async dispatch => {
+  try {
+    const { accessToken, email, userID, name } = e;
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accessToken, email, userID, name })
+    };
+    const url = '/users/login/facebook';
+    const response = await fetch(url, options);
+    const responseData = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: LOGIN_SUCCESS, payload: responseData });
+      dispatch(setAlert('LOGIN Success', 'success', 5000));
+    }
+    if (responseData.error) {
+      dispatch({ type: LOGIN_FAIL });
+      dispatch(setAlert(responseData.error.message, 'error', 5000));
+    }
+  } catch (error) {
+    dispatch({ type: LOGIN_FAIL });
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
 // Register user
 export const register = ({
   firstname,

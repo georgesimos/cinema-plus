@@ -37,7 +37,7 @@ const userSchema = Schema(
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       minlength: 7,
       validate(value) {
@@ -50,6 +50,20 @@ const userSchema = Schema(
       type: Boolean,
       default: false
     },
+    facebookProvider: {
+      type: {
+          id: String,
+          token: String
+      },
+      select: false
+    },
+    googleProvider: {
+        type: {
+            id: String,
+            token: String
+        },
+        select: false
+      },
     tokens: [
       {
         token: {
