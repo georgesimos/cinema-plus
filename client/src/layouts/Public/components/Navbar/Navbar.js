@@ -27,7 +27,7 @@ class Navbar extends Component {
 
   render() {
     const { showMenu, scrollPos } = this.state;
-    const { classes, isAuth, logout } = this.props;
+    const { classes, isAuth, user, logout } = this.props;
     return (
       <Fragment>
         <nav
@@ -41,14 +41,19 @@ class Navbar extends Component {
             </Typography>
           </Link>
           <div className={classes.navLinks}>
-            <Link className={classes.navLink} to="/admin/users">
-              Users
+            {user && user.role === 'superadmin' && (
+              <Link className={classes.navLink} to="/admin/dashboard">
+                Dashboard
+              </Link>
+            )}
+            <Link className={classes.navLink} to="/">
+              Page 1
             </Link>
-            <Link className={classes.navLink} to="/admin/account">
-              Account
+            <Link className={classes.navLink} to="/">
+              Page 2
             </Link>
-            <Link className={classes.navLink} to="/admin/dashboard">
-              Dashboard
+            <Link className={classes.navLink} to="/">
+              Page 3
             </Link>
             <Link className={classes.navLink} to="/login">
               Login
@@ -88,6 +93,21 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/">
+                  Page 1
+                </Link>
+              </li>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/">
+                  Page 2
+                </Link>
+              </li>
+              <li className={classes.innerNavListItem}>
+                <Link className={classes.innerNavLink} to="/">
+                  Page 3
+                </Link>
+              </li>
               {isAuth ? (
                 <>
                   <li className={classes.innerNavListItem}>
@@ -122,7 +142,8 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  isAuth: state.authState.isAuthenticated
+  isAuth: state.authState.isAuthenticated,
+  user: state.authState.user
 });
 
 const mapDispatchToProps = {
