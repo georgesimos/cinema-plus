@@ -6,12 +6,7 @@ const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 const userSchema = Schema(
   {
-    firstname: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    lastname: {
+    name: {
       type: String,
       required: true,
       trim: true
@@ -37,7 +32,6 @@ const userSchema = Schema(
     },
     password: {
       type: String,
-      // required: true,
       trim: true,
       minlength: 7,
       validate(value) {
@@ -46,9 +40,10 @@ const userSchema = Schema(
         }
       }
     },
-    admin: {
-      type: Boolean,
-      default: false
+    role: {
+      type: String,
+      default: 'guest',
+      enum: ["guest", "admin", "superadmin"]
     },
 
     facebook: String,
@@ -71,7 +66,7 @@ const userSchema = Schema(
 userSchema.methods.toJSON = function() {
   const user = this;
   const userObject = user.toObject();
-  if (!userObject.admin) {
+  if (!userObject.role === 'superadmin') {
     delete userObject.updatedAt;
     delete userObject.__v;
   }

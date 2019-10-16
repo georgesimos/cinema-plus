@@ -36,11 +36,11 @@ export const login = (username, password) => async dispatch => {
 
 export const facebookLogin = e => async dispatch => {
   try {
-    const { accessToken, email, userID, name } = e;
+    const { email, userID, name } = e;
     const options = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ accessToken, email, userID, name })
+      body: JSON.stringify({ email, userID, name })
     };
     const url = '/users/login/facebook';
     const response = await fetch(url, options);
@@ -62,15 +62,14 @@ export const facebookLogin = e => async dispatch => {
 
 // Register user
 export const register = ({
-  firstname,
-  lastname,
+  name,
   username,
   email,
   password
 }) => async dispatch => {
   try {
     const url = '/users';
-    const body = { firstname, lastname, username, email, password };
+    const body = { name, username, email, password };
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

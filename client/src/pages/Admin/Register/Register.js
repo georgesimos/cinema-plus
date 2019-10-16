@@ -19,7 +19,7 @@ import styles from './styles';
 class Register extends Component {
   state = {
     values: {
-      firstName: '',
+      name: '',
       lastName: '',
       userName: '',
       email: '',
@@ -27,16 +27,14 @@ class Register extends Component {
       policy: false
     },
     touched: {
-      firstName: false,
-      lastName: false,
+      name: false,
       userName: false,
       email: false,
       password: false,
       policy: null
     },
     errors: {
-      firstName: null,
-      lastName: null,
+      name: null,
       userName: null,
       email: null,
       password: null,
@@ -74,14 +72,13 @@ class Register extends Component {
 
   handleRegister = async () => {
     const { values } = this.state;
-
     const body = {
-      firstname: values.firstName,
-      lastname: values.lastName,
+      name: values.name,
       username: values.userName,
       email: values.email,
       password: values.password
     };
+    console.log(body);
     this.props.register(body);
   };
 
@@ -140,23 +137,12 @@ class Register extends Component {
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
-                      label="First name"
-                      name="firstName"
+                      label="Full name"
+                      name="name"
                       onChange={event =>
-                        this.handleFieldChange('firstName', event.target.value)
+                        this.handleFieldChange('name', event.target.value)
                       }
-                      value={values.firstName}
-                      variant="outlined"
-                    />
-
-                    <TextField
-                      className={classes.textField}
-                      label="Last name"
-                      name="lastName"
-                      onChange={event =>
-                        this.handleFieldChange('lastName', event.target.value)
-                      }
-                      value={values.lastName}
+                      value={values.name}
                       variant="outlined"
                     />
 

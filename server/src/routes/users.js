@@ -6,11 +6,6 @@ const router = new express.Router();
 
 // Create a user
 router.post("/users", async (req, res) => {
-  if (req.body.admin)
-    return res.status(400).send({
-      error: "Only the god can create an admin!"
-    });
-
   const user = new User(req.body);
   try {
     await user.save();
@@ -23,7 +18,6 @@ router.post("/users", async (req, res) => {
 
 // Login User
 router.post("/users/login", async (req, res) => {
-  console.log(req.body);
   try {
     const user = await User.findByCredentials(
       req.body.username,
@@ -39,18 +33,13 @@ router.post("/users/login", async (req, res) => {
 });
 
 router.post("/users/login/facebook", async (req, res) => {
-  console.log(req.body);
-  const { accessToken, email, userID, name } = req.body;
+  const { email, userID, name } = req.body;
   const nameArray = name.split(' ');
 
-
     const user = await User.findOne({facebook : userID });
-    console.log(user)
     if (!user) {
-      // throw new Error("Unable to login");
       const newUser = new User({
-        firstname: nameArray[0],
-        lastname: nameArray[1],
+        name,
         username: nameArray.join('') + userID,
         email,
         facebook: userID
@@ -69,21 +58,21 @@ router.post("/users/login/facebook", async (req, res) => {
 
 });
 
-router.post("/users/login/google", async (req, res) => {
-  console.log(req.body);
-  try {
-    const user = await User.findByCredentials(
-      req.body.username,
-      req.body.password
-    );
-    const token = await user.generateAuthToken();
-    res.send({ user, token });
-  } catch (e) {
-    res.status(400).send({
-      error: { message: "You have entered an invalid username or password" }
-    });
-  }
-});
+// router.post("/users/login/google", async (req, res) => {
+//   console.log(req.body);
+//   try {
+//     const user = await User.findByCredentials(
+//       req.body.username,
+//       req.body.password
+//     );
+//     const token = await user.generateAuthToken();
+//     res.send({ user, token });
+//   } catch (e) {
+//     res.status(400).send({
+//       error: { message: "You have entered an invalid username or password" }
+//     });
+//   }
+// });
 
 // Logout user
 router.post("/users/logout", auth, async (req, res) => {
@@ -111,7 +100,7 @@ router.post("/users/logoutAll", auth, async (req, res) => {
 
 // Get all users
 router.get("/users", auth, async (req, res) => {
-  if (!req.user.admin)
+  if (!req.user.role === 'superadmin')
     return res.status(400).send({
       error: "Only the god can see all the users!"
     });
@@ -134,7 +123,7 @@ router.get("/users/me", auth, async (req, res) => {
 
 // Get user by id only for admin
 router.get("/users/:id", auth, async (req, res) => {
-  if (!req.user.admin)
+  if (!req.user.role === 'superadmin')
     return res.status(400).send({
       error: "Only the god can see the user!"
     });
@@ -177,7 +166,7 @@ router.patch("/users/me", auth, async (req, res) => {
 
 // Admin can update user by id
 router.patch("/users/:id", auth, async (req, res) => {
-  if (!req.user.admin)
+  if (!req.user.role === 'superadmin')
     return res.status(400).send({
       error: "Only the god can update the user!"
     });
@@ -212,7 +201,7 @@ router.patch("/users/:id", auth, async (req, res) => {
 
 // Delete by id
 router.delete("/users/:id", auth, async (req, res) => {
-  if (!req.user.admin)
+  if (!req.user.role === 'superadmin')
     return res.status(400).send({
       error: "Only the god can delete the user!"
     });
@@ -229,7 +218,7 @@ router.delete("/users/:id", auth, async (req, res) => {
 });
 
 router.delete("/users/me", auth, async (req, res) => {
-  if (req.user.admin)
+  if (req.user.role === 'superadmin')
     return res.status(400).send({
       error: "You cannot delete yourself!"
     });

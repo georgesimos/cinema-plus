@@ -152,7 +152,8 @@ class Login extends Component {
       this.props.isAuthenticated
     ) {
       const { history, user } = this.props;
-      if (user && user.admin) return history.push('/admin/dashboard');
+      if (user && user.role === 'superadmin')
+        return history.push('/admin/dashboard');
       return history.push('/');
     }
   }
