@@ -37,7 +37,7 @@ class AddMovie extends Component {
     status: ''
   };
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.edit) {
       this.setState(this.props.edit);
     }

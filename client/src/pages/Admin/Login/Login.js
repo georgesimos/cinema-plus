@@ -14,7 +14,6 @@ import {
   Typography
 } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
-import config from '../../../config.json';
 
 const styles = theme => ({
   root: {
@@ -217,13 +216,13 @@ class Login extends Component {
               <div className={classes.socialLogin}>
                 <FacebookLogin
                   buttonStyle={{ width: '100%' }}
-                  appId={config.FACEBOOK_APP_ID} //APP ID NOT CREATED YET
+                  appId={process.env.REACT_APP_FACEBOOK_APP_ID} //APP ID NOT CREATED YET
                   fields="name,email,picture"
                   callback={facebookLogin}
                 />
                 <GoogleLogin
                   className={classes.googleButton}
-                  clientId={config.GOOGLE_CLIENT_ID} //CLIENTID NOT CREATED YET
+                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} //CLIENTID NOT CREATED YET
                   buttonText="LOGIN WITH GOOGLE"
                   onSuccess={this.googleResponse}
                   onFailure={this.onFailure}

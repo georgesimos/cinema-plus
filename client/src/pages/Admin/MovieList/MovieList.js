@@ -23,6 +23,7 @@ class MovieList extends Component {
       isLoading: false,
       limit: 6,
       movies: [],
+      editMovie: null,
       moviesTotal: 0,
       error: null,
       openEditDialog: false
@@ -65,7 +66,7 @@ class MovieList extends Component {
     }
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.signal = true;
 
     const { limit } = this.state;
@@ -126,8 +127,7 @@ class MovieList extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.editMovie);
-    const editMovie = this.state.editMovie;
+    const { editMovie } = this.state;
     return (
       <Dashboard title="Movies">
         <div className={classes.root}>
