@@ -46,8 +46,8 @@ class Navbar extends Component {
                 Dashboard
               </Link>
             )}
-            <Link className={classes.navLink} to="/">
-              Page 1
+            <Link className={classes.navLink} to="/movie/category/latest">
+              Latest Movies
             </Link>
             <Link className={classes.navLink} to="/">
               Page 2
@@ -94,8 +94,10 @@ class Navbar extends Component {
                 </Link>
               </li>
               <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/">
-                  Page 1
+                <Link
+                  className={classes.innerNavLink}
+                  to="/movie/category/latest">
+                  Latest Movies
                 </Link>
               </li>
               <li className={classes.innerNavListItem}>

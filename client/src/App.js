@@ -27,6 +27,9 @@ const Movie = lazy(() => import('./pages/Public/Movie/Movie'));
 const MovieBooking = lazy(() =>
   import('./pages/Public/MovieBooking/MovieBooking')
 );
+const LatestMovies = lazy(() =>
+  import('./pages/Public/LatestMovies/LatestMovies')
+);
 
 const App = () => {
   useEffect(() => {
@@ -42,6 +45,11 @@ const App = () => {
           <HashRouter>
             <Switch>
               <Route exact path="/" component={MoviePage} />
+              <Route
+                exact
+                path="/movie/category/latest"
+                component={LatestMovies}
+              />
               <Route exact path="/movie/:id" component={Movie} />
               <Route exact path="/movie/booking/:id" component={MovieBooking} />
               <Route exact path="/login" component={Login} />

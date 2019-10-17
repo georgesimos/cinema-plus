@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 import { makeStyles, Typography, Button } from '@material-ui/core';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -69,7 +70,7 @@ function PrevArrow(props) {
   );
 }
 
-function MovieCarousel({ carouselClass, movies = [], title }) {
+function MovieCarousel({ carouselClass, movies = [], title, to }) {
   const classes = useStyles();
   const settings = {
     centerMode: true,
@@ -100,15 +101,18 @@ function MovieCarousel({ carouselClass, movies = [], title }) {
       }
     ]
   };
+  if (!movies.length) return null;
   return (
     <div className={carouselClass}>
       <div className={classes.container}>
         <Typography className={classes.h2} variant="h2" color="inherit">
           {title}
         </Typography>
-        <Button className={classes.button} color="primary">
-          Explore All
-        </Button>
+        <Link to={to} style={{ textDecoration: 'none' }}>
+          <Button className={classes.button} color="primary">
+            Explore All
+          </Button>
+        </Link>
       </div>
       <Slider {...settings} className={classes.slider}>
         {movies.map(movie => (

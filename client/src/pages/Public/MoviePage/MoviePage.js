@@ -1,15 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Container } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-import LatestMovieList from './components/LatestMovieList/LatestMovieList';
-import AllMovieList from './components/AllMovieList/AllMovieList';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
+import MovieBanner from '../MovieBanner/MovieBanner';
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.background.dark,
-    height: '100%'
+    backgroundColor: theme.palette.background.dark
   },
   grid: {
     height: '100%'
@@ -74,23 +72,25 @@ class MoviePage extends Component {
       <Fragment>
         <div className={classes.root}>
           <Navbar />
-          <LatestMovieList movies={latestMovies} />
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Latest Movies"
-            movies={movies}
-          />
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Popular Movies"
-            movies={movies}
-          />
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Now Playing Movies"
-            movies={movies}
-          />
-          <AllMovieList movies={movies} />
+          <MovieBanner movie={latestMovies[0]} height="70vh" />
+          <Container maxWidth="xl">
+            <MovieCarousel
+              carouselClass={classes.carousel}
+              title="Latest Movies"
+              to="/movie/category/latest"
+              movies={latestMovies}
+            />
+            <MovieCarousel
+              carouselClass={classes.carousel}
+              title="Popular Movies"
+              movies={movies}
+            />
+            <MovieCarousel
+              carouselClass={classes.carousel}
+              title="Now Playing Movies"
+              movies={movies}
+            />
+          </Container>
         </div>
         <div className="cursor" id="cursor" />
         <div className="cursor2" id="cursor2" />
