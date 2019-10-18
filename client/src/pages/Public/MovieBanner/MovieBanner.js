@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Rating } from '@material-ui/lab';
 import {
@@ -240,7 +239,4 @@ function MovieBanner(props) {
   );
 }
 
-MovieBanner.propTypes = {
-  movie: PropTypes.object.isRequired
-};
 export default MovieBanner;

@@ -70,7 +70,7 @@ function PrevArrow(props) {
   );
 }
 
-function MovieCarousel({ carouselClass, movies = [], title, to }) {
+function MovieCarousel({ carouselClass, movies = [], title, to = '/' }) {
   const classes = useStyles();
   const settings = {
     centerMode: true,

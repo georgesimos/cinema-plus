@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
 import { login, facebookLogin } from '../../../store/actions';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -46,20 +45,9 @@ const styles = theme => ({
     }
   },
   socialLogin: {
-    display: 'flex',
-    flexDirection: 'column',
     margin: theme.spacing(4, 0)
   },
-  facebookButton: {
-    marginTop: theme.spacing(3),
-    width: '100%'
-  },
 
-  googleButton: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(1),
-    width: '100%'
-  },
   form: {
     paddingLeft: '100px',
     paddingRight: '100px',
@@ -73,10 +61,7 @@ const styles = theme => ({
   title: {
     marginTop: theme.spacing(3)
   },
-  subtitle: {
-    color: theme.palette.text.secondary,
-    marginTop: theme.spacing(0.5)
-  },
+
   fields: {
     marginTop: theme.spacing(2)
   },
@@ -219,13 +204,6 @@ class Login extends Component {
                   appId={process.env.REACT_APP_FACEBOOK_APP_ID} //APP ID NOT CREATED YET
                   fields="name,email,picture"
                   callback={facebookLogin}
-                />
-                <GoogleLogin
-                  className={classes.googleButton}
-                  clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} //CLIENTID NOT CREATED YET
-                  buttonText="LOGIN WITH GOOGLE"
-                  onSuccess={this.googleResponse}
-                  onFailure={this.onFailure}
                 />
               </div>
 

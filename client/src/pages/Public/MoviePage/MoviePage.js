@@ -1,6 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles, Container } from '@material-ui/core';
+import { getMovies } from '../../../store/actions';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieCarousel from './components/MovieCarousel/MovieCarousel';
 import MovieBanner from '../MovieBanner/MovieBanner';
@@ -15,95 +17,79 @@ const styles = theme => ({
   carousel: { marginBottom: theme.spacing(6) }
 });
 
-class MoviePage extends Component {
-  state = {
-    movies: [],
-    latestMovies: []
-  };
-  componentDidMount() {
-    this.addPageCursors();
-    this.getMovies();
-  }
+function addPageCursors() {
+  let cursor1, cursor2, cursor3;
+  cursor1 = document.getElementById('cursor');
+  cursor2 = document.getElementById('cursor2');
+  cursor3 = document.getElementById('cursor3');
+  //Page cursors
+  document
+    .getElementsByTagName('body')[0]
+    .addEventListener('mousemove', function(event) {
+      cursor1.style.left = event.clientX + 'px';
+      cursor1.style.top = event.clientY + 'px';
+      cursor2.style.left = event.clientX + 'px';
+      cursor2.style.top = event.clientY + 'px';
+      cursor3.style.left = event.clientX + 'px';
+      cursor3.style.top = event.clientY + 'px';
+    });
+}
 
-  async getMovies() {
-    try {
-      const url = '/movies';
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const movies = await response.json();
-      if (response.ok) {
-        const latestMovies = movies
-          .sort((a, b) => Date.parse(b.releaseDate) - Date.parse(a.releaseDate))
-          .slice(0, 5);
-        this.setState({
-          movies,
-          latestMovies
-        });
-      }
-    } catch (error) {
-      console.log(error);
+function MoviePage(props) {
+  const { classes, movies, latestMovies, getMovies } = props;
+  useEffect(() => {
+    if (movies.length === 0) {
+      getMovies();
     }
-  }
-
-  addPageCursors() {
-    let cursor1, cursor2, cursor3;
-    cursor1 = document.getElementById('cursor');
-    cursor2 = document.getElementById('cursor2');
-    cursor3 = document.getElementById('cursor3');
-    //Page cursors
-    document
-      .getElementsByTagName('body')[0]
-      .addEventListener('mousemove', function(event) {
-        cursor1.style.left = event.clientX + 'px';
-        cursor1.style.top = event.clientY + 'px';
-        cursor2.style.left = event.clientX + 'px';
-        cursor2.style.top = event.clientY + 'px';
-        cursor3.style.left = event.clientX + 'px';
-        cursor3.style.top = event.clientY + 'px';
-      });
-  }
-
-  render() {
-    const { movies, latestMovies } = this.state;
-    const { classes } = this.props;
-    return (
-      <Fragment>
-        <div className={classes.root}>
-          <Navbar />
-          <MovieBanner movie={latestMovies[0]} height="70vh" />
-          <Container maxWidth="xl">
-            <MovieCarousel
-              carouselClass={classes.carousel}
-              title="Latest Movies"
-              to="/movie/category/latest"
-              movies={latestMovies}
-            />
-            <MovieCarousel
-              carouselClass={classes.carousel}
-              title="Popular Movies"
-              movies={movies}
-            />
-            <MovieCarousel
-              carouselClass={classes.carousel}
-              title="Now Playing Movies"
-              movies={movies}
-            />
-          </Container>
-        </div>
-        <div className="cursor" id="cursor" />
-        <div className="cursor2" id="cursor2" />
-        <div className="cursor3" id="cursor3" />
-      </Fragment>
-    );
-  }
+    addPageCursors();
+  }, [movies, getMovies]);
+  return (
+    <Fragment>
+      <div className={classes.root}>
+        <Navbar />
+        <MovieBanner movie={movies[0]} height="70vh" />
+        <Container maxWidth="xl">
+          <MovieCarousel
+            carouselClass={classes.carousel}
+            title="Latest Movies"
+            to="/movie/category/latest"
+            movies={latestMovies}
+          />
+          <MovieCarousel
+            carouselClass={classes.carousel}
+            title="Popular Movies"
+            movies={movies}
+          />
+          <MovieCarousel
+            carouselClass={classes.carousel}
+            title="Now Playing Movies"
+            movies={movies}
+          />
+        </Container>
+      </div>
+      <div className="cursor" id="cursor" />
+      <div className="cursor2" id="cursor2" />
+      <div className="cursor3" id="cursor3" />
+    </Fragment>
+  );
 }
 
 MoviePage.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  movies: PropTypes.array.isRequired,
+  latestMovies: PropTypes.array.isRequired
 };
 
-export default withStyles(styles)(MoviePage);
+const mapStateToProps = ({ movieState }) => ({
+  movies: movieState.movies,
+  latestMovies: movieState.latestMovies
+});
+
+const mapDispatchToProps = { getMovies };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MoviePage));
