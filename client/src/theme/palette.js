@@ -56,11 +56,7 @@ export default {
     dark: red[700],
     contrastText: white
   },
-  text: {
-    primary: '#12161B',
-    secondary: '#66788A',
-    disabled: '#A6B1BB'
-  },
+
   background: {
     default: '#f8fafc',
     dark: 'rgb(26, 26, 26)',

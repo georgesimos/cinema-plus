@@ -4,6 +4,7 @@ export default theme => ({
     height: '42px',
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginTop: theme.spacing(1)
   },
   spacer: {

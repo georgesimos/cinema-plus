@@ -1,4 +1,4 @@
-import { red, blue, yellow, green } from '@material-ui/core/colors';
+import { red, blue, lightBlue, yellow, green } from '@material-ui/core/colors';
 const white = '#FFF';
 const black = '#000';
 
@@ -7,7 +7,7 @@ export default {
   common: {
     black,
     white,
-    commonBackground: 'rgb(55, 55, 63)',
+    commonBackground: 'rgb(45, 45, 45)',
     contrastText: white,
     neutral: '#E4E7EB',
     muted: '#9EA0A4'
@@ -21,16 +21,10 @@ export default {
     contrastText: white
   },
   primary: {
-    contrastText: white,
-    main: '#0767DB',
-    light: '#F6F9FD',
-    dark: '#0B48A0'
-  },
-  secondary: {
-    contrastText: white,
-    main: '#7d58ff',
-    light: '',
-    dark: '#37248F'
+    light: lightBlue[300],
+    main: lightBlue[500],
+    dark: lightBlue[700],
+    contrastText: white
   },
   success: {
     light: green[300],
@@ -56,14 +50,9 @@ export default {
     dark: red[700],
     contrastText: white
   },
-  text: {
-    primary: '#12161B',
-    secondary: '#66788A',
-    disabled: '#A6B1BB'
-  },
   background: {
-    paper: 'rgb(55, 55, 63)',
-    default: 'rgb(51, 51, 60)',
+    paper: 'rgb(45, 45, 45)',
+    default: 'rgb(26, 26, 26)',
     dark: 'rgb(26, 26, 26)'
   },
   border: '#DFE3E8',

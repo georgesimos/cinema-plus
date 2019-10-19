@@ -11,11 +11,7 @@ import { withStyles } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 
 // Shared components
-import {
-  DisplayMode,
-  SearchInput,
-  ResponsiveDialog
-} from '../../../../../components';
+import { SearchInput, ResponsiveDialog } from '../../../../../components';
 
 // Component styles
 import styles from './styles';
@@ -44,7 +40,10 @@ class MovieToolbar extends Component {
       <Fragment>
         <div className={rootClassName}>
           <div className={classes.row}>
-            <span className={classes.spacer} />
+            <SearchInput
+              className={classes.searchInput}
+              placeholder="Search movie"
+            />
             <Button
               onClick={() => this.OpenAddDialog()}
               color="primary"
@@ -52,14 +51,6 @@ class MovieToolbar extends Component {
               variant="outlined">
               Add
             </Button>
-          </div>
-          <div className={classes.row}>
-            <SearchInput
-              className={classes.searchInput}
-              placeholder="Search movie"
-            />
-            <span className={classes.spacer} />
-            <DisplayMode mode="grid" />
           </div>
         </div>
         <ResponsiveDialog

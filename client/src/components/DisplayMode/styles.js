@@ -12,10 +12,10 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.common.white
+    backgroundColor: theme.palette.background.paper
   },
   optionSelected: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background.default,
     color: theme.palette.primary.main
   },
   divider: {

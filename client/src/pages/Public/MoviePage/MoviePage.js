@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core';
+import { withStyles, Box } from '@material-ui/core';
 import { getMovies } from '../../../store/actions';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
@@ -48,6 +48,7 @@ function MoviePage(props) {
       <div className={classes.root}>
         <Navbar />
         <MovieBanner movie={movies[0]} height="70vh" />
+        <Box height={100} />
         <MovieCarousel
           carouselClass={classes.carousel}
           title="Latest Movies"

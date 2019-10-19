@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'baseline'
   },
   h2: {
+    fontSize: '2rem',
     color: theme.palette.common.white,
     margin: theme.spacing(3),
     textTransform: 'capitalize'

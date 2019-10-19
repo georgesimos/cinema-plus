@@ -44,7 +44,7 @@ export default theme => ({
     color: theme.palette.common.white,
     padding: '0 .5rem',
     margin: '0 1rem',
-    fontSize: '1.6rem',
+    fontSize: '1.3rem',
     fontWeight: '600',
     cursor: 'pointer',
     textDecoration: 'none',
@@ -52,12 +52,11 @@ export default theme => ({
     '&:after': {
       content: '""',
       position: 'absolute',
-      bottom: '-7px',
+      bottom: 0,
       left: 0,
       width: '100%',
       opacity: 0,
       height: 0,
-      marginTop: '3px',
       backgroundColor: 'rgba(255,255,255,0.5)',
       transition: 'all 200ms linear',
       zIndex: 1
@@ -67,7 +66,6 @@ export default theme => ({
       height: '10px'
     }
   },
-
   navBtn: {
     marginRight: '50px'
   },
@@ -195,8 +193,8 @@ export default theme => ({
     color: theme.palette.common.white,
     padding: '0 .5rem',
     margin: '0 1rem',
-    fontSize: '3rem',
-    fontWeight: '600',
+    fontSize: '2rem',
+    fontWeight: 600,
     cursor: 'pointer',
     textDecoration: 'none',
     zIndex: 2,
@@ -215,7 +213,7 @@ export default theme => ({
     },
     '&:hover:after': {
       opacity: 1,
-      height: '20px'
+      height: 15
     }
   },
   [theme.breakpoints.down('sm')]: {

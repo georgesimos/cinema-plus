@@ -27,7 +27,11 @@ export default theme => ({
     height: '40%',
     width: '60%'
   },
-  movieTitle: { fontWeight: 400 },
+  movieTitle: {
+    fontSize: '25px',
+    fontWeight: 400,
+    textTransform: 'capitalize'
+  },
   director: {
     color: '#9ac7fa',
     fontWeight: '500',

@@ -27,7 +27,7 @@ export default theme => ({
     marginTop: theme.spacing(2)
   },
   listSubheader: {
-    color: theme.palette.text.secondary
+    color: theme.palette.common.contrastText
   },
   listItem: {
     cursor: 'pointer',
@@ -36,7 +36,6 @@ export default theme => ({
       borderLeft: `4px solid ${theme.palette.default.dark}`,
       borderRadius: '4px',
       '& $listItemIcon': {
-        // color: theme.palette.default.dark,
         marginLeft: '-4px'
       }
     },
@@ -49,10 +48,9 @@ export default theme => ({
     borderRadius: '4px',
     backgroundColor: theme.palette.default.light,
     '& $listItemText': {
-      color: theme.palette.text.primary
+      color: theme.palette.common.contrastText
     },
     '& $listItemIcon': {
-      // color: theme.palette.default.dark,
       marginLeft: '-4px'
     }
   },
@@ -61,7 +59,7 @@ export default theme => ({
   },
   listItemText: {
     fontWeight: 500,
-    color: theme.palette.text.secondary
+    color: theme.palette.common.contrastText
   },
   listDivider: {
     marginBottom: theme.spacing(2),

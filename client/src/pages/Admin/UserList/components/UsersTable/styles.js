@@ -1,5 +1,5 @@
 export default theme => ({
-  root: {},
+  root: { color: theme.palette.common.contrastText },
   tableRow: {
     height: '64px'
   },
