@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
     '&.prevArrow': {
       left: 0,
       justifyContent: 'flex-start',
-      background: 'rgba(0,0,0,.5)',
       background:
         ' linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,37,0) 100%)',
       opacity: ({ currentSlide }) => (currentSlide ? 1 : 0)
@@ -47,7 +46,6 @@ const useStyles = makeStyles(theme => ({
     '&.nextArrow': {
       right: 0,
       justifyContent: 'flex-end',
-      background: 'rgba(0,0,0,.5)',
       background:
         ' linear-gradient(90deg, rgba(0,0,37,0) 0%, rgba(0,0,0,1) 100%)',
       opacity: ({ currentSlide, slideCount }) =>

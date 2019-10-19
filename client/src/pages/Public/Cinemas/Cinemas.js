@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { makeStyles, Grid, Typography } from '@material-ui/core';
+import { makeStyles, Grid, Typography, Container } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import { getCinemas } from '../../../store/actions';
+import CinemaCard from '../components/CinemaCard/CinemaCard';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,29 +51,31 @@ function Cinemas(props) {
     <Fragment>
       <div className={classes.root}>
         <Navbar />
-
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography className={classes.title} variant="h2" color="inherit">
-              Our Cinemas
-            </Typography>
+        <Container maxWidth="xl">
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography
+                className={classes.title}
+                variant="h2"
+                color="inherit">
+                Our Cinemas
+              </Typography>
+            </Grid>
+            <Grid
+              container
+              item
+              xs={12}
+              alignItems="center"
+              justify="flex-start"
+              spacing={2}>
+              {cinemas.map(cinema => (
+                <Grid key={cinema._id} item xs={12} md={4} lg={3}>
+                  <CinemaCard cinema={cinema} />
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
-          <Grid
-            container
-            item
-            xs={12}
-            direction="column"
-            alignItems="center"
-            justify="center"
-            spacing={2}>
-            {cinemas.map(cinema => (
-              <Grid key={cinema._id} item>
-                id: {cinema._id} <br />
-                name: {cinema.name}
-              </Grid>
-            ))}
-          </Grid>
-        </Grid>
+        </Container>
       </div>
       <div className="cursor" id="cursor" />
       <div className="cursor2" id="cursor2" />

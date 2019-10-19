@@ -21,6 +21,7 @@ const DashboardPage = lazy(() =>
 const UserList = lazy(() => import('./pages/Admin/UserList'));
 const Account = lazy(() => import('./pages/Admin/Account'));
 const MovieList = lazy(() => import('./pages/Admin/MovieList/MovieList'));
+const CinemaList = lazy(() => import('./pages/Admin/CinemaList/CinemaList'));
 
 const MoviePage = lazy(() => import('./pages/Public/MoviePage/MoviePage'));
 const Movie = lazy(() => import('./pages/Public/Movie/Movie'));
@@ -67,6 +68,7 @@ const App = () => {
                 path="/admin/reservations"
                 component={ReservationList}
               />
+              <Route exact path="/admin/cinemas" component={CinemaList} />
               <Route exact path="/admin/movies" component={MovieList} />
               <ProtectedRoute exact path="/admin/account" component={Account} />
               <Route path="*" component={() => '404 NOT FOUND'} />
