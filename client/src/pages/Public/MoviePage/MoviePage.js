@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Container } from '@material-ui/core';
+import { withStyles } from '@material-ui/core';
 import { getMovies } from '../../../store/actions';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-import MovieCarousel from './components/MovieCarousel/MovieCarousel';
-import MovieBanner from '../MovieBanner/MovieBanner';
+import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
+import MovieBanner from '../components/MovieBanner/MovieBanner';
 
 const styles = theme => ({
   root: {
@@ -48,24 +48,22 @@ function MoviePage(props) {
       <div className={classes.root}>
         <Navbar />
         <MovieBanner movie={movies[0]} height="70vh" />
-        <Container maxWidth="xl">
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Latest Movies"
-            to="/movie/category/latest"
-            movies={latestMovies}
-          />
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Popular Movies"
-            movies={movies}
-          />
-          <MovieCarousel
-            carouselClass={classes.carousel}
-            title="Now Playing Movies"
-            movies={movies}
-          />
-        </Container>
+        <MovieCarousel
+          carouselClass={classes.carousel}
+          title="Latest Movies"
+          to="/movie/category/latest"
+          movies={latestMovies}
+        />
+        <MovieCarousel
+          carouselClass={classes.carousel}
+          title="Popular Movies"
+          movies={movies}
+        />
+        <MovieCarousel
+          carouselClass={classes.carousel}
+          title="Now Playing Movies"
+          movies={movies}
+        />
       </div>
       <div className="cursor" id="cursor" />
       <div className="cursor2" id="cursor2" />

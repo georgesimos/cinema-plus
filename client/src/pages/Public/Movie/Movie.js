@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-import MovieBanner from '../MovieBanner/MovieBanner';
+import MovieBanner from '../components/MovieBanner/MovieBanner';
 
 const styles = theme => ({
   root: {

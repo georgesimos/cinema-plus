@@ -9,14 +9,13 @@ import {
   makeStyles,
   withStyles
 } from '@material-ui/core';
-import { textTruncate } from '../../../utils/utils';
+import { textTruncate } from '../../../../utils/utils';
 import { Link } from 'react-router-dom';
 import ArrowRightAlt from '@material-ui/icons/ArrowRightAlt';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const useStyles = makeStyles(theme => ({
   movieHero: {
-    borderRadius: 0,
     position: 'relative',
     height: props => (props.height ? props.height : '100%'),
     width: '100%',
@@ -32,7 +31,6 @@ const useStyles = makeStyles(theme => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
-    borderRadius: 11,
     width: '100%'
   },
   infoSection: {
@@ -45,8 +43,7 @@ const useStyles = makeStyles(theme => ({
     backgroundBlendMode: 'multiply',
     background:
       'linear-gradient(to right, rgba(0,0,0,.9) 50%, transparent 100%)',
-    zIndex: 2,
-    borderRadius: 10
+    zIndex: 2
   },
   movieHeader: {
     position: 'relative',
@@ -155,7 +152,7 @@ function MovieBanner(props) {
   if (!movie) return null;
 
   return (
-    <Paper className={classes.movieHero} elevation={20}>
+    <div className={classes.movieHero}>
       <div className={classes.infoSection}>
         <header className={classes.movieHeader}>
           {fullDescription && (
@@ -235,7 +232,7 @@ function MovieBanner(props) {
           </Link>
         )}
       </div>
-    </Paper>
+    </div>
   );
 }
 

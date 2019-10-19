@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, Grid, Typography } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-import ResponsiveMovieCard from '../MoviePage/components/ResponsiveMovieCard/ResponsiveMovieCard';
+import ResponsiveMovieCard from '../components/ResponsiveMovieCard/ResponsiveMovieCard';
 import { getMovies } from '../../../store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -12,13 +12,15 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white,
     height: '100%'
   },
-
   title: {
     fontSize: '3rem',
     lineHeight: '3rem',
     textAlign: 'center',
     marginTop: theme.spacing(15),
     marginBottom: theme.spacing(3)
+  },
+  [theme.breakpoints.down('sm')]: {
+    fullWidth: { width: '100%' }
   }
 }));
 
@@ -50,7 +52,7 @@ function LatestMovie(props) {
           justify="center"
           spacing={2}>
           {movies.map(movie => (
-            <Grid key={movie._id} item>
+            <Grid key={movie._id} item className={classes.fullWidth}>
               <ResponsiveMovieCard movie={movie} />
             </Grid>
           ))}

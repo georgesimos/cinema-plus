@@ -25,23 +25,30 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   arrow: {
+    cursor: 'pointer',
     position: 'absolute',
     top: 0,
     bottom: 60,
-    width: 60,
+    width: '20%',
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
     background: 'rgba(0,0,0,.5)',
     color: theme.palette.common.white,
-    textAlign: 'center',
     zIndex: 1,
     '&.prevArrow': {
       left: 0,
+      justifyContent: 'flex-start',
+      background: 'rgba(0,0,0,.5)',
+      background:
+        ' linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,37,0) 100%)',
       opacity: ({ currentSlide }) => (currentSlide ? 1 : 0)
     },
     '&.nextArrow': {
       right: 0,
+      justifyContent: 'flex-end',
+      background: 'rgba(0,0,0,.5)',
+      background:
+        ' linear-gradient(90deg, rgba(0,0,37,0) 0%, rgba(0,0,0,1) 100%)',
       opacity: ({ currentSlide, slideCount }) =>
         currentSlide === slideCount ? 0 : 1
     }
@@ -55,7 +62,7 @@ function NextArrow(props) {
   const classes = useStyles({ currentSlide, slideCount });
   return (
     <div className={classnames(classes.arrow, 'nextArrow')} onClick={onClick}>
-      <ArrowForwardIos color="inherit" />
+      <ArrowForwardIos color="inherit" fontSize="large" />
     </div>
   );
 }
@@ -65,7 +72,7 @@ function PrevArrow(props) {
   const classes = useStyles({ currentSlide });
   return (
     <div className={classnames(classes.arrow, 'prevArrow')} onClick={onClick}>
-      <ArrowBackIos color="inherit" />
+      <ArrowBackIos color="inherit" fontSize="large" />
     </div>
   );
 }
