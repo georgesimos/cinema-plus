@@ -30,6 +30,7 @@ const MovieBooking = lazy(() =>
 const LatestMovies = lazy(() =>
   import('./pages/Public/LatestMovies/LatestMovies')
 );
+const Cinemas = lazy(() => import('./pages/Public/Cinemas/Cinemas'));
 
 const App = () => {
   useEffect(() => {
@@ -45,6 +46,7 @@ const App = () => {
           <HashRouter>
             <Switch>
               <Route exact path="/" component={MoviePage} />
+              <Route exact path="/cinemas" component={Cinemas} />
               <Route
                 exact
                 path="/movie/category/latest"

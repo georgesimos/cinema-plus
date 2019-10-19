@@ -4,7 +4,6 @@ import { Rating } from '@material-ui/lab';
 import {
   Box,
   Typography,
-  Paper,
   Button,
   makeStyles,
   withStyles
