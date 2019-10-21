@@ -12,7 +12,7 @@ const MovieCard = props => {
   const { classes, movie } = props;
 
   return (
-    <Link to={`movie/${movie._id}`} style={{ textDecoration: 'none' }}>
+    <Link to={`/movie/${movie._id}`} style={{ textDecoration: 'none' }}>
       <Paper className={classes.movieCard} elevation={20}>
         <div className={classes.infoSection}>
           <header className={classes.movieHeader}>

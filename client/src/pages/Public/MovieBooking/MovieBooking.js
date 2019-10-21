@@ -261,14 +261,33 @@ class MovieBooking extends Component {
   }
 
   onFilterCinema() {
-    const { showtimes } = this.state;
+    const { showtimes, selectedCinema, selectedTime } = this.state;
     const { cinemas } = this.props;
-    if (!showtimes || !cinemas) return [];
+    const initialReturn = { uniqueCinemas: null, uniqueTimes: null };
+    if (!showtimes || !cinemas) return initialReturn;
 
     const uniqueCinemasId = showtimes
+      .filter(showtime =>
+        selectedTime ? showtime.startAt === selectedTime : true
+      )
       .map(showtime => showtime.cinemaId)
       .filter((value, index, self) => self.indexOf(value) === index);
-    return cinemas.filter(cinema => uniqueCinemasId.includes(cinema._id));
+
+    const uniqueCinemas = cinemas.filter(cinema =>
+      uniqueCinemasId.includes(cinema._id)
+    );
+
+    const uniqueTimes = showtimes
+      .filter(showtime =>
+        selectedCinema ? selectedCinema === showtime.cinemaId : true
+      )
+      .map(showtime => showtime.startAt)
+      .filter((value, index, self) => self.indexOf(value) === index)
+      .sort(
+        (a, b) => new Date('1970/01/01 ' + a) - new Date('1970/01/01 ' + b)
+      );
+
+    return { ...initialReturn, uniqueCinemas, uniqueTimes };
   }
 
   render() {
@@ -276,12 +295,11 @@ class MovieBooking extends Component {
       movie,
       selectedSeats,
       cinema: { seats, ticketPrice, seatsAvailable },
-      showtimes,
       selectedCinema,
       selectedTime
     } = this.state;
     const { classes } = this.props;
-    const uniqueCinemas = this.onFilterCinema();
+    const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
 
     return (
       <div className={classes.root}>
@@ -337,7 +355,7 @@ class MovieBooking extends Component {
             )}
 
             <Grid item lg={9} xs={12} md={12}>
-              {!!uniqueCinemas.length && (
+              {uniqueCinemas && (
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <TextField
@@ -366,9 +384,9 @@ class MovieBooking extends Component {
                       onChange={event =>
                         this.setState({ selectedTime: event.target.value })
                       }>
-                      {showtimes.map(showtime => (
-                        <MenuItem key={showtime._id} value={showtime.startAt}>
-                          {showtime.startAt}
+                      {uniqueTimes.map((time, index) => (
+                        <MenuItem key={time + '-' + index} value={time}>
+                          {time}
                         </MenuItem>
                       ))}
                     </TextField>
