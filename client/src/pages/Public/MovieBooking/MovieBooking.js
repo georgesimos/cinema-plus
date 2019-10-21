@@ -1,15 +1,19 @@
 // @ts-nocheck
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
   withStyles,
   Box,
   Typography,
   Grid,
   Container,
-  Button
+  Button,
+  TextField,
+  MenuItem
 } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
+import { getCinemas } from '../../../store/actions';
 
 const styles = theme => ({
   root: {
@@ -97,6 +101,9 @@ const styles = theme => ({
     }
   },
   [theme.breakpoints.down('sm')]: {
+    info: { display: 'none' },
+    background: { height: '100%' },
+    title: { top: '80%' },
     seat: { padding: theme.spacing(0.8), margin: theme.spacing(0.5) }
   }
 });
@@ -104,13 +111,22 @@ const styles = theme => ({
 class MovieBooking extends Component {
   state = {
     movie: null,
+    showtimes: null,
     cinema: { seats: [] },
-    selectedSeats: 0
+    selectedSeats: 0,
+    selectedCinema: '',
+    selectedTime: ''
   };
   componentDidMount() {
-    this.addPageCursors();
-    this.getCinema();
+    if (!this.props.cinemas.length) this.props.getCinemas();
     this.getMovie();
+    this.getShowtimes();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.selectedCinema !== this.state.selectedCinema) {
+      this.getCinema(this.state.selectedCinema);
+    }
   }
 
   onSelectSeat = async (row, seat) => {
@@ -189,9 +205,9 @@ class MovieBooking extends Component {
     }
   }
 
-  async getCinema() {
+  async getCinema(id) {
     try {
-      const url = '/cinemas/5da0a9281583f225bcc9b310';
+      const url = '/cinemas/' + id;
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
@@ -224,211 +240,267 @@ class MovieBooking extends Component {
     }
   }
 
-  addPageCursors() {
-    let cursor1, cursor2, cursor3;
-    cursor1 = document.getElementById('cursor');
-    cursor2 = document.getElementById('cursor2');
-    cursor3 = document.getElementById('cursor3');
-    //Page cursors
-    document
-      .getElementsByTagName('body')[0]
-      .addEventListener('mousemove', function(event) {
-        cursor1.style.left = event.clientX + 'px';
-        cursor1.style.top = event.clientY + 'px';
-        cursor2.style.left = event.clientX + 'px';
-        cursor2.style.top = event.clientY + 'px';
-        cursor3.style.left = event.clientX + 'px';
-        cursor3.style.top = event.clientY + 'px';
+  async getShowtimes() {
+    try {
+      const url = '/showtimes/';
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
       });
+      const showtimes = await response.json();
+      if (response.ok) {
+        this.setState({
+          showtimes: showtimes.filter(
+            showtime => showtime.movieId === this.props.match.params.id
+          )
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  onFilterCinema() {
+    const { showtimes } = this.state;
+    const { cinemas } = this.props;
+    if (!showtimes || !cinemas) return [];
+
+    const uniqueCinemasId = showtimes
+      .map(showtime => showtime.cinemaId)
+      .filter((value, index, self) => self.indexOf(value) === index);
+    return cinemas.filter(cinema => uniqueCinemasId.includes(cinema._id));
   }
 
   render() {
     const {
       movie,
       selectedSeats,
-      cinema: { seats, ticketPrice, seatsAvailable }
+      cinema: { seats, ticketPrice, seatsAvailable },
+      showtimes,
+      selectedCinema,
+      selectedTime
     } = this.state;
     const { classes } = this.props;
+    const uniqueCinemas = this.onFilterCinema();
+
     return (
-      <Fragment>
-        <div className={classes.root}>
-          <Navbar />
-          <Container maxWidth="xl" className={classes.container}>
-            <Grid container spacing={2} style={{ height: '100%' }}>
-              {movie && (
-                <Grid item xs={12} md={12} lg={3}>
-                  <div className={classes.movieInfos}>
-                    <div
-                      className={classes.background}
-                      style={{
-                        backgroundImage: `url(${movie.image})`
-                      }}
-                    />
-                    <Typography className={classes.title}>
-                      {movie.title}
-                    </Typography>
-                    <div className={classes.info}>
-                      {movie.director && (
-                        <div className={classes.infoBox}>
-                          <Typography variant="subtitle1" color="inherit">
-                            Director
-                          </Typography>
-                          <Typography variant="caption" color="inherit">
-                            {movie.director}
-                          </Typography>
-                        </div>
-                      )}
-                      {movie.cast && (
-                        <div className={classes.infoBox}>
-                          <Typography variant="subtitle1" color="inherit">
-                            Cast
-                          </Typography>
-                          <Typography variant="caption" color="inherit">
-                            {movie.cast}
-                          </Typography>
-                        </div>
-                      )}
-                      {movie.genre && (
-                        <div className={classes.infoBox}>
-                          <Typography variant="subtitle1" color="inherit">
-                            Genre
-                          </Typography>
-                          <Typography variant="caption" color="inherit">
-                            {movie.genre}
-                          </Typography>
-                        </div>
-                      )}
-                    </div>
+      <div className={classes.root}>
+        <Navbar />
+        <Container maxWidth="xl" className={classes.container}>
+          <Grid container spacing={2} style={{ height: '100%' }}>
+            {movie && (
+              <Grid item xs={12} md={12} lg={3}>
+                <div className={classes.movieInfos}>
+                  <div
+                    className={classes.background}
+                    style={{
+                      backgroundImage: `url(${movie.image})`
+                    }}
+                  />
+                  <Typography className={classes.title}>
+                    {movie.title}
+                  </Typography>
+                  <div className={classes.info}>
+                    {movie.director && (
+                      <div className={classes.infoBox}>
+                        <Typography variant="subtitle1" color="inherit">
+                          Director
+                        </Typography>
+                        <Typography variant="caption" color="inherit">
+                          {movie.director}
+                        </Typography>
+                      </div>
+                    )}
+                    {movie.cast && (
+                      <div className={classes.infoBox}>
+                        <Typography variant="subtitle1" color="inherit">
+                          Cast
+                        </Typography>
+                        <Typography variant="caption" color="inherit">
+                          {movie.cast}
+                        </Typography>
+                      </div>
+                    )}
+                    {movie.genre && (
+                      <div className={classes.infoBox}>
+                        <Typography variant="subtitle1" color="inherit">
+                          Genre
+                        </Typography>
+                        <Typography variant="caption" color="inherit">
+                          {movie.genre}
+                        </Typography>
+                      </div>
+                    )}
                   </div>
+                </div>
+              </Grid>
+            )}
+
+            <Grid item lg={9} xs={12} md={12}>
+              {!!uniqueCinemas.length && (
+                <Grid container spacing={3}>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      select
+                      value={selectedCinema}
+                      label="Select Cinema"
+                      variant="outlined"
+                      onChange={event =>
+                        this.setState({ selectedCinema: event.target.value })
+                      }>
+                      {uniqueCinemas.map(cinema => (
+                        <MenuItem key={cinema._id} value={cinema._id}>
+                          {cinema.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      fullWidth
+                      select
+                      value={selectedTime}
+                      label="Select Time"
+                      variant="outlined"
+                      onChange={event =>
+                        this.setState({ selectedTime: event.target.value })
+                      }>
+                      {showtimes.map(showtime => (
+                        <MenuItem key={showtime._id} value={showtime.startAt}>
+                          {showtime.startAt}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </Grid>
                 </Grid>
               )}
-              <Grid item lg={9} xs={12} md={12}>
-                <Box width={1} pt={15}>
-                  {seats.length > 0 &&
-                    seats.map((seatRows, indexRow) => (
-                      <div key={indexRow} className={classes.row}>
-                        {seatRows.map((seat, index) => (
-                          <Box
-                            key={`seat-${index}`}
-                            onClick={() => this.onSelectSeat(indexRow, index)}
-                            className={classes.seat}
-                            bgcolor={
-                              seat === 1
-                                ? 'rgb(65, 66, 70)'
-                                : seat === 2
-                                ? 'rgb(120, 205, 4)'
-                                : 'rgb(96, 93, 169)'
-                            }>
-                            {index + 1}
-                          </Box>
-                        ))}
-                      </div>
-                    ))}
-                </Box>
-                <Box width={1} mt={10}>
-                  <Box
-                    width="50%"
-                    margin="auto"
-                    display="flex"
-                    alignItems="center"
-                    textAlign="center"
-                    color="#eee">
-                    <div>
-                      <Box
-                        mr={1}
-                        display="inline-block"
-                        width={10}
-                        height={10}
-                        bgcolor="rgb(96, 93, 169)"
-                      />
-                      Seat Available
-                    </div>
-                    <div>
-                      <Box
-                        mr={1}
-                        ml={2}
-                        display="inline-block"
-                        width={10}
-                        height={10}
-                        bgcolor="rgb(65, 66, 70)"
-                      />
-                      Reserved Seat
-                    </div>
-                    <div>
-                      <Box
-                        mr={1}
-                        ml={2}
-                        display="inline-block"
-                        width={10}
-                        height={10}
-                        bgcolor="rgb(120, 205, 4)"
-                      />
-                      Your Seat
-                    </div>
+              {seatsAvailable && (
+                <Fragment>
+                  <Box width={1} pt={15}>
+                    {seats.length > 0 &&
+                      seats.map((seatRows, indexRow) => (
+                        <div key={indexRow} className={classes.row}>
+                          {seatRows.map((seat, index) => (
+                            <Box
+                              key={`seat-${index}`}
+                              onClick={() => this.onSelectSeat(indexRow, index)}
+                              className={classes.seat}
+                              bgcolor={
+                                seat === 1
+                                  ? 'rgb(65, 66, 70)'
+                                  : seat === 2
+                                  ? 'rgb(120, 205, 4)'
+                                  : 'rgb(96, 93, 169)'
+                              }>
+                              {index + 1}
+                            </Box>
+                          ))}
+                        </div>
+                      ))}
                   </Box>
-                </Box>
-                <Box marginTop={2} bgcolor="rgb(18, 20, 24)">
-                  <Grid container>
-                    <Grid item xs={10}>
-                      <Grid container spacing={3} style={{ padding: 20 }}>
-                        <Grid item>
-                          <Typography className={classes.bannerTitle}>
-                            Name
-                          </Typography>
-                          <Typography className={classes.bannerContent}>
-                            George Simos
-                          </Typography>
-                        </Grid>
-                        <Grid item>
-                          <Typography className={classes.bannerTitle}>
-                            Tickets
-                          </Typography>
-                          {selectedSeats > 0 ? (
-                            <Typography className={classes.bannerContent}>
-                              {selectedSeats} tickets
+                  <Box width={1} mt={10}>
+                    <Box
+                      width="50%"
+                      margin="auto"
+                      display="flex"
+                      alignItems="center"
+                      textAlign="center"
+                      color="#eee">
+                      <div>
+                        <Box
+                          mr={1}
+                          display="inline-block"
+                          width={10}
+                          height={10}
+                          bgcolor="rgb(96, 93, 169)"
+                        />
+                        Seat Available
+                      </div>
+                      <div>
+                        <Box
+                          mr={1}
+                          ml={2}
+                          display="inline-block"
+                          width={10}
+                          height={10}
+                          bgcolor="rgb(65, 66, 70)"
+                        />
+                        Reserved Seat
+                      </div>
+                      <div>
+                        <Box
+                          mr={1}
+                          ml={2}
+                          display="inline-block"
+                          width={10}
+                          height={10}
+                          bgcolor="rgb(120, 205, 4)"
+                        />
+                        Your Seat
+                      </div>
+                    </Box>
+                  </Box>
+                  <Box marginTop={2} bgcolor="rgb(18, 20, 24)">
+                    <Grid container>
+                      <Grid item xs={10}>
+                        <Grid container spacing={3} style={{ padding: 20 }}>
+                          <Grid item>
+                            <Typography className={classes.bannerTitle}>
+                              Name
                             </Typography>
-                          ) : (
                             <Typography className={classes.bannerContent}>
-                              None
+                              George Simos
                             </Typography>
-                          )}
-                        </Grid>
-                        <Grid item>
-                          <Typography className={classes.bannerTitle}>
-                            Price
-                          </Typography>
-                          <Typography className={classes.bannerContent}>
-                            {ticketPrice * selectedSeats} Euro
-                          </Typography>
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.bannerTitle}>
+                              Tickets
+                            </Typography>
+                            {selectedSeats > 0 ? (
+                              <Typography className={classes.bannerContent}>
+                                {selectedSeats} tickets
+                              </Typography>
+                            ) : (
+                              <Typography className={classes.bannerContent}>
+                                None
+                              </Typography>
+                            )}
+                          </Grid>
+                          <Grid item>
+                            <Typography className={classes.bannerTitle}>
+                              Price
+                            </Typography>
+                            <Typography className={classes.bannerContent}>
+                              {ticketPrice * selectedSeats} Euro
+                            </Typography>
+                          </Grid>
                         </Grid>
                       </Grid>
+                      <Grid
+                        item
+                        xs={2}
+                        style={{
+                          color: 'rgb(120, 205, 4)',
+                          background: 'black',
+                          display: 'flex'
+                        }}>
+                        <Button
+                          color="inherit"
+                          fullWidth
+                          disabled={seatsAvailable <= 0}
+                          onClick={() => this.bookSeat()}>
+                          Checkout
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      style={{
-                        color: 'rgb(120, 205, 4)',
-                        background: 'black',
-                        display: 'flex'
-                      }}>
-                      <Button
-                        color="inherit"
-                        fullWidth
-                        disabled={seatsAvailable <= 0}
-                        onClick={() => this.bookSeat()}>
-                        Checkout
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
+                  </Box>
+                </Fragment>
+              )}
             </Grid>
-          </Container>
-        </div>
-        <div className="cursor" id="cursor" />
-        <div className="cursor2" id="cursor2" />
-        <div className="cursor3" id="cursor3" />
-      </Fragment>
+          </Grid>
+        </Container>
+      </div>
     );
   }
 }
@@ -439,4 +511,13 @@ MovieBooking.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MovieBooking);
+const mapStateToProps = ({ cinemasState }) => ({
+  cinemas: cinemasState.cinemas
+});
+
+const mapDispatchToProps = { getCinemas };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MovieBooking));

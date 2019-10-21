@@ -1,19 +1,9 @@
 import React, { Component, Fragment } from 'react';
-
-// Externals
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-// Material helpers
 import { withStyles } from '@material-ui/core';
-
-// Material components
 import { Button } from '@material-ui/core';
-
-// Shared components
 import { SearchInput, ResponsiveDialog } from '../../../../../components';
-
-// Component styles
 import styles from './styles';
 import AddCinema from '../AddCinema/AddCinema';
 

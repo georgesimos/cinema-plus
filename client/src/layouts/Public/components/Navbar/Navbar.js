@@ -33,7 +33,7 @@ class Navbar extends Component {
         <nav
           className={classnames({
             [classes.navbar]: true,
-            [classes.navbarColor]: scrollPos > 100
+            [classes.navbarColor]: scrollPos > 30
           })}>
           <Link className={classes.logoLink} to="/">
             <Typography className={classes.logo} variant="h2">

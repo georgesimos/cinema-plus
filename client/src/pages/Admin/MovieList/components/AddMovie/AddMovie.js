@@ -242,8 +242,10 @@ class AddMovie extends Component {
                 onChange={event =>
                   this.handleFieldChange('genre', event.target.value)
                 }>
-                {genreData.map(genreItem => (
-                  <MenuItem value={genreItem}>{genreItem}</MenuItem>
+                {genreData.map((genreItem, index) => (
+                  <MenuItem key={genreItem + '-' + index} value={genreItem}>
+                    {genreItem}
+                  </MenuItem>
                 ))}
               </TextField>
             </div>

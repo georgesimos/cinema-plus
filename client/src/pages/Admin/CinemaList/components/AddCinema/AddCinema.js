@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
@@ -12,140 +13,54 @@ import {
 } from '../../../../../components';
 import styles from './styles';
 import { Add } from '@material-ui/icons';
+import {
+  getCinemas,
+  createCinemas,
+  updateCinemas,
+  removeCinemas
+} from '../../../../../store/actions';
 
 class AddCinema extends Component {
   state = {
+    _id: '',
     name: '',
     image: '',
     ticketPrice: '',
     city: '',
     seatsAvailable: '',
     seats: [],
-    status: ''
+    notification: {}
   };
 
   componentDidMount() {
-    if (this.props.edit) {
-      this.setState(this.props.edit);
+    if (this.props.editCinema) {
+      this.setState({ ...this.props.editCinema });
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.cinema !== this.props.cinema) {
-      const { name, city, seatsAvailable, ticketPrice } = this.props.cinema;
-      this.setState({ name, city, seatsAvailable, ticketPrice });
-    }
-  }
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
     newState[field] = value;
     this.setState(newState);
   };
 
-  onAddCinema = async () => {
-    try {
-      const {
-        name,
-        image,
-        ticketPrice,
-        city,
-        seatsAvailable,
-        seats
-      } = this.state;
-      const token = localStorage.getItem('jwtToken');
-      const body = {
-        name,
-        image,
-        ticketPrice,
-        city,
-        seatsAvailable,
-        seats
-      };
-      const url = '/cinemas/';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
-  };
-
-  onUpdateCinema = async () => {
-    try {
-      const {
-        name,
-        image,
-        ticketPrice,
-        city,
-        seatsAvailable,
-        seats
-      } = this.state;
-      const token = localStorage.getItem('jwtToken');
-      const body = {
-        name,
-        image,
-        ticketPrice,
-        city,
-        seatsAvailable,
-        seats
-      };
-      const url = '/cinemas/' + this.state._id;
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
-  };
-
-  onRemoveCinema = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const url = '/cinemas/' + this.state._id;
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      if (response.ok) {
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
+  onSubmitAction = async type => {
+    const {
+      getCinemas,
+      createCinemas,
+      updateCinemas,
+      removeCinemas
+    } = this.props;
+    const { _id, name, ticketPrice, city, seatsAvailable, seats } = this.state;
+    const cinema = { name, ticketPrice, city, seatsAvailable, seats };
+    let notification = {};
+    type === 'create'
+      ? (notification = await createCinemas(cinema))
+      : type === 'update'
+      ? (notification = await updateCinemas(cinema, _id))
+      : (notification = await removeCinemas(_id));
+    this.setState({ notification });
+    if (notification && notification.status === 'success') getCinemas();
   };
 
   handleSeatsChange = (index, value) => {
@@ -203,23 +118,24 @@ class AddCinema extends Component {
   };
 
   render() {
-    const { cinema, classes, className, ...rest } = this.props;
+    const { classes, className, ...rest } = this.props;
     const {
       name,
       image,
       ticketPrice,
       city,
       seatsAvailable,
-      status
+      notification
     } = this.state;
 
-    console.log(this.state);
     const rootClassName = classNames(classes.root, className);
-    const mainTitle = this.props.edit ? 'Edit Cinema' : 'Add Cinema';
-    const submitButton = this.props.edit ? 'Update Cinema' : 'Save Details';
-    const submitAction = this.props.edit
-      ? () => this.onUpdateCinema()
-      : () => this.onAddCinema();
+    const mainTitle = this.props.editCinema ? 'Edit Cinema' : 'Add Cinema';
+    const submitButton = this.props.editCinema
+      ? 'Update Cinema'
+      : 'Save Details';
+    const submitAction = this.props.editCinema
+      ? () => this.onSubmitAction('update')
+      : () => this.onSubmitAction('create');
 
     return (
       <Portlet {...rest} className={rootClassName}>
@@ -304,30 +220,30 @@ class AddCinema extends Component {
             onClick={submitAction}>
             {submitButton}
           </Button>
-          {this.props.edit && (
+          {this.props.editCinema && (
             <Button
               className={classes.buttonFooter}
               color="dafault"
               variant="contained"
-              onClick={this.onRemoveCinema}>
+              onClick={() => this.onSubmitAction('remove')}>
               Delete Cinema
             </Button>
           )}
 
-          {status ? (
-            status === 'success' ? (
+          {notification && notification.status ? (
+            notification.status === 'success' ? (
               <Typography
                 className={classes.infoMessage}
                 color="primary"
                 variant="caption">
-                Cinema have been saved!
+                {notification.message}
               </Typography>
             ) : (
               <Typography
                 className={classes.infoMessage}
                 color="error"
                 variant="caption">
-                Cinema have not been saved, try again.
+                {notification.message}
               </Typography>
             )
           ) : null}
@@ -339,8 +255,18 @@ class AddCinema extends Component {
 
 AddCinema.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  cinema: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AddCinema);
+const mapStateToProps = null;
+const mapDispatchToProps = {
+  getCinemas,
+  createCinemas,
+  updateCinemas,
+  removeCinemas
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddCinema));
