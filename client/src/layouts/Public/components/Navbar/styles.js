@@ -44,7 +44,7 @@ export default theme => ({
     color: theme.palette.common.white,
     padding: '0 .5rem',
     margin: '0 1rem',
-    fontSize: '1.3rem',
+    fontSize: '1.1rem',
     fontWeight: '600',
     cursor: 'pointer',
     textDecoration: 'none',
@@ -63,7 +63,7 @@ export default theme => ({
     },
     '&:hover:after': {
       opacity: 1,
-      height: '10px'
+      height: '9px'
     }
   },
   navBtn: {
