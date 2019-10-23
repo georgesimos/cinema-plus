@@ -263,7 +263,7 @@ class MovieBooking extends Component {
   onFilterCinema() {
     const { showtimes, selectedCinema, selectedTime } = this.state;
     const { cinemas } = this.props;
-    const initialReturn = { uniqueCinemas: null, uniqueTimes: null };
+    const initialReturn = { uniqueCinemas: [], uniqueTimes: [] };
     if (!showtimes || !cinemas) return initialReturn;
 
     const uniqueCinemasId = showtimes
@@ -300,7 +300,7 @@ class MovieBooking extends Component {
     } = this.state;
     const { classes } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
-
+    console.log(uniqueCinemas, uniqueTimes);
     return (
       <div className={classes.root}>
         <Navbar />
@@ -355,7 +355,7 @@ class MovieBooking extends Component {
             )}
 
             <Grid item lg={9} xs={12} md={12}>
-              {uniqueCinemas && (
+              {!!uniqueCinemas.length ? (
                 <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <TextField
@@ -392,6 +392,17 @@ class MovieBooking extends Component {
                     </TextField>
                   </Grid>
                 </Grid>
+              ) : (
+                <Box
+                  display="flex"
+                  width={1}
+                  height={1}
+                  alignItems="center"
+                  justifyContent="center">
+                  <Typography align="center" variant="h2" color="inherit">
+                    No Cinema Available.
+                  </Typography>
+                </Box>
               )}
               {seatsAvailable && (
                 <Fragment>
