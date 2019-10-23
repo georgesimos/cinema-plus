@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Box } from '@material-ui/core';
+import { withStyles, Box, Grid } from '@material-ui/core';
 import { getMovies } from '../../../store/actions';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
@@ -36,7 +36,7 @@ function addPageCursors() {
 }
 
 function MoviePage(props) {
-  const { classes, movies, latestMovies, getMovies } = props;
+  const { classes, movies, comingSoon, nowShowing, getMovies } = props;
   useEffect(() => {
     if (movies.length === 0) {
       getMovies();
@@ -51,20 +51,22 @@ function MoviePage(props) {
         <Box height={100} />
         <MovieCarousel
           carouselClass={classes.carousel}
-          title="Latest Movies"
-          to="/movie/category/latest"
-          movies={latestMovies}
+          title="Now Showing"
+          to="/movie/category/nowShowing"
+          movies={nowShowing}
         />
         <MovieCarousel
           carouselClass={classes.carousel}
-          title="Popular Movies"
-          movies={movies}
+          title="Coming Soon"
+          to="/movie/category/comingSoon"
+          movies={comingSoon}
         />
-        <MovieCarousel
-          carouselClass={classes.carousel}
-          title="Now Playing Movies"
-          movies={movies}
-        />
+        {false && (
+          <Grid container style={{ height: 500 }}>
+            <Grid item xs={7} style={{ background: '#131334' }}></Grid>
+            <Grid item xs={5} style={{ background: '#010025' }}></Grid>
+          </Grid>
+        )}
       </div>
       <div className="cursor" id="cursor" />
       <div className="cursor2" id="cursor2" />
@@ -83,7 +85,9 @@ MoviePage.propTypes = {
 
 const mapStateToProps = ({ movieState }) => ({
   movies: movieState.movies,
-  latestMovies: movieState.latestMovies
+  latestMovies: movieState.latestMovies,
+  comingSoon: movieState.comingSoon,
+  nowShowing: movieState.nowShowing
 });
 
 const mapDispatchToProps = { getMovies };

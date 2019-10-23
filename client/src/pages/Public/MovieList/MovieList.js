@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '3rem',
     lineHeight: '3rem',
     textAlign: 'center',
+    textTransform: 'capitalize',
     marginTop: theme.spacing(15),
     marginBottom: theme.spacing(3)
   },
@@ -24,8 +25,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function LatestMovie(props) {
+function MovieList(props) {
   const { movies, getMovies } = props;
+  const category = props.match.params.category;
   useEffect(() => {
     if (movies.length === 0) {
       getMovies();
@@ -33,38 +35,49 @@ function LatestMovie(props) {
   }, [movies, getMovies]);
 
   const classes = useStyles(props);
-
   return (
     <div className={classes.root}>
       <Navbar />
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography className={classes.title} variant="h2" color="inherit">
-            Latest Movies
-          </Typography>
-        </Grid>
-        <Grid
-          container
-          item
-          xs={12}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          spacing={2}>
-          {movies.map(movie => (
-            <Grid key={movie._id} item className={classes.fullWidth}>
-              <ResponsiveMovieCard movie={movie} />
+        {!['nowShowing', 'comingSoon'].includes(category) ? (
+          <Grid item xs={12}>
+            <Typography className={classes.title} variant="h2" color="inherit">
+              Category Does not exist.
+            </Typography>
+          </Grid>
+        ) : (
+          <>
+            <Grid item xs={12}>
+              <Typography
+                className={classes.title}
+                variant="h2"
+                color="inherit">
+                Movie List
+              </Typography>
             </Grid>
-          ))}
-        </Grid>
+            <Grid
+              container
+              item
+              xs={12}
+              direction="column"
+              alignItems="center"
+              justify="center"
+              spacing={2}>
+              {movies.map(movie => (
+                <Grid key={movie._id} item className={classes.fullWidth}>
+                  <ResponsiveMovieCard movie={movie} />
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
       </Grid>
     </div>
   );
 }
 
-const mapStateToProps = ({ movieState }) => ({
-  movies: movieState.movies,
-  latestMovies: movieState.latestMovies
+const mapStateToProps = ({ movieState }, ownProps) => ({
+  movies: movieState[ownProps.match.params.category] || []
 });
 
 const mapDispatchToProps = { getMovies };
@@ -72,4 +85,4 @@ const mapDispatchToProps = { getMovies };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LatestMovie);
+)(MovieList);

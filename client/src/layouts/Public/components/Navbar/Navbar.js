@@ -41,23 +41,32 @@ class Navbar extends Component {
             </Typography>
           </Link>
           <div className={classes.navLinks}>
+            <Link className={classes.navLink} to="/">
+              Home
+            </Link>
             {user && user.role === 'superadmin' && (
               <Link className={classes.navLink} to="/admin/dashboard">
                 Dashboard
               </Link>
             )}
-            <Link className={classes.navLink} to="/movie/category/latest">
-              Latest Movies
+            <Link className={classes.navLink} to="/movie/category/nowShowing">
+              Now Showing
+            </Link>
+            <Link className={classes.navLink} to="/movie/category/comingSoon">
+              Coming Soon
             </Link>
             <Link className={classes.navLink} to="/cinemas">
               Cinemas
             </Link>
-            <Link className={classes.navLink} to="/">
-              Page 3
-            </Link>
-            <Link className={classes.navLink} to="/login">
-              Login
-            </Link>
+            {isAuth ? (
+              <Link className={classes.navLink} onClick={logout} to="/">
+                Logout
+              </Link>
+            ) : (
+              <Link className={classes.navLink} to="/login">
+                Login
+              </Link>
+            )}
           </div>
 
           <div
@@ -93,11 +102,25 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
+              {user && user.role === 'superadmin' && (
+                <li className={classes.innerNavListItem}>
+                  <Link className={classes.innerNavLink} to="/admin/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               <li className={classes.innerNavListItem}>
                 <Link
                   className={classes.innerNavLink}
-                  to="/movie/category/latest">
-                  Latest Movies
+                  to="/movie/category/nowShowing">
+                  Now Showing
+                </Link>
+              </li>
+              <li className={classes.innerNavListItem}>
+                <Link
+                  className={classes.innerNavLink}
+                  to="/movie/category/comingSoon">
+                  Coming Soon
                 </Link>
               </li>
               <li className={classes.innerNavListItem}>
@@ -105,29 +128,15 @@ class Navbar extends Component {
                   Cinemas
                 </Link>
               </li>
-              <li className={classes.innerNavListItem}>
-                <Link className={classes.innerNavLink} to="/">
-                  Page 3
-                </Link>
-              </li>
               {isAuth ? (
-                <>
-                  <li className={classes.innerNavListItem}>
-                    <Link
-                      className={classes.innerNavLink}
-                      to="/admin/dashboard">
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li className={classes.innerNavListItem}>
-                    <Link
-                      className={classes.innerNavLink}
-                      onClick={logout}
-                      to="/">
-                      Logout
-                    </Link>
-                  </li>
-                </>
+                <li className={classes.innerNavListItem}>
+                  <Link
+                    className={classes.innerNavLink}
+                    onClick={logout}
+                    to="/">
+                    Logout
+                  </Link>
+                </li>
               ) : (
                 <li className={classes.innerNavListItem}>
                   <Link className={classes.innerNavLink} to="/login">

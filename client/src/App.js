@@ -28,8 +28,8 @@ const Movie = lazy(() => import('./pages/Public/Movie/Movie'));
 const MovieBooking = lazy(() =>
   import('./pages/Public/MovieBooking/MovieBooking')
 );
-const LatestMovies = lazy(() =>
-  import('./pages/Public/LatestMovies/LatestMovies')
+const PublicMovieList = lazy(() =>
+  import('./pages/Public/MovieList/MovieList')
 );
 const Cinemas = lazy(() => import('./pages/Public/Cinemas/Cinemas'));
 
@@ -50,8 +50,8 @@ const App = () => {
               <Route exact path="/cinemas" component={Cinemas} />
               <Route
                 exact
-                path="/movie/category/latest"
-                component={LatestMovies}
+                path="/movie/category/:category"
+                component={PublicMovieList}
               />
               <Route exact path="/movie/:id" component={Movie} />
               <Route exact path="/movie/booking/:id" component={MovieBooking} />
