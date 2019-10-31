@@ -85,8 +85,6 @@ function MovieCard(props) {
 }
 
 MovieCard.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
   movie: PropTypes.object.isRequired
 };
 

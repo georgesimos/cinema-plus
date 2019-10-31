@@ -25,11 +25,15 @@ class ReservationsTable extends Component {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
     onShowDetails: PropTypes.func,
-    reservations: PropTypes.array.isRequired
+    reservations: PropTypes.array.isRequired,
+    movies: PropTypes.array.isRequired,
+    cinemas: PropTypes.array.isRequired
   };
 
   static defaultProps = {
     reservations: [],
+    movies: [],
+    cinemas: [],
     onSelect: () => {},
     onShowDetails: () => {}
   };
@@ -42,11 +46,16 @@ class ReservationsTable extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  render() {
-    const { classes, className, reservations } = this.props;
-    const { rowsPerPage, page } = this.state;
+  onFindAttr = (id, list, attr) => {
+    const item = list.find(item => item._id === id);
+    return item ? item[attr] : `Not ${attr} Found`;
+  };
 
+  render() {
+    const { classes, className, reservations, movies, cinemas } = this.props;
+    const { rowsPerPage, page } = this.state;
     const rootClassName = classNames(classes.root, className);
+
     return (
       <Portlet className={rootClassName}>
         <PortletContent noPadding>
@@ -73,10 +82,10 @@ class ReservationsTable extends Component {
                     </TableCell>
 
                     <TableCell className={classes.tableCell}>
-                      {reservation.movieId}
+                      {this.onFindAttr(reservation.movieId, movies, 'title')}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      {reservation.cinemaId}
+                      {this.onFindAttr(reservation.cinemaId, cinemas, 'name')}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       {reservation.ticketPrice}

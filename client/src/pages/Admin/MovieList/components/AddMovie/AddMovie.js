@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles, Grid } from '@material-ui/core';
-import { Button, TextField, Typography, MenuItem } from '@material-ui/core';
+import { Button, TextField, MenuItem } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -15,12 +16,13 @@ import {
   PortletContent,
   PortletFooter
 } from '../../../../../components';
-
-// Component styles
 import styles from './styles';
-
-//MovieData
 import { genreData, languageData } from '../../../../../data/MovieDataService';
+import {
+  addMovie,
+  updateMovie,
+  removeMovie
+} from '../../../../../store/actions';
 
 class AddMovie extends Component {
   state = {
@@ -33,13 +35,35 @@ class AddMovie extends Component {
     director: '',
     cast: '',
     releaseDate: new Date(),
-    endDate: new Date(),
-    status: ''
+    endDate: new Date()
   };
 
   componentDidMount() {
     if (this.props.edit) {
-      this.setState(this.props.edit);
+      const {
+        title,
+        image,
+        language,
+        genre,
+        director,
+        cast,
+        description,
+        duration,
+        releaseDate,
+        endDate
+      } = this.props.edit;
+      this.setState({
+        title,
+        image,
+        language,
+        genre,
+        director,
+        cast,
+        description,
+        duration,
+        releaseDate,
+        endDate
+      });
     }
   }
 
@@ -62,130 +86,36 @@ class AddMovie extends Component {
     this.setState(newState);
   };
 
-  onAddMovie = async () => {
-    try {
-      const {
-        title,
-        image,
-        genre,
-        language,
-        duration,
-        description,
-        director,
-        cast,
-        releaseDate,
-        endDate
-      } = this.state;
-      const token = localStorage.getItem('jwtToken');
-      const body = {
-        title,
-        image,
-        genre,
-        language,
-        duration,
-        description,
-        director,
-        cast,
-        releaseDate,
-        endDate
-      };
-      const url = '/movies/';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        // const movie = await response.json();
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
+  onAddMovie = () => this.props.addMovie(this.state);
+
+  onUpdateMovie = () => {
+    const {
+      title,
+      image,
+      language,
+      genre,
+      director,
+      cast,
+      description,
+      duration,
+      releaseDate,
+      endDate
+    } = this.state;
+    this.props.updateMovie(this.props.edit._id, {
+      title,
+      image,
+      language,
+      genre,
+      director,
+      cast,
+      description,
+      duration,
+      releaseDate,
+      endDate
+    });
   };
 
-  onUpdateMovie = async () => {
-    try {
-      const {
-        title,
-        image,
-        genre,
-        language,
-        duration,
-        description,
-        director,
-        cast,
-        releaseDate,
-        endDate
-      } = this.state;
-      const token = localStorage.getItem('jwtToken');
-      const body = {
-        title,
-        image,
-        genre,
-        language,
-        duration,
-        description,
-        director,
-        cast,
-        releaseDate,
-        endDate
-      };
-      const url = '/movies/' + this.state._id;
-      const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      if (response.ok) {
-        // const movie = await response.json();
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
-  };
-
-  onRemoveMovie = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const url = '/movies/' + this.state._id;
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      if (response.ok) {
-        //const movie = await response.json();
-        this.setState({
-          status: 'success'
-        });
-      }
-    } catch (error) {
-      this.setState({
-        error,
-        status: 'fail'
-      });
-    }
-  };
+  onRemoveMovie = () => this.props.removeMovie(this.props.edit._id);
 
   render() {
     const { movie, classes, className, ...rest } = this.props;
@@ -199,8 +129,7 @@ class AddMovie extends Component {
       director,
       cast,
       releaseDate,
-      endDate,
-      status
+      endDate
     } = this.state;
 
     const rootClassName = classNames(classes.root, className);
@@ -375,24 +304,6 @@ class AddMovie extends Component {
               Delete Movie
             </Button>
           )}
-
-          {status ? (
-            status === 'success' ? (
-              <Typography
-                className={classes.infoMessage}
-                color="primary"
-                variant="caption">
-                Movie have been saved!
-              </Typography>
-            ) : (
-              <Typography
-                className={classes.infoMessage}
-                color="error"
-                variant="caption">
-                Movie have not been saved, try again.
-              </Typography>
-            )
-          ) : null}
         </PortletFooter>
       </Portlet>
     );
@@ -405,4 +316,16 @@ AddMovie.propTypes = {
   movie: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(AddMovie);
+const mapStateToProps = ({ movieState }) => ({
+  movies: movieState.movies,
+  latestMovies: movieState.latestMovies,
+  comingSoon: movieState.comingSoon,
+  nowShowing: movieState.nowShowing
+});
+
+const mapDispatchToProps = { addMovie, updateMovie, removeMovie };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(AddMovie));

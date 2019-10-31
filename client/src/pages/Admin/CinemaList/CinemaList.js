@@ -8,7 +8,7 @@ import { CinemaToolbar } from './components';
 import { ResponsiveDialog } from '../../../components';
 import styles from './styles';
 import Dashboard from '../../../layouts/Dashboard/Dashboard';
-import AddMovie from './components/AddCinema/AddCinema';
+import AddCinema from './components/AddCinema/AddCinema';
 import CinemaCard from '../../Public/components/CinemaCard/CinemaCard';
 
 class CinemaList extends Component {
@@ -91,7 +91,7 @@ class CinemaList extends Component {
             id="Edit-cinema"
             open={this.state.openEditDialog}
             handleClose={() => this.CloseEditDialog()}>
-            <AddMovie editCinema={editCinema} />
+            <AddCinema editCinema={editCinema} />
           </ResponsiveDialog>
         </div>
       </Dashboard>
