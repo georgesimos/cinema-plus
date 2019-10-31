@@ -40,7 +40,7 @@ router.post('/showtimes/:id', async (req, res) => {
 router.patch('/showtimes/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['startAt', 'is3d', 'isImax']
+    const allowedUpdates = ['startAt', 'startDate', 'endDate']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })

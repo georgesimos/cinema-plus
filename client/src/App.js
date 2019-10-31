@@ -19,6 +19,7 @@ const DashboardPage = lazy(() =>
   import('./pages/Admin/DashboardPage/DashboardPage')
 );
 const UserList = lazy(() => import('./pages/Admin/UserList'));
+const ShowTimes = lazy(() => import('./pages/Admin/ShowTimes/ShowTimes'));
 const Account = lazy(() => import('./pages/Admin/Account'));
 const MovieList = lazy(() => import('./pages/Admin/MovieList/MovieList'));
 const CinemaList = lazy(() => import('./pages/Admin/CinemaList/CinemaList'));
@@ -63,6 +64,12 @@ const App = () => {
                 component={DashboardPage}
               />
               <ProtectedRoute exact path="/admin/users" component={UserList} />
+              <ProtectedRoute
+                exact
+                path="/admin/showtimes"
+                component={ShowTimes}
+              />
+
               <ProtectedRoute
                 exact
                 path="/admin/reservations"

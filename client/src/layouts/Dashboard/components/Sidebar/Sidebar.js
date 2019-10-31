@@ -65,13 +65,13 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/admin/users">
+            to="/admin/showtimes">
             <ListItemIcon className={classes.listItemIcon}>
               <PeopleIcon />
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Users"
+              primary="Showtimes"
             />
           </ListItem>
           <ListItem
@@ -87,6 +87,20 @@ class Sidebar extends Component {
               primary="Reservations"
             />
           </ListItem>
+          <ListItem
+            activeClassName={classes.activeListItem}
+            className={classes.listItem}
+            component={NavLink}
+            to="/admin/users">
+            <ListItemIcon className={classes.listItemIcon}>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Users"
+            />
+          </ListItem>
+
           <ListItem
             activeClassName={classes.activeListItem}
             className={classes.listItem}

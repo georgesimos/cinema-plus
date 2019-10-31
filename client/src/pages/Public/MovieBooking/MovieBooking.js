@@ -248,6 +248,7 @@ class MovieBooking extends Component {
         headers: { 'Content-Type': 'application/json' }
       });
       const showtimes = await response.json();
+      console.log(showtimes);
       if (response.ok) {
         this.setState({
           showtimes: showtimes.filter(

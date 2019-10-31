@@ -64,11 +64,7 @@ function CinemaCard(props) {
   return (
     <Paper className={rootClassName}>
       <div className={classes.imageWrapper}>
-        <img
-          alt="cinema"
-          className={classes.image}
-          src="https://picsum.photos/600"
-        />
+        <img alt="cinema" className={classes.image} src={cinema.image} />
       </div>
       <div className={classes.details}>
         <Typography className={classes.name} variant="h4">

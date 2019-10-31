@@ -7,16 +7,14 @@ const showtimeSchema = new Schema({
         required: true,
         trim: true
     },
-    is3d: {
-        type: Boolean,
-        default: false
-    },
-    isImax: {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true
-    },
+    startDate: {
+        type: Date,
+        required: true
+      },
+      endDate: {
+        type: Date,
+        required: true
+      },
     movieId: {
         type: Schema.Types.ObjectId, ref: 'Movie',
         required: true
