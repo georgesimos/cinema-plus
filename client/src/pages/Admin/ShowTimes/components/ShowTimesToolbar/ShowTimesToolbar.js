@@ -17,17 +17,15 @@ class ShowTimesToolbar extends Component {
     selectedShowtimes: []
   };
 
-  onDeleteShowtime = () => {
-    const { showtimes, selectedShowtimes, deleteShowtime } = this.props;
-    const firstSelectedUser = selectedShowtimes[0];
-    const itemToDelete = showtimes.find(
-      user => user.username === firstSelectedUser
-    );
-    deleteShowtime(itemToDelete._id);
-  };
-
   render() {
-    const { classes, className, selectedShowtimes } = this.props;
+    const {
+      classes,
+      className,
+      selectedShowtimes,
+      toggleDialog,
+      deleteShowtime
+    } = this.props;
+
     const rootClassName = classNames(classes.root, className);
 
     return (
@@ -37,12 +35,17 @@ class ShowTimesToolbar extends Component {
             {selectedShowtimes.length > 0 && (
               <IconButton
                 className={classes.deleteButton}
-                onClick={this.onDeleteShowtime}>
+                onClick={deleteShowtime}>
                 <DeleteIcon />
               </IconButton>
             )}
-            <Button color="primary" size="small" variant="outlined">
-              Add
+
+            <Button
+              onClick={() => toggleDialog()}
+              color="primary"
+              size="small"
+              variant="outlined">
+              {selectedShowtimes.length === 1 ? 'Edit' : 'Add'}
             </Button>
           </div>
         </div>

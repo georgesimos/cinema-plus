@@ -1,100 +1,98 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, CircularProgress, Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { withStyles, Typography } from '@material-ui/core';
 import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import styles from './styles';
 import { ShowTimesToolbar, ShowTimesTable } from './components';
+import {
+  getShowtimes,
+  toggleDialog,
+  selectShowtime,
+  selectAllShowtimes,
+  deleteShowtime
+} from '../../../store/actions';
+import { ResponsiveDialog } from '../../../components';
+import AddShowTime from './components/AddShowTime/AddShowTime';
 
 class ShowTimes extends Component {
-  state = {
-    showtimes: [],
-    selectedShowtimes: []
-  };
-
   static propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired
   };
 
   componentDidMount() {
-    this.getShowtimes();
+    this.props.getShowtimes();
   }
 
-  getShowtimes = async () => {
-    try {
-      const url = '/showtimes/';
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const showtimes = await response.json();
-      console.log(showtimes);
-      if (response.ok) {
-        this.setState({
-          showtimes
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  handleDeleteShowtime = () => {
+    const { selectedShowtimes, deleteShowtime } = this.props;
+    selectedShowtimes.forEach(element => deleteShowtime(element));
   };
 
-  handleDeleteShowtime = async id => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const url = '/showtimes/' + id;
-      const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        const result = await response.json();
-        console.log(result);
-        this.setState({
-          showtimes: this.state.showtimes.filter(
-            showtime => showtime._id !== id
-          ),
-          selectedShowtimes: []
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  handleSelect = selectedShowtimes => {
-    this.setState({ selectedShowtimes });
-  };
-
-  renderShowtimes() {
-    const { showtimes } = this.state;
-
-    if (showtimes.length === 0) {
-      return <Typography variant="h6">There are no showtimes</Typography>;
-    }
-
-    return (
-      <ShowTimesTable onSelect={this.handleSelect} showtimes={showtimes} />
-    );
-  }
   render() {
-    const { classes } = this.props;
-    const { showtimes, selectedShowtimes } = this.state;
+    const {
+      classes,
+      showtimes,
+      selectedShowtimes,
+      openDialog,
+      toggleDialog,
+      selectShowtime,
+      selectAllShowtimes
+    } = this.props;
 
     return (
       <Dashboard title="showtimes">
         <div className={classes.root}>
           <ShowTimesToolbar
             showtimes={showtimes}
+            toggleDialog={toggleDialog}
             selectedShowtimes={selectedShowtimes}
             deleteShowtime={this.handleDeleteShowtime}
           />
-          <div className={classes.content}>{this.renderShowtimes()}</div>
+          <div className={classes.content}>
+            {!showtimes.length ? (
+              <Typography variant="h6">There are no showtimes</Typography>
+            ) : (
+              <ShowTimesTable
+                onSelectShowtime={selectShowtime}
+                selectedShowtimes={selectedShowtimes}
+                selectAllShowtimes={selectAllShowtimes}
+                showtimes={showtimes}
+              />
+            )}
+          </div>
         </div>
+        <ResponsiveDialog
+          id="Add-showtime"
+          open={openDialog}
+          handleClose={() => toggleDialog()}>
+          <AddShowTime
+            selectedShowtime={showtimes.find(
+              showtime => showtime._id === selectedShowtimes[0]
+            )}
+          />
+        </ResponsiveDialog>
       </Dashboard>
     );
   }
 }
-export default withStyles(styles)(ShowTimes);
+
+const mapStateToProps = ({ showtimesState }) => ({
+  openDialog: showtimesState.openDialog,
+  showtimes: showtimesState.showtimes,
+  selectedShowtimes: showtimesState.selectedShowtimes
+});
+
+const mapDispatchToProps = {
+  getShowtimes,
+  toggleDialog,
+  selectShowtime,
+  selectAllShowtimes,
+  deleteShowtime
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(ShowTimes));

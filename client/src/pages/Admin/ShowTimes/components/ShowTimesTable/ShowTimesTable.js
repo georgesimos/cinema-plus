@@ -19,7 +19,6 @@ import styles from './styles';
 
 class ShowTimesTable extends Component {
   state = {
-    selectedShowtimes: [],
     rowsPerPage: 10,
     page: 0
   };
@@ -38,51 +37,6 @@ class ShowTimesTable extends Component {
     onShowDetails: () => {}
   };
 
-  handleSelectAll = event => {
-    const { showtimes, onSelect } = this.props;
-    let selectedShowtimes;
-    if (event.target.checked) {
-      selectedShowtimes = showtimes.map(showtime => showtime._id);
-    } else {
-      selectedShowtimes = [];
-    }
-
-    this.setState({ selectedShowtimes });
-    onSelect(selectedShowtimes);
-  };
-
-  handleSelectOne = (event, username) => {
-    const { onSelect } = this.props;
-    const { selectedShowtimes } = this.state;
-
-    const selectedIndex = selectedShowtimes.indexOf(username);
-    let newSelectedShowtimes = [];
-
-    if (selectedIndex === -1) {
-      newSelectedShowtimes = newSelectedShowtimes.concat(
-        selectedShowtimes,
-        username
-      );
-    } else if (selectedIndex === 0) {
-      newSelectedShowtimes = newSelectedShowtimes.concat(
-        selectedShowtimes.slice(1)
-      );
-    } else if (selectedIndex === selectedShowtimes.length - 1) {
-      newSelectedShowtimes = newSelectedShowtimes.concat(
-        selectedShowtimes.slice(0, -1)
-      );
-    } else if (selectedIndex > 0) {
-      newSelectedShowtimes = newSelectedShowtimes.concat(
-        selectedShowtimes.slice(0, selectedIndex),
-        selectedShowtimes.slice(selectedIndex + 1)
-      );
-    }
-
-    this.setState({ selectedShowtimes: newSelectedShowtimes });
-
-    onSelect(newSelectedShowtimes);
-  };
-
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
@@ -92,8 +46,15 @@ class ShowTimesTable extends Component {
   };
 
   render() {
-    const { classes, className, showtimes } = this.props;
-    const { selectedShowtimes, rowsPerPage, page } = this.state;
+    const {
+      classes,
+      className,
+      showtimes,
+      onSelectShowtime,
+      selectedShowtimes,
+      selectAllShowtimes
+    } = this.props;
+    const { rowsPerPage, page } = this.state;
 
     const rootClassName = classNames(classes.root, className);
     return (
@@ -110,7 +71,7 @@ class ShowTimesTable extends Component {
                       selectedShowtimes.length > 0 &&
                       selectedShowtimes.length < showtimes.length
                     }
-                    onChange={this.handleSelectAll}
+                    onChange={selectAllShowtimes}
                   />
                   ID
                 </TableCell>
@@ -140,9 +101,7 @@ class ShowTimesTable extends Component {
                             selectedShowtimes.indexOf(showtime._id) !== -1
                           }
                           color="primary"
-                          onChange={event =>
-                            this.handleSelectOne(event, showtime._id)
-                          }
+                          onChange={() => onSelectShowtime(showtime._id)}
                           value="true"
                         />
                         <Typography

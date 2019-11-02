@@ -58,25 +58,30 @@ const App = () => {
               <Route exact path="/movie/booking/:id" component={MovieBooking} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
+
               <ProtectedRoute
                 exact
                 path="/admin/dashboard"
                 component={DashboardPage}
               />
               <ProtectedRoute exact path="/admin/users" component={UserList} />
-              <ProtectedRoute
-                exact
-                path="/admin/showtimes"
-                component={ShowTimes}
-              />
+              <Route exact path="/admin/showtimes" component={ShowTimes} />
 
               <ProtectedRoute
                 exact
                 path="/admin/reservations"
                 component={ReservationList}
               />
-              <Route exact path="/admin/cinemas" component={CinemaList} />
-              <Route exact path="/admin/movies" component={MovieList} />
+              <ProtectedRoute
+                exact
+                path="/admin/cinemas"
+                component={CinemaList}
+              />
+              <ProtectedRoute
+                exact
+                path="/admin/movies"
+                component={MovieList}
+              />
               <ProtectedRoute exact path="/admin/account" component={Account} />
               <Route path="*" component={() => '404 NOT FOUND'} />
             </Switch>
