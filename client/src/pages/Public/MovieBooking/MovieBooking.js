@@ -13,7 +13,7 @@ import {
   MenuItem
 } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
-import { getCinemas } from '../../../store/actions';
+import { getCinemas, getReservations } from '../../../store/actions';
 
 const styles = theme => ({
   root: {
@@ -121,6 +121,7 @@ class MovieBooking extends Component {
     if (!this.props.cinemas.length) this.props.getCinemas();
     this.getMovie();
     this.getShowtimes();
+    this.props.getReservations();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -144,7 +145,7 @@ class MovieBooking extends Component {
     }));
   };
 
-  async checkout() {
+  async checkout(seats) {
     const { selectedSeats, cinema, movie } = this.state;
     if (!selectedSeats) return;
     try {
@@ -154,7 +155,7 @@ class MovieBooking extends Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           startAt: '20:00',
-          seats: [[1, 7], [1, 18]],
+          seats,
           ticketPrice: cinema.ticketPrice,
           total: selectedSeats * cinema.ticketPrice,
           movieId: movie._id,
@@ -176,33 +177,43 @@ class MovieBooking extends Component {
       cinema: { seats, seatsAvailable }
     } = this.state;
     if (!selectedSeats) return;
-    const bookedSeats = seats.map(row =>
-      row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
-    );
+    // const bookedSeats = seats.map(row =>
+    //   row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
+    // );
     // const totalBookedSeats = bookedSeats
     //   .reduce((a, b) => a.concat(b))
     //   .reduce((a, b) => a + b);
-    try {
-      const url = '/cinemas/5da0a9281583f225bcc9b310';
-      const response = await fetch(url, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          seats: bookedSeats,
-          seatsAvailable: seatsAvailable - selectedSeats
-        })
-      });
-      const cinema = await response.json();
-      if (response.ok) {
-        this.checkout();
-        this.setState({
-          cinema,
-          selectedSeats: 0
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+
+    const bookedSeats = seats
+      .map(row =>
+        row.map((seat, i) => (seat === 2 ? i : -1)).filter(seat => seat !== -1)
+      )
+      .map((seats, i) => (seats.length ? seats.map(seat => [i, seat]) : -1))
+      .filter(seat => seat !== -1)
+      .reduce((a, b) => a.concat(b));
+    this.checkout(bookedSeats);
+    console.log(bookedSeats);
+    // try {
+    //   const url = '/cinemas/5da0a9281583f225bcc9b310';
+    //   const response = await fetch(url, {
+    //     method: 'PATCH',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //       seats: bookedSeats,
+    //       seatsAvailable: seatsAvailable - selectedSeats
+    //     })
+    //   });
+    //   const cinema = await response.json();
+    //   if (response.ok) {
+    //     this.checkout();
+    //     this.setState({
+    //       cinema,
+    //       selectedSeats: 0
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   async getCinema(id) {
@@ -299,9 +310,13 @@ class MovieBooking extends Component {
       selectedCinema,
       selectedTime
     } = this.state;
-    const { classes } = this.props;
+    const { classes, reservations } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
-    console.log(uniqueCinemas, uniqueTimes);
+
+    if (reservations.length) {
+      let updatedSeats = [];
+    }
+
     return (
       <div className={classes.root}>
         <Navbar />
@@ -541,11 +556,12 @@ MovieBooking.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ cinemasState }) => ({
-  cinemas: cinemasState.cinemas
+const mapStateToProps = ({ cinemasState, reservationsState }) => ({
+  cinemas: cinemasState.cinemas,
+  reservations: reservationsState.reservations
 });
 
-const mapDispatchToProps = { getCinemas };
+const mapDispatchToProps = { getCinemas, getReservations };
 
 export default connect(
   mapStateToProps,
