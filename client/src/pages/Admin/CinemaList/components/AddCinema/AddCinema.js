@@ -4,13 +4,6 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { Button, TextField, Typography } from '@material-ui/core';
-import {
-  Portlet,
-  PortletHeader,
-  PortletLabel,
-  PortletContent,
-  PortletFooter
-} from '../../../../../components';
 import styles from './styles';
 import { Add } from '@material-ui/icons';
 import {
@@ -138,117 +131,114 @@ class AddCinema extends Component {
       : () => this.onSubmitAction('create');
 
     return (
-      <Portlet {...rest} className={rootClassName}>
-        <PortletHeader>
-          <PortletLabel title={mainTitle} />
-        </PortletHeader>
-        <PortletContent noPadding>
-          <form autoComplete="off" noValidate>
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                helperText="Please specify the cinema name"
-                label="Name"
-                margin="dense"
-                required
-                value={name}
-                variant="outlined"
-                onChange={event =>
-                  this.handleFieldChange('name', event.target.value)
-                }
-              />
+      <div {...rest} className={rootClassName}>
+        <Typography variant="h4" className={classes.title}>
+          {mainTitle}
+        </Typography>
+        <form autoComplete="off" noValidate>
+          <div className={classes.field}>
+            <TextField
+              className={classes.textField}
+              helperText="Please specify the cinema name"
+              label="Name"
+              margin="dense"
+              required
+              value={name}
+              variant="outlined"
+              onChange={event =>
+                this.handleFieldChange('name', event.target.value)
+              }
+            />
 
-              <TextField
-                fullWidth
-                className={classes.textField}
-                label="City"
-                margin="dense"
-                required
-                variant="outlined"
-                value={city}
-                onChange={event =>
-                  this.handleFieldChange('city', event.target.value)
-                }
-              />
-            </div>
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                label="Image Url"
-                margin="dense"
-                required
-                value={image}
-                variant="outlined"
-                onChange={event =>
-                  this.handleFieldChange('image', event.target.value)
-                }
-              />
-            </div>
+            <TextField
+              fullWidth
+              className={classes.textField}
+              label="City"
+              margin="dense"
+              required
+              variant="outlined"
+              value={city}
+              onChange={event =>
+                this.handleFieldChange('city', event.target.value)
+              }
+            />
+          </div>
+          <div className={classes.field}>
+            <TextField
+              className={classes.textField}
+              label="Image Url"
+              margin="dense"
+              required
+              value={image}
+              variant="outlined"
+              onChange={event =>
+                this.handleFieldChange('image', event.target.value)
+              }
+            />
+          </div>
 
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                label="Ticket Price"
-                margin="dense"
-                type="number"
-                value={ticketPrice}
-                variant="outlined"
-                onChange={event =>
-                  this.handleFieldChange('ticketPrice', event.target.value)
-                }
-              />
-              <TextField
-                className={classes.textField}
-                label="Seats Available"
-                margin="dense"
-                required
-                value={seatsAvailable}
-                variant="outlined"
-                onChange={event =>
-                  this.handleFieldChange('seatsAvailable', event.target.value)
-                }
-              />
-            </div>
-            {this.renderSeatFields()}
-          </form>
-        </PortletContent>
-        <PortletFooter className={classes.portletFooter}>
+          <div className={classes.field}>
+            <TextField
+              className={classes.textField}
+              label="Ticket Price"
+              margin="dense"
+              type="number"
+              value={ticketPrice}
+              variant="outlined"
+              onChange={event =>
+                this.handleFieldChange('ticketPrice', event.target.value)
+              }
+            />
+            <TextField
+              className={classes.textField}
+              label="Seats Available"
+              margin="dense"
+              required
+              value={seatsAvailable}
+              variant="outlined"
+              onChange={event =>
+                this.handleFieldChange('seatsAvailable', event.target.value)
+              }
+            />
+          </div>
+          {this.renderSeatFields()}
+        </form>
+
+        <Button
+          className={classes.buttonFooter}
+          color="primary"
+          variant="contained"
+          onClick={submitAction}>
+          {submitButton}
+        </Button>
+        {this.props.editCinema && (
           <Button
             className={classes.buttonFooter}
-            color="primary"
+            color="dafault"
             variant="contained"
-            onClick={submitAction}>
-            {submitButton}
+            onClick={() => this.onSubmitAction('remove')}>
+            Delete Cinema
           </Button>
-          {this.props.editCinema && (
-            <Button
-              className={classes.buttonFooter}
-              color="dafault"
-              variant="contained"
-              onClick={() => this.onSubmitAction('remove')}>
-              Delete Cinema
-            </Button>
-          )}
+        )}
 
-          {notification && notification.status ? (
-            notification.status === 'success' ? (
-              <Typography
-                className={classes.infoMessage}
-                color="primary"
-                variant="caption">
-                {notification.message}
-              </Typography>
-            ) : (
-              <Typography
-                className={classes.infoMessage}
-                color="error"
-                variant="caption">
-                {notification.message}
-              </Typography>
-            )
-          ) : null}
-        </PortletFooter>
-      </Portlet>
+        {notification && notification.status ? (
+          notification.status === 'success' ? (
+            <Typography
+              className={classes.infoMessage}
+              color="primary"
+              variant="caption">
+              {notification.message}
+            </Typography>
+          ) : (
+            <Typography
+              className={classes.infoMessage}
+              color="error"
+              variant="caption">
+              {notification.message}
+            </Typography>
+          )
+        ) : null}
+      </div>
     );
   }
 }
