@@ -115,7 +115,8 @@ class MovieBooking extends Component {
     cinema: { seats: [] },
     selectedSeats: 0,
     selectedCinema: '',
-    selectedTime: ''
+    selectedTime: '',
+    mustLogin: false
   };
   componentDidMount() {
     if (!this.props.cinemas.length) this.props.getCinemas();
@@ -146,7 +147,7 @@ class MovieBooking extends Component {
   };
 
   async checkout(seats) {
-    const { selectedSeats, cinema, movie } = this.state;
+    const { selectedSeats, cinema, movie, selectedTime } = this.state;
     if (!selectedSeats) return;
     try {
       const url = '/reservations';
@@ -154,7 +155,7 @@ class MovieBooking extends Component {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          startAt: '20:00',
+          startAt: selectedTime,
           seats,
           ticketPrice: cinema.ticketPrice,
           total: selectedSeats * cinema.ticketPrice,
@@ -172,17 +173,21 @@ class MovieBooking extends Component {
   }
 
   async bookSeat() {
+    const { isAuth } = this.props;
+    if (!isAuth) return this.setState({ mustLogin: true });
+
     const {
       selectedSeats,
       cinema: { seats, seatsAvailable }
     } = this.state;
     if (!selectedSeats) return;
-    // const bookedSeats = seats.map(row =>
-    //   row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
-    // );
-    // const totalBookedSeats = bookedSeats
-    //   .reduce((a, b) => a.concat(b))
-    //   .reduce((a, b) => a + b);
+    const newSeats = seats.map(row =>
+      row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
+    );
+
+    const totalBookedSeats = newSeats
+      .reduce((a, b) => a.concat(b))
+      .reduce((a, b) => a + b);
 
     const bookedSeats = seats
       .map(row =>
@@ -191,29 +196,28 @@ class MovieBooking extends Component {
       .map((seats, i) => (seats.length ? seats.map(seat => [i, seat]) : -1))
       .filter(seat => seat !== -1)
       .reduce((a, b) => a.concat(b));
-    this.checkout(bookedSeats);
-    console.log(bookedSeats);
-    // try {
-    //   const url = '/cinemas/5da0a9281583f225bcc9b310';
-    //   const response = await fetch(url, {
-    //     method: 'PATCH',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({
-    //       seats: bookedSeats,
-    //       seatsAvailable: seatsAvailable - selectedSeats
-    //     })
-    //   });
-    //   const cinema = await response.json();
-    //   if (response.ok) {
-    //     this.checkout();
-    //     this.setState({
-    //       cinema,
-    //       selectedSeats: 0
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+
+    try {
+      const url = '/cinemas/' + this.state.selectedCinema;
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          seats: newSeats,
+          seatsAvailable: seatsAvailable - totalBookedSeats
+        })
+      });
+      const cinema = await response.json();
+      if (response.ok) {
+        this.checkout(bookedSeats);
+        this.setState({
+          cinema,
+          selectedSeats: 0
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getCinema(id) {
@@ -313,10 +317,6 @@ class MovieBooking extends Component {
     const { classes, reservations } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
 
-    if (reservations.length) {
-      let updatedSeats = [];
-    }
-
     return (
       <div className={classes.root}>
         <Navbar />
@@ -407,6 +407,20 @@ class MovieBooking extends Component {
                       ))}
                     </TextField>
                   </Grid>
+                  {this.state.mustLogin && (
+                    <Grid item xs={12}>
+                      <Box
+                        display="flex"
+                        width={1}
+                        height={1}
+                        alignItems="center"
+                        justifyContent="center">
+                        <Typography align="center" variant="h2" color="error">
+                          You Must Log In
+                        </Typography>
+                      </Box>
+                    </Grid>
+                  )}
                 </Grid>
               ) : (
                 <Box
@@ -420,7 +434,7 @@ class MovieBooking extends Component {
                   </Typography>
                 </Box>
               )}
-              {seatsAvailable && (
+              {seatsAvailable && selectedCinema && selectedTime && (
                 <Fragment>
                   <Box width={1} pt={15}>
                     {seats.length > 0 &&
@@ -556,7 +570,9 @@ MovieBooking.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ cinemasState, reservationsState }) => ({
+const mapStateToProps = ({ authState, cinemasState, reservationsState }) => ({
+  isAuth: authState.isAuthenticated,
+  user: authState.user,
   cinemas: cinemasState.cinemas,
   reservations: reservationsState.reservations
 });
