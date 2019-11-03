@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import FacebookLogin from 'react-facebook-login';
-import { login, facebookLogin } from '../../../store/actions';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import {
-  Button,
-  IconButton,
-  CircularProgress,
-  TextField,
-  Typography
-} from '@material-ui/core';
+import { withStyles, Grid } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
+import LoginForm from './components/LoginForm';
 
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
     height: '100vh'
   },
-
+  grid: {
+    height: '100%'
+  },
+  bgWrapper: {
+    [theme.breakpoints.down('md')]: {
+      display: 'none'
+    }
+  },
+  bg: {
+    backgroundColor: theme.palette.common.neutral,
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundImage: 'url(https://source.unsplash.com/featured/?cinema)',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    opacity: 0.5
+  },
   content: {
     height: '100%',
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'column'
   },
   contentHeader: {
     display: 'flex',
@@ -43,221 +51,36 @@ const styles = theme => ({
     [theme.breakpoints.down('md')]: {
       justifyContent: 'center'
     }
-  },
-  socialLogin: {
-    margin: theme.spacing(4, 0)
-  },
-
-  form: {
-    paddingLeft: '100px',
-    paddingRight: '100px',
-    paddingBottom: '125px',
-    flexBasis: '700px',
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
-    }
-  },
-  title: {
-    marginTop: theme.spacing(3)
-  },
-
-  fields: {
-    marginTop: theme.spacing(2)
-  },
-  textField: {
-    width: '100%',
-    '& + & ': {
-      marginTop: theme.spacing(2)
-    }
-  },
-  progress: {
-    display: 'block',
-    marginTop: theme.spacing(2),
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  },
-  loginButton: {
-    marginTop: theme.spacing(2),
-    width: '100%'
-  },
-  register: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.text.secondary
-  },
-  registerUrl: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
-    '&:hover': {
-      color: theme.palette.primary.main
-    }
-  },
-  fieldError: {
-    color: theme.palette.danger.main,
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(1)
-  },
-  submitError: {
-    color: theme.palette.danger.main,
-    alignText: 'center',
-    marginBottom: theme.spacing(1),
-    marginTop: theme.spacing(2)
   }
 });
 
 class Login extends Component {
-  state = {
-    values: {
-      username: '',
-      password: ''
-    },
-    touched: {
-      username: false,
-      password: false
-    },
-    errors: {
-      username: null,
-      password: null
-    },
-    isValid: true,
-    isLoading: false,
-    submitError: null,
-    isLogin: false
-  };
-
   handleBack = () => {
     const { history } = this.props;
     history.goBack();
   };
 
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.isAuthenticated !== this.props.isAuthenticated &&
-      this.props.isAuthenticated
-    ) {
-      const { history, user } = this.props;
-      if (user && user.role === 'superadmin')
-        return history.push('/admin/dashboard');
-      return history.push('/');
-    }
-  }
-
-  handleFieldChange = (field, value) => {
-    const newState = { ...this.state };
-
-    newState.submitError = null;
-    newState.touched[field] = true;
-    newState.values[field] = value;
-
-    this.setState(newState);
-  };
-
-  handleLogin = async () => {
-    const { values } = this.state;
-    this.props.login(values.username, values.password);
-  };
-
-  googleResponse = async e => {
-    const tokenBlob = new Blob(
-      [JSON.stringify({ access_token: e.accessToken }, null, 2)],
-      { type: 'applocation/json' }
-    );
-    const options = {
-      method: 'POST',
-      body: tokenBlob
-    };
-    const url = '/users/login/google';
-    const response = await fetch(url, options);
-    const responseData = await response.json();
-    if (response.ok) {
-      console.log(responseData);
-    }
-  };
-
-  onFailure = error => {
-    alert(error);
-  };
-
   render() {
-    const { classes, facebookLogin } = this.props;
-    const { values, isValid, submitError, isLoading } = this.state;
-
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <div className={classes.content}>
-          <div className={classes.contentHeader}>
-            <IconButton
-              className={classes.backButton}
-              onClick={this.handleBack}>
-              <ArrowBackIcon />
-            </IconButton>
-          </div>
-          <div className={classes.contentBody}>
-            <form className={classes.form}>
-              <Typography className={classes.title} variant="h2">
-                Sign in
-              </Typography>
-
-              <div className={classes.socialLogin}>
-                <FacebookLogin
-                  buttonStyle={{ width: '100%' }}
-                  appId={process.env.REACT_APP_FACEBOOK_APP_ID} //APP ID NOT CREATED YET
-                  fields="name,email,picture"
-                  callback={facebookLogin}
-                />
-              </div>
-
-              <div className={classes.fields}>
-                <TextField
-                  className={classes.textField}
-                  label="username"
-                  name="username"
-                  onChange={event =>
-                    this.handleFieldChange('username', event.target.value)
-                  }
-                  type="text"
-                  value={values.username}
-                  variant="outlined"
-                />
-                <TextField
-                  className={classes.textField}
-                  label="Password"
-                  name="password"
-                  onChange={event =>
-                    this.handleFieldChange('password', event.target.value)
-                  }
-                  type="password"
-                  value={values.password}
-                  variant="outlined"
-                />
-              </div>
-              {submitError && (
-                <Typography className={classes.submitError} variant="body2">
-                  {submitError.message}
-                </Typography>
-              )}
-              {isLoading ? (
-                <CircularProgress className={classes.progress} />
-              ) : (
-                <Button
-                  className={classes.loginButton}
-                  color="primary"
-                  disabled={!isValid}
-                  onClick={this.handleLogin}
-                  size="large"
-                  variant="contained">
-                  Login now
-                </Button>
-              )}
-              <Typography className={classes.register} variant="body1">
-                Don't have an account?{' '}
-                <Link className={classes.registerUrl} to="/register">
-                  register
-                </Link>
-              </Typography>
-            </form>
-          </div>
-        </div>
+        <Grid className={classes.grid} container>
+          <Grid className={classes.bgWrapper} item lg={5}>
+            <div className={classes.bg} />
+          </Grid>
+          <Grid className={classes.content} item lg={7} xs={12}>
+            <div className={classes.contentHeader}>
+              <IconButton
+                className={classes.backButton}
+                onClick={this.handleBack}>
+                <ArrowBackIcon />
+              </IconButton>
+            </div>
+            <div className={classes.contentBody}>
+              <LoginForm redirect />
+            </div>
+          </Grid>
+        </Grid>
       </div>
     );
   }
@@ -270,11 +93,4 @@ Login.propTypes = {
   login: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.authState.isAuthenticated,
-  user: state.authState.user
-});
-export default connect(
-  mapStateToProps,
-  { login, facebookLogin }
-)(withStyles(styles)(Login));
+export default withStyles(styles)(Login);

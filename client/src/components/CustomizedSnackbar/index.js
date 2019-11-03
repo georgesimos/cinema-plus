@@ -19,6 +19,7 @@ const CustomizedSnackbar = props => {
       }}
       open={isOpen}>
       <SnackbarContentWrapper
+        style={{ color: '#fff' }}
         // onClose={handleClose}
         variant={variant}
         message={message}

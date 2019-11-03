@@ -6,38 +6,24 @@ export default theme => ({
   grid: {
     height: '100%'
   },
-  quoteWrapper: {
+  bgWrapper: {
     [theme.breakpoints.down('md')]: {
       display: 'none'
     }
   },
-  quote: {
+  bg: {
     backgroundColor: theme.palette.common.neutral,
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/sign_up.jpg)',
+    backgroundImage: 'url(https://source.unsplash.com/featured/?cinema)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center'
+    backgroundPosition: 'center',
+    opacity: 0.5
   },
-  quoteInner: {
-    textAlign: 'center',
-    flexBasis: '600px'
-  },
-  quoteText: {
-    color: theme.palette.common.white,
-    fontWeight: 300
-  },
-  name: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.common.white
-  },
-  bio: {
-    color: theme.palette.common.white
-  },
-  contentWrapper: {},
+
   content: {
     height: '100%',
     display: 'flex',

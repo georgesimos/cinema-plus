@@ -3,7 +3,6 @@ import {
   SELECT_SHOWTIMES,
   SELECT_ALL_SHOWTIMES,
   GET_SHOWTIMES,
-  ADD_SHOWTIME,
   DELETE_SHOWTIME
 } from '../types';
 import { setAlert } from './alert';

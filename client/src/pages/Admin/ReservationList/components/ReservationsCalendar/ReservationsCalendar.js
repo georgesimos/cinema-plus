@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { withStyles } from '@material-ui/core';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 
-const styles = {};
 class ReservationsCalendar extends Component {
   render() {
-    const { classes, reservations } = this.props;
-    console.log(reservations);
+    // const { reservations } = this.props;
 
     return (
       <FullCalendar
@@ -26,4 +23,4 @@ class ReservationsCalendar extends Component {
   }
 }
 
-export default withStyles(styles)(ReservationsCalendar);
+export default ReservationsCalendar;

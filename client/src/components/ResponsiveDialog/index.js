@@ -14,7 +14,8 @@ const ResponsiveDialog = ({
   contentText,
   children,
   open,
-  handleClose
+  handleClose,
+  maxWidth = 'lg'
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -23,7 +24,7 @@ const ResponsiveDialog = ({
     <Dialog
       fullScreen={fullScreen}
       fullWidth={true}
-      maxWidth="lg"
+      maxWidth={maxWidth}
       open={open}
       onClose={handleClose}
       aria-labelledby={id}>

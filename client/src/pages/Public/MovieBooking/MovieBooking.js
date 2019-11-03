@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import { getCinemas, getReservations } from '../../../store/actions';
+import { ResponsiveDialog } from '../../../components';
+import LoginForm from '../../Admin/Login/components/LoginForm';
 
 const styles = theme => ({
   root: {
@@ -314,7 +316,7 @@ class MovieBooking extends Component {
       selectedCinema,
       selectedTime
     } = this.state;
-    const { classes, reservations } = this.props;
+    const { classes } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
 
     return (
@@ -559,6 +561,13 @@ class MovieBooking extends Component {
             </Grid>
           </Grid>
         </Container>
+        <ResponsiveDialog
+          id="Edit-cinema"
+          open={this.state.mustLogin}
+          handleClose={() => this.setState({ mustLogin: false })}
+          maxWidth="sm">
+          <LoginForm />
+        </ResponsiveDialog>
       </div>
     );
   }
