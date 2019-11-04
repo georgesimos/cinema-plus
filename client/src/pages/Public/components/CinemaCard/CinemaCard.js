@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { Paper } from '../../../../components';
-import { EventSeat } from '@material-ui/icons';
+import { EventSeat, AttachMoney } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: '100%',
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    cursor: 'pointer'
   },
   imageWrapper: {
     height: '200px',
@@ -63,15 +63,21 @@ function CinemaCard(props) {
   const rootClassName = classNames(classes.root, className);
   return (
     <Paper className={rootClassName}>
-      <div className={classes.imageWrapper}>
+      {/* <div className={classes.imageWrapper}>
         <img alt="cinema" className={classes.image} src={cinema.image} />
-      </div>
+      </div> */}
       <div className={classes.details}>
         <Typography className={classes.name} variant="h4">
           {cinema.name}
         </Typography>
         <Typography className={classes.city} variant="body1">
           {cinema.city}
+        </Typography>
+      </div>
+      <div className={classes.stats}>
+        <AttachMoney className={classes.eventIcon} />
+        <Typography className={classes.eventText} variant="body2">
+          {cinema.ticketPrice} <span>&euro;</span> per movie
         </Typography>
       </div>
       <div className={classes.stats}>
@@ -83,10 +89,5 @@ function CinemaCard(props) {
     </Paper>
   );
 }
-
-CinemaCard.propTypes = {
-  className: PropTypes.string,
-  classes: PropTypes.object.isRequired
-};
 
 export default CinemaCard;

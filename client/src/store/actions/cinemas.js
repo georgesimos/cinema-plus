@@ -1,4 +1,4 @@
-import { GET_CINEMAS } from '../types';
+import { GET_CINEMAS, GET_CINEMA } from '../types';
 import { setAlert } from './alert';
 
 export const getCinemas = () => async dispatch => {
@@ -11,6 +11,22 @@ export const getCinemas = () => async dispatch => {
     const cinemas = await response.json();
     if (response.ok) {
       dispatch({ type: GET_CINEMAS, payload: cinemas });
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
+export const getCinema = id => async dispatch => {
+  try {
+    const url = '/cinemas/' + id;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const cinema = await response.json();
+    if (response.ok) {
+      dispatch({ type: GET_CINEMA, payload: cinema });
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
