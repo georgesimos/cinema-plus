@@ -78,15 +78,7 @@ class AddShowTime extends Component {
   };
 
   render() {
-    const {
-      showtime,
-      selectedShowtime,
-      movies,
-      cinemas,
-      classes,
-      className,
-      ...rest
-    } = this.props;
+    const { movies, cinemas, classes, className } = this.props;
     const { startAt, startDate, endDate, movieId, cinemaId } = this.state;
 
     const rootClassName = classNames(classes.root, className);
@@ -101,7 +93,7 @@ class AddShowTime extends Component {
       : () => this.onAddShowtime();
 
     return (
-      <div className={rootClassName} {...rest}>
+      <div className={rootClassName}>
         <Typography variant="h4" className={classes.title}>
           {title}
         </Typography>

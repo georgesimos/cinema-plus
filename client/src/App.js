@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useEffect, lazy, Suspense } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 //Redux
@@ -46,7 +46,7 @@ const App = () => {
         <CssBaseline />
         <Alert />
         <Suspense fallback={<Loading />}>
-          <HashRouter>
+          <BrowserRouter>
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/cinemas" component={CinemasPage} />
@@ -66,7 +66,11 @@ const App = () => {
                 component={DashboardPage}
               />
               <ProtectedRoute exact path="/admin/users" component={UserList} />
-              <Route exact path="/admin/showtimes" component={ShowTimes} />
+              <ProtectedRoute
+                exact
+                path="/admin/showtimes"
+                component={ShowTimes}
+              />
 
               <ProtectedRoute
                 exact
@@ -86,7 +90,7 @@ const App = () => {
               <ProtectedRoute exact path="/admin/account" component={Account} />
               <Route path="*" component={() => '404 NOT FOUND'} />
             </Switch>
-          </HashRouter>
+          </BrowserRouter>
         </Suspense>
         <div className="cursor" id="cursor" />
         <div className="cursor2" id="cursor2" />

@@ -10,7 +10,7 @@ import { useTheme } from '@material-ui/core/styles';
 
 const ResponsiveDialog = ({
   id,
-  title,
+  title = '',
   contentText,
   children,
   open,

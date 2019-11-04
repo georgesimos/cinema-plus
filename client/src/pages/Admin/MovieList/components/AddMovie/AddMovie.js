@@ -111,7 +111,7 @@ class AddMovie extends Component {
   onRemoveMovie = () => this.props.removeMovie(this.props.edit._id);
 
   render() {
-    const { movie, classes, className, ...rest } = this.props;
+    const { classes, className } = this.props;
     const {
       title,
       image,
@@ -133,7 +133,7 @@ class AddMovie extends Component {
       : () => this.onAddMovie();
 
     return (
-      <div className={rootClassName} {...rest}>
+      <div className={rootClassName}>
         <Typography variant="h4" className={classes.title}>
           {subtitle}
         </Typography>
@@ -207,8 +207,10 @@ class AddMovie extends Component {
               onChange={event =>
                 this.handleFieldChange('language', event.target.value)
               }>
-              {languageData.map(langItem => (
-                <MenuItem value={langItem}>{langItem}</MenuItem>
+              {languageData.map((langItem, index) => (
+                <MenuItem key={langItem + '-' + index} value={langItem}>
+                  {langItem}
+                </MenuItem>
               ))}
             </TextField>
 
@@ -291,7 +293,6 @@ class AddMovie extends Component {
         {this.props.edit && (
           <Button
             className={classes.buttonFooter}
-            color="dafault"
             variant="contained"
             onClick={this.onRemoveMovie}>
             Delete Movie
@@ -304,15 +305,12 @@ class AddMovie extends Component {
 
 AddMovie.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
-  movie: PropTypes.object.isRequired
+  classes: PropTypes.object,
+  movie: PropTypes.object
 };
 
 const mapStateToProps = ({ movieState }) => ({
-  movies: movieState.movies,
-  latestMovies: movieState.latestMovies,
-  comingSoon: movieState.comingSoon,
-  nowShowing: movieState.nowShowing
+  movies: movieState.movies
 });
 
 const mapDispatchToProps = { addMovie, updateMovie, removeMovie };

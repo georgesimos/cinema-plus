@@ -83,7 +83,7 @@ class AddCinema extends Component {
         </div>
         {seats.length > 0 &&
           seats.map((seat, index) => (
-            <div className={classes.field}>
+            <div key={`seat-${index}-${seat.length}`} className={classes.field}>
               <TextField
                 key={`new-seat-${index}`}
                 className={classes.textField}
@@ -111,7 +111,7 @@ class AddCinema extends Component {
   };
 
   render() {
-    const { classes, className, ...rest } = this.props;
+    const { classes, className } = this.props;
     const {
       name,
       image,
@@ -131,7 +131,7 @@ class AddCinema extends Component {
       : () => this.onSubmitAction('create');
 
     return (
-      <div {...rest} className={rootClassName}>
+      <div className={rootClassName}>
         <Typography variant="h4" className={classes.title}>
           {mainTitle}
         </Typography>
@@ -214,7 +214,6 @@ class AddCinema extends Component {
         {this.props.editCinema && (
           <Button
             className={classes.buttonFooter}
-            color="dafault"
             variant="contained"
             onClick={() => this.onSubmitAction('remove')}>
             Delete Cinema
