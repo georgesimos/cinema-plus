@@ -110,7 +110,7 @@ const styles = theme => ({
   }
 });
 
-class MovieBooking extends Component {
+class BookingPage extends Component {
   state = {
     movie: null,
     showtimes: null,
@@ -573,7 +573,7 @@ class MovieBooking extends Component {
   }
 }
 
-MovieBooking.propTypes = {
+BookingPage.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
@@ -591,4 +591,4 @@ const mapDispatchToProps = { getCinemas, getReservations };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(MovieBooking));
+)(withStyles(styles)(BookingPage));

@@ -13,6 +13,8 @@ import Alert from './layouts/Alert/Alert';
 import { loadUser } from './store/actions';
 import Loading from './components/Loading';
 import ReservationList from './pages/Admin/ReservationList';
+import pageCursors from './utils/pageCursors';
+
 const Register = lazy(() => import('./pages/Admin/Register/Register'));
 const Login = lazy(() => import('./pages/Admin/Login/Login'));
 const DashboardPage = lazy(() =>
@@ -24,19 +26,18 @@ const Account = lazy(() => import('./pages/Admin/Account'));
 const MovieList = lazy(() => import('./pages/Admin/MovieList/MovieList'));
 const CinemaList = lazy(() => import('./pages/Admin/CinemaList/CinemaList'));
 
-const MoviePage = lazy(() => import('./pages/Public/MoviePage/MoviePage'));
-const Movie = lazy(() => import('./pages/Public/Movie/Movie'));
-const MovieBooking = lazy(() =>
-  import('./pages/Public/MovieBooking/MovieBooking')
+const HomePage = lazy(() => import('./pages/Public/HomePage'));
+const MoviePage = lazy(() => import('./pages/Public/MoviePage'));
+const BookingPage = lazy(() => import('./pages/Public/BookingPage/'));
+const MovieCategoryPage = lazy(() =>
+  import('./pages/Public/MovieCategoryPage')
 );
-const PublicMovieList = lazy(() =>
-  import('./pages/Public/MovieList/MovieList')
-);
-const Cinemas = lazy(() => import('./pages/Public/Cinemas/Cinemas'));
+const CinemasPage = lazy(() => import('./pages/Public/CinemasPage'));
 
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
+    pageCursors();
   }, []);
 
   return (
@@ -47,15 +48,15 @@ const App = () => {
         <Suspense fallback={<Loading />}>
           <HashRouter>
             <Switch>
-              <Route exact path="/" component={MoviePage} />
-              <Route exact path="/cinemas" component={Cinemas} />
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/cinemas" component={CinemasPage} />
               <Route
                 exact
                 path="/movie/category/:category"
-                component={PublicMovieList}
+                component={MovieCategoryPage}
               />
-              <Route exact path="/movie/:id" component={Movie} />
-              <Route exact path="/movie/booking/:id" component={MovieBooking} />
+              <Route exact path="/movie/:id" component={MoviePage} />
+              <Route exact path="/movie/booking/:id" component={BookingPage} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
 
@@ -87,6 +88,9 @@ const App = () => {
             </Switch>
           </HashRouter>
         </Suspense>
+        <div className="cursor" id="cursor" />
+        <div className="cursor2" id="cursor2" />
+        <div className="cursor3" id="cursor3" />
       </MuiThemeProvider>
     </Provider>
   );

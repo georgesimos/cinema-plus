@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function MovieList(props) {
+function MovieCategoryPage(props) {
   const { movies, getMovies } = props;
   const category = props.match.params.category;
   useEffect(() => {
@@ -85,4 +85,4 @@ const mapDispatchToProps = { getMovies };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MovieList);
+)(MovieCategoryPage);
