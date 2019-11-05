@@ -25,7 +25,7 @@ router.get('/cinemas', async (req, res) => {
 })
 
 // Get cinema by id 
-router.post('/cinemas/:id', async (req, res) => {
+router.get('/cinemas/:id', async (req, res) => {
     const _id = req.params.id
     try {
         const cinema = await Cinema.findById(_id)

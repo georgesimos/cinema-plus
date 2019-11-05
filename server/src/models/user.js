@@ -48,6 +48,17 @@ const userSchema = Schema(
 
     facebook: String,
     google: String,
+
+    phone: {
+      type: String,
+      unique: true,
+      trim: true,
+      validate(value) {
+        if (!validator.isMobilePhone(value)) {
+          throw new Error("Phone is invalid");
+        }
+      }
+    },
     
     tokens: [
       {
