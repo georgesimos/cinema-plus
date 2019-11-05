@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,7 +8,11 @@ import {
   getCinema,
   getCinemas,
   getShowtimes,
-  getReservations
+  getReservations,
+  setSelectedSeats,
+  setSelectedCinema,
+  setSelectedTime,
+  toggleLoginPopup
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -19,15 +22,7 @@ import BookingForm from './components/BookingForm/BookingForm';
 import BookingSeats from './components/BookingSeats/BookingSeats';
 import BookingCheckout from './components/BookingCheckout/BookingCheckout';
 
-const initialState = {
-  selectedSeats: 0,
-  selectedCinema: '',
-  selectedTime: '',
-  mustLogin: false
-};
 class BookingPage extends Component {
-  state = initialState;
-
   componentDidMount() {
     this.props.getCinemas();
     this.props.getMovie(this.props.match.params.id);
@@ -35,15 +30,14 @@ class BookingPage extends Component {
     this.props.getReservations();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.selectedCinema !== this.state.selectedCinema) {
-      this.props.getCinema(this.state.selectedCinema);
+  componentDidUpdate(prevProps) {
+    if (prevProps.selectedCinema !== this.props.selectedCinema) {
+      this.props.getCinema(this.props.selectedCinema);
     }
   }
 
   onSelectSeat = async (row, seat) => {
-    const { selectedSeats } = this.state;
-    const { cinema } = this.props;
+    const { cinema, selectedSeats, setSelectedSeats } = this.props;
     const seats = [...cinema.seats];
     if (seats[row][seat] === 1) return;
 
@@ -57,13 +51,11 @@ class BookingPage extends Component {
       newSeats[row][seat] = 2;
       selectedSeatsTotal = selectedSeats + 1;
     }
-
-    this.setState({ selectedSeats: selectedSeatsTotal });
+    setSelectedSeats(selectedSeatsTotal);
   };
 
   async checkout(seats) {
-    const { selectedSeats, selectedTime } = this.state;
-    const { movie, cinema } = this.props;
+    const { movie, cinema, selectedSeats, selectedTime } = this.props;
     if (!selectedSeats) return;
     try {
       const url = '/reservations';
@@ -83,7 +75,7 @@ class BookingPage extends Component {
       if (response.ok) {
         console.log(reservation);
         this.props.getReservations();
-        this.setState(initialState);
+        // Need to reset Checkout State
       }
     } catch (error) {
       console.log(error);
@@ -91,11 +83,10 @@ class BookingPage extends Component {
   }
 
   async bookSeat() {
-    const { isAuth } = this.props;
-    if (!isAuth) return this.setState({ mustLogin: true });
+    const { isAuth, toggleLoginPopup } = this.props;
+    if (!isAuth) return toggleLoginPopup();
 
-    const { selectedSeats } = this.state;
-    const { cinema } = this.props;
+    const { cinema, selectedSeats } = this.props;
     const seats = [...cinema.seats];
 
     if (!selectedSeats) return;
@@ -119,8 +110,7 @@ class BookingPage extends Component {
   }
 
   onFilterCinema() {
-    const { selectedCinema, selectedTime } = this.state;
-    const { cinemas, showtimes } = this.props;
+    const { cinemas, showtimes, selectedCinema, selectedTime } = this.props;
     const initialReturn = { uniqueCinemas: [], uniqueTimes: [] };
     if (!showtimes || !cinemas) return initialReturn;
 
@@ -149,9 +139,7 @@ class BookingPage extends Component {
   }
 
   onGetReservedSeats = () => {
-    const { reservations, cinema } = this.props;
-    const { selectedTime } = this.state;
-
+    const { reservations, cinema, selectedTime } = this.props;
     const filteredReservations = reservations.filter(
       reservation => reservation.startAt === selectedTime
     );
@@ -166,13 +154,20 @@ class BookingPage extends Component {
     if (cinema) return cinema.seats;
   };
 
-  onChangeCinema = event =>
-    this.setState({ selectedCinema: event.target.value });
-  onChangeTime = event => this.setState({ selectedTime: event.target.value });
+  onChangeCinema = event => this.props.setSelectedCinema(event.target.value);
+  onChangeTime = event => this.props.setSelectedTime(event.target.value);
 
   render() {
-    const { selectedSeats, selectedCinema, selectedTime } = this.state;
-    const { classes, movie, cinema } = this.props;
+    const {
+      classes,
+      movie,
+      cinema,
+      selectedSeats,
+      selectedCinema,
+      selectedTime,
+      showLoginPopup,
+      toggleLoginPopup
+    } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
     const seats = this.onGetReservedSeats();
 
@@ -216,8 +211,8 @@ class BookingPage extends Component {
         </Container>
         <ResponsiveDialog
           id="Edit-cinema"
-          open={this.state.mustLogin}
-          handleClose={() => this.setState({ mustLogin: false })}
+          open={showLoginPopup}
+          handleClose={() => toggleLoginPopup()}
           maxWidth="sm">
           <LoginForm />
         </ResponsiveDialog>
@@ -233,7 +228,14 @@ BookingPage.propTypes = {
 };
 
 const mapStateToProps = (
-  { authState, movieState, cinemaState, showtimeState, reservationState },
+  {
+    authState,
+    movieState,
+    cinemaState,
+    showtimeState,
+    reservationState,
+    checkoutState
+  },
   ownProps
 ) => ({
   isAuth: authState.isAuthenticated,
@@ -244,7 +246,11 @@ const mapStateToProps = (
   showtimes: showtimeState.showtimes.filter(
     showtime => showtime.movieId === ownProps.match.params.id
   ),
-  reservations: reservationState.reservations
+  reservations: reservationState.reservations,
+  selectedSeats: checkoutState.selectedSeats,
+  selectedCinema: checkoutState.selectedCinema,
+  selectedTime: checkoutState.selectedTime,
+  showLoginPopup: checkoutState.showLoginPopup
 });
 
 const mapDispatchToProps = {
@@ -252,7 +258,11 @@ const mapDispatchToProps = {
   getCinema,
   getCinemas,
   getShowtimes,
-  getReservations
+  getReservations,
+  setSelectedSeats,
+  setSelectedCinema,
+  setSelectedTime,
+  toggleLoginPopup
 };
 
 export default connect(
