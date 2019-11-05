@@ -77,8 +77,26 @@ class AddShowTime extends Component {
     this.props.updateShowtime(showtime, this.props.selectedShowtime._id);
   };
 
+  onFilterMinDate = () => {
+    const { nowShowing } = this.props;
+    const { movieId } = this.state;
+    const selectedMovie = nowShowing.find(movie => movie._id === movieId);
+    console.log(selectedMovie);
+    if (selectedMovie) return selectedMovie.startDate;
+    return new Date();
+  };
+
+  onFilterMaxDate = () => {
+    const { nowShowing } = this.props;
+    const { movieId } = this.state;
+    const selectedMovie = nowShowing.find(movie => movie._id === movieId);
+    console.log(selectedMovie);
+    if (selectedMovie) return new Date(selectedMovie.endDate);
+    return false;
+  };
+
   render() {
-    const { movies, cinemas, classes, className } = this.props;
+    const { nowShowing, cinemas, classes, className } = this.props;
     const { startAt, startDate, endDate, movieId, cinemaId } = this.state;
 
     const rootClassName = classNames(classes.root, className);
@@ -134,7 +152,7 @@ class AddShowTime extends Component {
               onChange={event =>
                 this.handleFieldChange('movieId', event.target.value)
               }>
-              {movies.map(movie => (
+              {nowShowing.map(movie => (
                 <MenuItem key={movie._id} value={movie._id}>
                   {movie.title}
                 </MenuItem>
@@ -169,6 +187,8 @@ class AddShowTime extends Component {
                 margin="normal"
                 id="start-date"
                 label="Start Date"
+                minDate={new Date()}
+                maxDate={this.onFilterMaxDate()}
                 value={startDate}
                 onChange={date => this.handleFieldChange('startDate', date._d)}
                 KeyboardButtonProps={{
@@ -182,6 +202,8 @@ class AddShowTime extends Component {
                 margin="normal"
                 id="end-date"
                 label="End Date"
+                minDate={new Date(startDate)}
+                maxDate={this.onFilterMaxDate()}
                 value={endDate}
                 onChange={date => this.handleFieldChange('endDate', date._d)}
                 KeyboardButtonProps={{
@@ -211,6 +233,7 @@ AddShowTime.propTypes = {
 
 const mapStateToProps = ({ movieState, cinemasState }) => ({
   movies: movieState.movies,
+  nowShowing: movieState.nowShowing,
   cinemas: cinemasState.cinemas
 });
 

@@ -76,6 +76,7 @@ class BookingPage extends Component {
       const reservation = await response.json();
       if (response.ok) {
         console.log(reservation);
+        this.props.getReservations();
       }
     } catch (error) {
       console.log(error);
@@ -107,27 +108,29 @@ class BookingPage extends Component {
       .filter(seat => seat !== -1)
       .reduce((a, b) => a.concat(b));
 
-    try {
-      const url = '/cinemas/' + this.state.selectedCinema;
-      const response = await fetch(url, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          seats: newSeats,
-          seatsAvailable: seatsAvailable - totalBookedSeats
-        })
-      });
-      const cinema = await response.json();
-      if (response.ok) {
-        this.checkout(bookedSeats);
-        this.setState({
-          cinema,
-          selectedSeats: 0
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    this.checkout(bookedSeats);
+
+    // try {
+    //   const url = '/cinemas/' + this.state.selectedCinema;
+    //   const response = await fetch(url, {
+    //     method: 'PATCH',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //       seats: newSeats,
+    //       seatsAvailable: seatsAvailable - totalBookedSeats
+    //     })
+    //   });
+    //   const cinema = await response.json();
+    //   if (response.ok) {
+    //     this.checkout(bookedSeats);
+    //     this.setState({
+    //       cinema,
+    //       selectedSeats: 0
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   async getCinema(id) {
@@ -216,16 +219,35 @@ class BookingPage extends Component {
     return { ...initialReturn, uniqueCinemas, uniqueTimes };
   }
 
+  onGetReservedSeats = () => {
+    const { reservations } = this.props;
+    const { cinema, selectedTime } = this.state;
+
+    const filteredReservations = reservations.filter(
+      reservation => reservation.startAt === selectedTime
+    );
+    if (filteredReservations.length && cinema && selectedTime) {
+      const reservedSeats = filteredReservations
+        .map(reservation => reservation.seats)
+        .reduce((a, b) => a.concat(b));
+      const newSeats = [...cinema.seats];
+      reservedSeats.forEach(([row, seat]) => (newSeats[row][seat] = 1));
+      return newSeats;
+    }
+    if (cinema) return cinema.seats;
+  };
+
   render() {
     const {
       movie,
       selectedSeats,
-      cinema: { seats, ticketPrice, seatsAvailable },
+      cinema: { ticketPrice, seatsAvailable },
       selectedCinema,
       selectedTime
     } = this.state;
     const { classes } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
+    const seats = this.onGetReservedSeats();
 
     return (
       <div className={classes.root}>

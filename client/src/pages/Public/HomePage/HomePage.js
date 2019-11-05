@@ -2,7 +2,7 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles, Box, Grid } from '@material-ui/core';
-import { getMovies } from '../../../store/actions';
+import { getMovies, getShowtimes } from '../../../store/actions';
 import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
 import MovieBanner from '../components/MovieBanner/MovieBanner';
@@ -11,10 +11,36 @@ import styles from './styles';
 class HomePage extends Component {
   componentDidMount() {
     this.props.getMovies();
+    this.props.getShowtimes();
   }
+
+  // nowShowingFilter = (showtimes, movies) =>
+  //   showtimes
+  //     .map(showtime => ({
+  //       ...movies.find(movie => movie._id === showtime.movieId),
+  //       startDate: showtime.startDate,
+  //       endDate: showtime.endDate
+  //     }))
+  //     .filter(
+  //       showtime =>
+  //         new Date(showtime.endDate) >= new Date() &&
+  //         new Date(showtime.startDate) < new Date()
+  //     );
+
+  // comingSoonFilter = (showtimes, movies) =>
+  //   showtimes
+  //     .map(showtime => ({
+  //       ...movies.find(movie => movie._id === showtime.movieId),
+  //       startDate: showtime.startDate,
+  //       endDate: showtime.endDate
+  //     }))
+  //     .filter(showtime => new Date(showtime.startDate) > new Date());
 
   render() {
     const { classes, movies, comingSoon, nowShowing } = this.props;
+
+    // const nowShowing = this.nowShowingFilter(showtimes, movies);
+    // const comingSoon = this.comingSoonFilter(showtimes, movies);
 
     return (
       <Fragment>
@@ -54,14 +80,15 @@ HomePage.propTypes = {
   latestMovies: PropTypes.array.isRequired
 };
 
-const mapStateToProps = ({ movieState }) => ({
+const mapStateToProps = ({ movieState, showtimesState }) => ({
   movies: movieState.movies,
   latestMovies: movieState.latestMovies,
   comingSoon: movieState.comingSoon,
-  nowShowing: movieState.nowShowing
+  nowShowing: movieState.nowShowing,
+  showtimes: showtimesState.showtimes
 });
 
-const mapDispatchToProps = { getMovies };
+const mapDispatchToProps = { getMovies, getShowtimes };
 
 export default connect(
   mapStateToProps,

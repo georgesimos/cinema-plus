@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import { logout } from '../../../../store/actions';
 import { withStyles } from '@material-ui/core/styles';
 import { Badge, Toolbar, IconButton } from '@material-ui/core';
@@ -50,6 +51,11 @@ class Topbar extends Component {
               {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
           </div>
+
+          <NavLink className={classes.title} to="/">
+            Return
+          </NavLink>
+
           <IconButton
             className={classes.notificationsButton}
             onClick={() => console.log('Notification')}>
