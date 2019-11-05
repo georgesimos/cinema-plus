@@ -52,10 +52,10 @@ class ReservationList extends Component {
   }
 }
 
-const mapStateToProps = ({ reservationsState, movieState, cinemasState }) => ({
-  reservations: reservationsState.reservations,
+const mapStateToProps = ({ reservationState, movieState, cinemaState }) => ({
+  reservations: reservationState.reservations,
   movies: movieState.movies,
-  cinemas: cinemasState.cinemas
+  cinemas: cinemaState.cinemas
 });
 
 const mapDispatchToProps = {

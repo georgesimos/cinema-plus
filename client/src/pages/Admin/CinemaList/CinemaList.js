@@ -103,8 +103,8 @@ CinemaList.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ cinemasState }) => ({
-  cinemas: cinemasState.cinemas
+const mapStateToProps = ({ cinemaState }) => ({
+  cinemas: cinemaState.cinemas
 });
 
 const mapDispatchToProps = { getCinemas };

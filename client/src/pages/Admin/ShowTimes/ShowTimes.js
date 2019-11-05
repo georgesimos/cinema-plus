@@ -78,10 +78,10 @@ class ShowTimes extends Component {
   }
 }
 
-const mapStateToProps = ({ showtimesState }) => ({
-  openDialog: showtimesState.openDialog,
-  showtimes: showtimesState.showtimes,
-  selectedShowtimes: showtimesState.selectedShowtimes
+const mapStateToProps = ({ showtimeState }) => ({
+  openDialog: showtimeState.openDialog,
+  showtimes: showtimeState.showtimes,
+  selectedShowtimes: showtimeState.selectedShowtimes
 });
 
 const mapDispatchToProps = {

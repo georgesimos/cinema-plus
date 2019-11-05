@@ -4,7 +4,6 @@ import moment from 'moment';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import {
-  Avatar,
   Checkbox,
   Table,
   TableBody,
@@ -29,52 +28,12 @@ class UsersTable extends Component {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
-    onShowDetails: PropTypes.func,
     users: PropTypes.array.isRequired
   };
 
   static defaultProps = {
     users: [],
-    onSelect: () => {},
-    onShowDetails: () => {}
-  };
-
-  handleSelectAll = event => {
-    const { users, onSelect } = this.props;
-    let selectedUsers;
-    if (event.target.checked) {
-      selectedUsers = users.map(user => user.username);
-    } else {
-      selectedUsers = [];
-    }
-
-    this.setState({ selectedUsers });
-    onSelect(selectedUsers);
-  };
-
-  handleSelectOne = (event, username) => {
-    const { onSelect } = this.props;
-    const { selectedUsers } = this.state;
-
-    const selectedIndex = selectedUsers.indexOf(username);
-    let newSelectedUsers = [];
-
-    if (selectedIndex === -1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers, username);
-    } else if (selectedIndex === 0) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(1));
-    } else if (selectedIndex === selectedUsers.length - 1) {
-      newSelectedUsers = newSelectedUsers.concat(selectedUsers.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedUsers = newSelectedUsers.concat(
-        selectedUsers.slice(0, selectedIndex),
-        selectedUsers.slice(selectedIndex + 1)
-      );
-    }
-
-    this.setState({ selectedUsers: newSelectedUsers });
-
-    onSelect(newSelectedUsers);
+    onSelect: () => {}
   };
 
   handleChangePage = (event, page) => {
@@ -86,8 +45,15 @@ class UsersTable extends Component {
   };
 
   render() {
-    const { classes, className, users } = this.props;
-    const { selectedUsers, rowsPerPage, page } = this.state;
+    const {
+      classes,
+      className,
+      users,
+      selectedUsers,
+      onSelect,
+      onSelectAll
+    } = this.props;
+    const { rowsPerPage, page } = this.state;
 
     const rootClassName = classNames(classes.root, className);
     return (
@@ -104,7 +70,7 @@ class UsersTable extends Component {
                       selectedUsers.length > 0 &&
                       selectedUsers.length < users.length
                     }
-                    onChange={this.handleSelectAll}
+                    onChange={onSelectAll}
                   />
                   Name
                 </TableCell>
@@ -123,26 +89,20 @@ class UsersTable extends Component {
                   <TableRow
                     className={classes.tableRow}
                     hover
-                    key={user.username}
-                    selected={selectedUsers.indexOf(user.username) !== -1}>
+                    key={user._id}
+                    selected={selectedUsers.indexOf(user._id) !== -1}>
                     <TableCell className={classes.tableCell}>
                       <div className={classes.tableCellInner}>
                         <Checkbox
-                          checked={selectedUsers.indexOf(user.username) !== -1}
+                          checked={selectedUsers.indexOf(user._id) !== -1}
                           color="primary"
-                          onChange={event =>
-                            this.handleSelectOne(event, user.username)
-                          }
+                          onChange={() => onSelect(user._id)}
                           value="true"
-                        />
-                        <Avatar
-                          className={classes.avatar}
-                          src={user.avatarUrl}
                         />
                         <Typography
                           className={classes.nameText}
                           variant="body1">
-                          {user.firstname}
+                          {user.name}
                         </Typography>
                       </div>
                     </TableCell>

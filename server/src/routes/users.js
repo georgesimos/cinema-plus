@@ -201,7 +201,7 @@ router.patch("/users/:id", auth, async (req, res) => {
 
 // Delete by id
 router.delete("/users/:id", auth, async (req, res) => {
-  if (!req.user.role === 'superadmin')
+  if (req.user.role === 'superadmin')
     return res.status(400).send({
       error: "Only the god can delete the user!"
     });

@@ -80,12 +80,12 @@ HomePage.propTypes = {
   latestMovies: PropTypes.array.isRequired
 };
 
-const mapStateToProps = ({ movieState, showtimesState }) => ({
+const mapStateToProps = ({ movieState, showtimeState }) => ({
   movies: movieState.movies,
   latestMovies: movieState.latestMovies,
   comingSoon: movieState.comingSoon,
   nowShowing: movieState.nowShowing,
-  showtimes: showtimesState.showtimes
+  showtimes: showtimeState.showtimes
 });
 
 const mapDispatchToProps = { getMovies, getShowtimes };

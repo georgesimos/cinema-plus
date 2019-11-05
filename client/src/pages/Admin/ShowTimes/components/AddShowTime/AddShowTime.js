@@ -231,10 +231,10 @@ AddShowTime.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ movieState, cinemasState }) => ({
+const mapStateToProps = ({ movieState, cinemaState }) => ({
   movies: movieState.movies,
   nowShowing: movieState.nowShowing,
-  cinemas: cinemasState.cinemas
+  cinemas: cinemaState.cinemas
 });
 
 const mapDispatchToProps = { addShowtime, updateShowtime };

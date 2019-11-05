@@ -56,8 +56,8 @@ function CinemasPage(props) {
   );
 }
 
-const mapStateToProps = ({ cinemasState }) => ({
-  cinemas: cinemasState.cinemas
+const mapStateToProps = ({ cinemaState }) => ({
+  cinemas: cinemaState.cinemas
 });
 
 const mapDispatchToProps = { getCinemas };

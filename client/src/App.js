@@ -15,12 +15,13 @@ import Loading from './components/Loading';
 import ReservationList from './pages/Admin/ReservationList';
 import pageCursors from './utils/pageCursors';
 
-const Register = lazy(() => import('./pages/Admin/Register/Register'));
-const Login = lazy(() => import('./pages/Admin/Login/Login'));
+const Register = lazy(() => import('./pages/Public/Register/Register'));
+const Login = lazy(() => import('./pages/Public/Login/Login'));
+
 const DashboardPage = lazy(() =>
   import('./pages/Admin/DashboardPage/DashboardPage')
 );
-const UserList = lazy(() => import('./pages/Admin/UserList'));
+const User = lazy(() => import('./pages/Admin/User'));
 const ShowTimes = lazy(() => import('./pages/Admin/ShowTimes/ShowTimes'));
 const Account = lazy(() => import('./pages/Admin/Account'));
 const MovieList = lazy(() => import('./pages/Admin/MovieList/MovieList'));
@@ -65,7 +66,7 @@ const App = () => {
                 path="/admin/dashboard"
                 component={DashboardPage}
               />
-              <ProtectedRoute exact path="/admin/users" component={UserList} />
+              <ProtectedRoute exact path="/admin/users" component={User} />
               <ProtectedRoute
                 exact
                 path="/admin/showtimes"

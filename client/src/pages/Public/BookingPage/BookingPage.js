@@ -12,7 +12,7 @@ import {
   getReservations
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
-import LoginForm from '../../Admin/Login/components/LoginForm';
+import LoginForm from '../Login/components/LoginForm';
 import styles from './styles';
 import MovieInfo from './components/MovieInfo/MovieInfo';
 import BookingForm from './components/BookingForm/BookingForm';
@@ -233,18 +233,18 @@ BookingPage.propTypes = {
 };
 
 const mapStateToProps = (
-  { authState, movieState, cinemasState, showtimesState, reservationsState },
+  { authState, movieState, cinemaState, showtimeState, reservationState },
   ownProps
 ) => ({
   isAuth: authState.isAuthenticated,
   user: authState.user,
   movie: movieState.selectedMovie,
-  cinema: cinemasState.selectedCinema,
-  cinemas: cinemasState.cinemas,
-  showtimes: showtimesState.showtimes.filter(
+  cinema: cinemaState.selectedCinema,
+  cinemas: cinemaState.cinemas,
+  showtimes: showtimeState.showtimes.filter(
     showtime => showtime.movieId === ownProps.match.params.id
   ),
-  reservations: reservationsState.reservations
+  reservations: reservationState.reservations
 });
 
 const mapDispatchToProps = {
