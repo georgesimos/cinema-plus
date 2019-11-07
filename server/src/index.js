@@ -1,10 +1,10 @@
 const express = require('express')
 const path = require('path')
-require('./db/mongoose')
 
 if (process.env.NODE_ENV !== 'production' ) { 
   require('dotenv').config({path: path.join(__dirname, '../.env')}) 
 }
+require('./db/mongoose')
 
 const userRouter = require('./routes/users')
 const movieRouter = require('./routes/movies')

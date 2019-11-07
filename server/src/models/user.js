@@ -51,7 +51,7 @@ const userSchema = Schema(
 
     phone: {
       type: String,
-      unique: true,
+      // unique: true,
       trim: true,
       validate(value) {
         if (!validator.isMobilePhone(value)) {
