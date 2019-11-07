@@ -45,6 +45,7 @@ export const createCinemas = cinema => async dispatch => {
       },
       body: JSON.stringify(cinema)
     });
+
     if (response.ok) {
       dispatch(setAlert('Cinema Created', 'success', 5000));
       return { status: 'success', message: 'Cinema Created' };

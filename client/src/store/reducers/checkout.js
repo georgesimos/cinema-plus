@@ -2,35 +2,67 @@ import {
   SET_SELECTED_SEATS,
   SET_SELECTED_CINEMA,
   SET_SELECTED_TIME,
-  TOGGLE_LOGIN_POPUP
+  TOGGLE_LOGIN_POPUP,
+  SHOW_INVITATION_FORM,
+  RESET_CHECKOUT,
+  SET_INVITATION
 } from '../types';
 
 const initialState = {
-  selectedSeats: 0,
+  selectedSeats: [],
   selectedCinema: '',
   selectedTime: '',
-  showLoginPopup: false
+  showLoginPopup: false,
+  showInvitation: false,
+  invitations: {}
 };
 
-export const setSelectedSeats = (state, selectedSeats) => ({
-  ...state,
-  selectedSeats
-});
+const setSelectedSeats = (state, seats) => {
+  let newSeats = [];
+  const seatExist = state.selectedSeats.find(
+    seat => JSON.stringify(seat) === JSON.stringify(seats)
+  );
+  !seatExist
+    ? (newSeats = [...state.selectedSeats, seats])
+    : (newSeats = state.selectedSeats.filter(
+        seat => JSON.stringify(seat) !== JSON.stringify(seats)
+      ));
 
-export const setSelectedCinema = (state, selectedCinema) => ({
+  return {
+    ...state,
+    selectedSeats: newSeats
+  };
+};
+
+const setSelectedCinema = (state, selectedCinema) => ({
   ...state,
   selectedCinema
 });
 
-export const setSelectedTime = (state, selectedTime) => ({
+const setSelectedTime = (state, selectedTime) => ({
   ...state,
   selectedTime
 });
 
-export const toggleLoginPopup = state => ({
+const setInvitation = (state, event) => {
+  return {
+    ...state,
+    invitations: {
+      ...state.invitations,
+      [event.target.name]: event.target.value
+    }
+  };
+};
+
+const toggleLoginPopup = state => ({
   ...state,
   showLoginPopup: !state.showLoginPopup
 });
+const showInvitationForm = state => ({
+  ...state,
+  showInvitation: !state.showInvitation
+});
+const resetCheckout = () => ({ ...initialState });
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
@@ -41,8 +73,14 @@ export default function(state = initialState, action) {
       return setSelectedCinema(state, payload);
     case SET_SELECTED_TIME:
       return setSelectedTime(state, payload);
+    case SET_INVITATION:
+      return setInvitation(state, payload);
     case TOGGLE_LOGIN_POPUP:
       return toggleLoginPopup(state);
+    case SHOW_INVITATION_FORM:
+      return showInvitationForm(state);
+    case RESET_CHECKOUT:
+      return resetCheckout();
     default:
       return state;
   }

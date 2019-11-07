@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+require('dotenv').config({path: path.join(__dirname, '../.env')})
 require('./db/mongoose')
 
 const userRouter = require('./routes/users')
@@ -7,6 +8,7 @@ const movieRouter = require('./routes/movies')
 const cinemaRouter = require('./routes/cinema')
 const showtimeRouter = require('./routes/showtime')
 const reservationRouter = require('./routes/reservation')
+const invitationsRouter = require('./routes/invitations')
 
 const app = express()
 app.disable('x-powered-by');
@@ -36,6 +38,7 @@ app.use(movieRouter)
 app.use(cinemaRouter)
 app.use(showtimeRouter)
 app.use(reservationRouter)
+app.use(invitationsRouter)
 
 // app.get('/api/test', (req, res) => res.send('Hello World'))
 

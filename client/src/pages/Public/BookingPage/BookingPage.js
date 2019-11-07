@@ -12,7 +12,10 @@ import {
   setSelectedSeats,
   setSelectedCinema,
   setSelectedTime,
-  toggleLoginPopup
+  setInvitation,
+  toggleLoginPopup,
+  showInvitationForm,
+  resetCheckout
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -21,6 +24,7 @@ import MovieInfo from './components/MovieInfo/MovieInfo';
 import BookingForm from './components/BookingForm/BookingForm';
 import BookingSeats from './components/BookingSeats/BookingSeats';
 import BookingCheckout from './components/BookingCheckout/BookingCheckout';
+import BookingInvitation from './components/BookingInvitation/BookingInvitation';
 
 class BookingPage extends Component {
   componentDidMount() {
@@ -36,27 +40,40 @@ class BookingPage extends Component {
     }
   }
 
-  onSelectSeat = async (row, seat) => {
+  onSelectSeat = (row, seat) => {
     const { cinema, selectedSeats, setSelectedSeats } = this.props;
     const seats = [...cinema.seats];
     if (seats[row][seat] === 1) return;
 
     const newSeats = [...seats];
-    let selectedSeatsTotal = 0;
+    // let selectedSeatsTotal = 0;
 
     if (seats[row][seat] === 2) {
       newSeats[row][seat] = 0;
-      selectedSeatsTotal = selectedSeats - 1;
+      // selectedSeatsTotal = selectedSeats - 1;
     } else {
       newSeats[row][seat] = 2;
-      selectedSeatsTotal = selectedSeats + 1;
+      // selectedSeatsTotal = selectedSeats + 1;
     }
-    setSelectedSeats(selectedSeatsTotal);
+    setSelectedSeats([row, seat]);
   };
 
   async checkout(seats) {
-    const { movie, cinema, selectedSeats, selectedTime } = this.props;
-    if (!selectedSeats) return;
+    const {
+      movie,
+      cinema,
+      selectedSeats,
+      selectedTime,
+      getReservations,
+      isAuth,
+      toggleLoginPopup,
+      resetCheckout,
+      showInvitationForm
+    } = this.props;
+
+    if (selectedSeats.length === 0) return;
+    if (!isAuth) return toggleLoginPopup();
+
     try {
       const url = '/reservations';
       const response = await fetch(url, {
@@ -64,9 +81,9 @@ class BookingPage extends Component {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           startAt: selectedTime,
-          seats,
+          seats: this.bookSeats(),
           ticketPrice: cinema.ticketPrice,
-          total: selectedSeats * cinema.ticketPrice,
+          total: selectedSeats.length * cinema.ticketPrice,
           movieId: movie._id,
           cinemaId: cinema._id
         })
@@ -74,29 +91,22 @@ class BookingPage extends Component {
       const reservation = await response.json();
       if (response.ok) {
         console.log(reservation);
-        this.props.getReservations();
+        getReservations();
+        showInvitationForm();
+
         // Need to reset Checkout State
+        // resetCheckout();
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  async bookSeat() {
-    const { isAuth, toggleLoginPopup } = this.props;
-    if (!isAuth) return toggleLoginPopup();
-
+  bookSeats() {
     const { cinema, selectedSeats } = this.props;
     const seats = [...cinema.seats];
 
-    if (!selectedSeats) return;
-    // const newSeats = seats.map(row =>
-    //   row.map(seat => ([1, 2].includes(seat) ? 1 : 0))
-    // );
-
-    // const totalBookedSeats = newSeats
-    //   .reduce((a, b) => a.concat(b))
-    //   .reduce((a, b) => a + b);
+    if (selectedSeats.length === 0) return;
 
     const bookedSeats = seats
       .map(row =>
@@ -106,7 +116,7 @@ class BookingPage extends Component {
       .filter(seat => seat !== -1)
       .reduce((a, b) => a.concat(b));
 
-    this.checkout(bookedSeats);
+    return bookedSeats;
   }
 
   onFilterCinema() {
@@ -157,6 +167,49 @@ class BookingPage extends Component {
   onChangeCinema = event => this.props.setSelectedCinema(event.target.value);
   onChangeTime = event => this.props.setSelectedTime(event.target.value);
 
+  sendInvitations = async () => {
+    const invitations = this.createInvitations();
+    console.log(invitations);
+    try {
+      const token = localStorage.getItem('jwtToken');
+      const url = '/invitations';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(invitations)
+      });
+      if (response.ok) {
+        // dispatch(setAlert('invitations Send', 'success', 5000));
+        return { status: 'success', message: 'invitations Send' };
+      }
+    } catch (error) {
+      // dispatch(setAlert(error.message, 'error', 5000));
+      return {
+        status: 'error',
+        message: ' invitations have not send, try again.'
+      };
+    }
+  };
+
+  createInvitations = () => {
+    const { user, movie, cinema, selectedTime, invitations } = this.props;
+
+    const invArray = Object.keys(invitations)
+      .map(key => ({
+        to: invitations[key],
+        host: user.name,
+        movie: movie.title,
+        time: selectedTime,
+        cinema: cinema.name,
+        seat: key
+      }))
+      .filter(inv => inv.to !== '');
+    return invArray;
+  };
+
   render() {
     const {
       classes,
@@ -166,7 +219,11 @@ class BookingPage extends Component {
       selectedCinema,
       selectedTime,
       showLoginPopup,
-      toggleLoginPopup
+      toggleLoginPopup,
+      showInvitation,
+      invitations,
+      setInvitation,
+      resetCheckout
     } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
     const seats = this.onGetReservedSeats();
@@ -187,22 +244,29 @@ class BookingPage extends Component {
                 onChangeTime={this.onChangeTime}
               />
 
-              {cinema && selectedCinema && selectedTime && (
+              {showInvitation && !!selectedSeats.length && (
+                <BookingInvitation
+                  selectedSeats={selectedSeats}
+                  sendInvitations={this.sendInvitations}
+                  ignore={resetCheckout}
+                  invitations={invitations}
+                  onSetInvitation={setInvitation}
+                />
+              )}
+
+              {cinema && selectedCinema && selectedTime && !showInvitation && (
                 <>
                   <BookingSeats
-                    cinema={cinema}
                     seats={seats}
-                    selectedSeats={selectedSeats}
                     onSelectSeat={(indexRow, index) =>
                       this.onSelectSeat(indexRow, index)
                     }
-                    onBookSeats={() => this.bookSeat()}
                   />
                   <BookingCheckout
                     ticketPrice={cinema.ticketPrice}
                     seatsAvailable={cinema.seatsAvailable}
-                    selectedSeats={selectedSeats}
-                    onBookSeats={() => this.bookSeat()}
+                    selectedSeats={selectedSeats.length}
+                    onBookSeats={() => this.checkout()}
                   />
                 </>
               )}
@@ -250,7 +314,9 @@ const mapStateToProps = (
   selectedSeats: checkoutState.selectedSeats,
   selectedCinema: checkoutState.selectedCinema,
   selectedTime: checkoutState.selectedTime,
-  showLoginPopup: checkoutState.showLoginPopup
+  showLoginPopup: checkoutState.showLoginPopup,
+  showInvitation: checkoutState.showInvitation,
+  invitations: checkoutState.invitations
 });
 
 const mapDispatchToProps = {
@@ -262,7 +328,10 @@ const mapDispatchToProps = {
   setSelectedSeats,
   setSelectedCinema,
   setSelectedTime,
-  toggleLoginPopup
+  setInvitation,
+  toggleLoginPopup,
+  showInvitationForm,
+  resetCheckout
 };
 
 export default connect(
