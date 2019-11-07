@@ -27,14 +27,17 @@ const createMailOptions = (data) => {
 // Send Invitation Emails
 router.post('/invitations', async (req, res) => {
     const invitations = req.body;
-    invitations.forEach(invitation => {
+    let promises = invitations.map(invitation => {
       const mailOptions = createMailOptions(invitation);
-      mail.sendEMail(mailOptions)
-      .then(email => res.status(201).json({ success: true, msg: 'Mail sent' }) )
-      .catch( (exception) => {
-       res.status(200).json({ success: false, msg: exception });
-   });
+      return mail.sendEMail(mailOptions)
+      .then(msg => ({ success: true, msg: `The Invitation to ${mailOptions.to} was sent!` }) )
+      .catch( (exception) => ({ success: false, msg: exception })
+   );
     })
+  
+    Promise.all(promises).then((result) => 
+    res.status(201).json(result)
+  );
 })
 
 module.exports = router
