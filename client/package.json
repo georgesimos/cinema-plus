@@ -24,7 +24,10 @@
     "redux-thunk": "2.3.0",
     "slick-carousel": "1.8.1",
     "typeface-montserrat": "0.0.75",
-    "uuid": "3.3.3"
+    "uuid": "3.3.3",
+    "@fullcalendar/core": "^4.3.1",
+    "@fullcalendar/daygrid": "^4.3.0",
+    "@fullcalendar/react": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
