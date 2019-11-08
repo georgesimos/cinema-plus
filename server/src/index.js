@@ -19,7 +19,7 @@ const invitationsRouter = require('./routes/invitations')
 
 const storage = multer.diskStorage({
   // destination: path.join(__dirname + '../../client/build/'),
-  destination: './uploads',
+  destination: 'public/uploads',
   filename:  (req, file, cb) => {
     cb(null,`${Date.now()}-${file.originalname}`)
   }
@@ -39,7 +39,7 @@ app.disable('x-powered-by');
 const port = process.env.PORT || 3001
 
 // Serve static files from the React app
-app.use('/uploads', express.static(path.join(__dirname,'./uploads')));
+app.use('/uploads', express.static('public'));
 app.use(express.static(path.join(__dirname, '../../client/build')));
 
 app.use(function (req, res, next) {
