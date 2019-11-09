@@ -83,7 +83,7 @@ function LoginForm(props) {
   const handleFieldChange = e =>
     setValues({
       ...values,
-      [e.target.name]: [e.target.value]
+      [e.target.name]: e.target.value
     });
 
   return (
@@ -110,6 +110,7 @@ function LoginForm(props) {
           type="text"
           value={values.username}
           variant="outlined"
+          placeholder="Use demo1"
         />
         <TextField
           className={classes.textField}
@@ -119,6 +120,7 @@ function LoginForm(props) {
           type="password"
           value={values.password}
           variant="outlined"
+          placeholder="Use demo123456"
         />
       </div>
 

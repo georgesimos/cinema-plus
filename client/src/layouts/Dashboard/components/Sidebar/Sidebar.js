@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import {
   withStyles,
@@ -18,7 +19,7 @@ import styles from './styles';
 
 class Sidebar extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
     return (
       <section className={classes.root}>
         <List component="div" disablePadding>
@@ -87,20 +88,21 @@ class Sidebar extends Component {
               primary="Reservations"
             />
           </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/admin/users">
-            <ListItemIcon className={classes.listItemIcon}>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Users"
-            />
-          </ListItem>
-
+          {user && user.role === 'superadmin' && (
+            <ListItem
+              activeClassName={classes.activeListItem}
+              className={classes.listItem}
+              component={NavLink}
+              to="/admin/users">
+              <ListItemIcon className={classes.listItemIcon}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.listItemText }}
+                primary="Users"
+              />
+            </ListItem>
+          )}
           <ListItem
             activeClassName={classes.activeListItem}
             className={classes.listItem}
@@ -156,4 +158,13 @@ class Sidebar extends Component {
   }
 }
 
-export default withStyles(styles)(Sidebar);
+const mapStateToProps = state => ({
+  user: state.authState.user
+});
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Sidebar));

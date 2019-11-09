@@ -44,7 +44,7 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/">
               Home
             </Link>
-            {user && user.role === 'superadmin' && (
+            {user && user.role !== 'guest' && (
               <Link className={classes.navLink} to="/admin/dashboard">
                 Dashboard
               </Link>
@@ -102,7 +102,7 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
-              {user && user.role === 'superadmin' && (
+              {user && user.role !== 'guest' && (
                 <li className={classes.innerNavListItem}>
                   <Link className={classes.innerNavLink} to="/admin/dashboard">
                     Dashboard
