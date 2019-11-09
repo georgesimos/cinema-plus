@@ -10,6 +10,27 @@ import {
 import { setAlert } from './alert';
 import setAuthHeaders from '../../utils/setAuthHeaders';
 
+export const uploadImage = (id, image) => async dispatch => {
+  try {
+    const data = new FormData();
+    data.append('file', image);
+    const url = '/users/photo/' + id;
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      dispatch(setAlert('Image Uploaded', 'success', 5000));
+    }
+    if (responseData.error) {
+      dispatch(setAlert(responseData.error.message, 'error', 5000));
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
 // Login user
 export const login = (username, password) => async dispatch => {
   try {
@@ -65,11 +86,13 @@ export const register = ({
   name,
   username,
   email,
+  phone,
+  image,
   password
 }) => async dispatch => {
   try {
     const url = '/users';
-    const body = { name, username, email, password };
+    const body = { name, username, email, phone, password };
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -77,6 +100,8 @@ export const register = ({
     });
     const responseData = await response.json();
     if (response.ok) {
+      const { user } = responseData;
+      dispatch(uploadImage(user._id, image)); // Upload image
       dispatch({ type: REGISTER_SUCCESS, payload: responseData });
       dispatch(setAlert('Register Success', 'success', 5000));
     }

@@ -75,6 +75,10 @@ export default theme => ({
       marginTop: theme.spacing(2)
     }
   },
+  upload: {
+    width: '100%',
+    marginTop: theme.spacing(2)
+  },
   policy: {
     display: 'flex',
     alignItems: 'center'

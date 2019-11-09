@@ -31,18 +31,18 @@ const states = [
 
 class Account extends Component {
   state = {
-    firstname: '',
-    lastname: '',
+    name: '',
     email: '',
     phone: '',
+    password: '',
     city: 'Athens',
     country: 'Greece'
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps.user !== this.props.user) {
-      const { firstname, lastname, email } = this.props.user;
-      this.setState({ firstname, lastname, email });
+      const { name, email, phone } = this.props.user;
+      this.setState({ name, email, phone });
     }
   }
 
@@ -60,9 +60,9 @@ class Account extends Component {
 
   onUpdateUser = async () => {
     try {
-      const { firstname, lastname, email } = this.state;
+      const { name, email, phone, password } = this.state;
       const token = localStorage.getItem('jwtToken');
-      const body = { firstname, lastname, email };
+      const body = { name, email, phone, password };
       const url = '/users/me';
       const response = await fetch(url, {
         method: 'PATCH',
@@ -72,27 +72,24 @@ class Account extends Component {
         },
         body: JSON.stringify(body)
       });
-      if (response.ok && this.signal) {
+      if (response.ok) {
         const user = await response.json();
-        console.log(user);
+        console.log(user, this.props);
+        if (this.props.file) this.props.uploadImage(user._id, this.props.file);
       }
     } catch (error) {
-      if (this.signal) {
-        this.setState({
-          error
-        });
-      }
+      console.log(error);
     }
   };
 
   render() {
-    const { user, classes, className, ...rest } = this.props;
-    const { firstname, lastname, phone, state, country, email } = this.state;
+    const { classes, className } = this.props;
+    const { name, phone, state, country, email, password } = this.state;
 
     const rootClassName = classNames(classes.root, className);
 
     return (
-      <Portlet {...rest} className={rootClassName}>
+      <Portlet className={rootClassName}>
         <PortletHeader>
           <PortletLabel
             subtitle="The information can be edited"
@@ -105,28 +102,15 @@ class Account extends Component {
               <TextField
                 className={classes.textField}
                 helperText="Please specify the first name"
-                label="First name"
+                label="FUll Name"
                 margin="dense"
                 required
-                value={firstname}
+                value={name}
                 variant="outlined"
                 onChange={event =>
-                  this.handleFieldChange('firstname', event.target.value)
+                  this.handleFieldChange('name', event.target.value)
                 }
               />
-              <TextField
-                className={classes.textField}
-                label="Last name"
-                margin="dense"
-                required
-                value={lastname}
-                variant="outlined"
-                onChange={event =>
-                  this.handleFieldChange('lastname', event.target.value)
-                }
-              />
-            </div>
-            <div className={classes.field}>
               <TextField
                 className={classes.textField}
                 label="Email Address"
@@ -138,6 +122,8 @@ class Account extends Component {
                   this.handleFieldChange('email', event.target.value)
                 }
               />
+            </div>
+            <div className={classes.field}>
               <TextField
                 className={classes.textField}
                 label="Phone Number"
@@ -147,6 +133,17 @@ class Account extends Component {
                 variant="outlined"
                 onChange={event =>
                   this.handleFieldChange('phone', event.target.value)
+                }
+              />
+              <TextField
+                className={classes.textField}
+                label="Password"
+                margin="dense"
+                type="password"
+                value={password}
+                variant="outlined"
+                onChange={event =>
+                  this.handleFieldChange('password', event.target.value)
                 }
               />
             </div>

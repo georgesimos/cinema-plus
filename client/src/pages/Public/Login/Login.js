@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles, Grid, Button } from '@material-ui/core';
+import { withStyles, Grid } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import LoginForm from './components/LoginForm';
@@ -55,32 +55,11 @@ const styles = theme => ({
 });
 
 class Login extends Component {
-  state = { file: null };
   handleBack = () => {
     const { history } = this.props;
     history.goBack();
   };
 
-  onChangeHandler = event => {
-    const file = event.target.files[0];
-    this.setState({ file });
-  };
-
-  sendFile = async () => {
-    const { file } = this.state;
-    console.log(file);
-    const data = new FormData();
-    data.append('file', file);
-    console.log(data);
-    const url = '/profile/';
-    const response = await fetch(url, {
-      method: 'POST',
-      body: data
-    });
-    if (response.ok) {
-      console.log('uploaded');
-    }
-  };
   render() {
     const { classes } = this.props;
     return (
@@ -98,8 +77,6 @@ class Login extends Component {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <input type="file" name="file" onChange={this.onChangeHandler} />
-              <Button onClick={this.sendFile}>Send</Button>
               <LoginForm redirect />
             </div>
           </Grid>

@@ -9,7 +9,11 @@ const useStyles = makeStyles(theme => ({
   },
   paper: { padding: theme.spacing(4) },
   gridContainer: {
-    margin: theme.spacing(3, 0)
+    marginTop: theme.spacing(4)
+  },
+  successInfo: { margin: theme.spacing(3) },
+  ignoreButton: {
+    marginLeft: theme.spacing(3)
   }
 }));
 
@@ -30,6 +34,13 @@ export default function BookingInvitation(props) {
       <Paper className={classes.paper}>
         <Typography variant="h4" align="center">
           Guest Invitation
+        </Typography>
+        <Typography
+          className={classes.successInfo}
+          variant="body1"
+          align="center">
+          You have successfuly booked your seats. Please fill the emails below,
+          to send invitations to your friends!
         </Typography>
         <Grid className={classes.gridContainer} container spacing={3}>
           {selectedSeats.map((seat, index) => (
@@ -55,23 +66,16 @@ export default function BookingInvitation(props) {
             <Grid item>
               <Button
                 color="primary"
-                variant="contained"
-                onClick={() =>
-                  sendInvitations({
-                    to: 'geosimos91@gmail.com',
-                    host: 'George Simos',
-                    movieName: 'Movie Name',
-                    movieTime: '20:00',
-                    cinemaName: 'Palini Cinema'
-                  })
-                }>
+                variant="outlined"
+                onClick={() => sendInvitations()}>
                 Send Invitations
               </Button>
             </Grid>
             <Grid item>
               <Button
+                className={classes.ignoreButton}
                 color="secondary"
-                variant="contained"
+                variant="outlined"
                 onClick={() => ignore()}>
                 Ignore
               </Button>

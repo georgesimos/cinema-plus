@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core';
 import {
   Button,
   Checkbox,
-  CircularProgress,
   Grid,
   IconButton,
   TextField,
@@ -15,44 +14,25 @@ import {
 } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import styles from './styles';
+import FileUpload from '../../../components/FileUpload/FileUpload';
 
 class Register extends Component {
   state = {
     values: {
       name: '',
-      lastName: '',
-      userName: '',
+      username: '',
       email: '',
+      phone: '',
       password: '',
+      image: null,
       policy: false
-    },
-    touched: {
-      name: false,
-      userName: false,
-      email: false,
-      password: false,
-      policy: null
-    },
-    errors: {
-      name: null,
-      userName: null,
-      email: null,
-      password: null,
-      policy: null
-    },
-    isValid: true,
-    isLoading: false,
-    submitError: null
+    }
   };
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.isAuthenticated !== this.props.isAuthenticated &&
-      this.props.isAuthenticated
-    ) {
-      const { history } = this.props;
-      history.push('/login');
-    }
+    const { isAuthenticated, history } = this.props;
+    if (prevProps.isAuthenticated !== isAuthenticated || isAuthenticated)
+      history.push('/');
   }
 
   handleBack = () => {
@@ -62,39 +42,21 @@ class Register extends Component {
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
-
-    newState.submitError = null;
-    newState.touched[field] = true;
     newState.values[field] = value;
-
     this.setState(newState);
   };
 
-  handleRegister = async () => {
-    const { values } = this.state;
-    const body = {
-      name: values.name,
-      username: values.userName,
-      email: values.email,
-      password: values.password
-    };
-    console.log(body);
-    this.props.register(body);
+  handleRegister = () => {
+    const newUser = this.state.values;
+    console.log(newUser);
+    this.props.register(newUser);
   };
 
   render() {
     const { classes } = this.props;
-    const {
-      values,
-      errors,
-      touched,
-      isValid,
-      submitError,
-      isLoading
-    } = this.state;
+    const { values } = this.state;
 
-    const showPolicyError =
-      touched.policy && errors.policy ? errors.policy[0] : false;
+    const isValid = values.policy;
 
     return (
       <div className={classes.root}>
@@ -117,53 +79,67 @@ class Register extends Component {
                     Create new account
                   </Typography>
                   <Typography className={classes.subtitle} variant="body1">
-                    Use your work email to create new account... it's free.
+                    Use your email to create new account... it's free.
                   </Typography>
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
                       label="Full name"
                       name="name"
+                      value={values.name}
                       onChange={event =>
                         this.handleFieldChange('name', event.target.value)
                       }
-                      value={values.name}
                       variant="outlined"
                     />
-
                     <TextField
                       className={classes.textField}
                       label="User name"
-                      name="userName"
+                      name="username"
+                      value={values.username}
                       onChange={event =>
-                        this.handleFieldChange('userName', event.target.value)
+                        this.handleFieldChange('username', event.target.value)
                       }
-                      value={values.userName}
                       variant="outlined"
                     />
-
                     <TextField
                       className={classes.textField}
                       label="Email address"
                       name="email"
+                      value={values.email}
                       onChange={event =>
                         this.handleFieldChange('email', event.target.value)
                       }
-                      value={values.email}
                       variant="outlined"
                     />
-
+                    <TextField
+                      className={classes.textField}
+                      label="Mobile Phone"
+                      name="phone"
+                      value={values.phone}
+                      variant="outlined"
+                      onChange={event =>
+                        this.handleFieldChange('phone', event.target.value)
+                      }
+                    />
                     <TextField
                       className={classes.textField}
                       label="Password"
-                      onChange={event =>
-                        this.handleFieldChange('password', event.target.value)
-                      }
                       type="password"
                       value={values.password}
                       variant="outlined"
+                      onChange={event =>
+                        this.handleFieldChange('password', event.target.value)
+                      }
                     />
-
+                    <FileUpload
+                      className={classes.upload}
+                      file={values.image}
+                      onUpload={event => {
+                        const file = event.target.files[0];
+                        this.handleFieldChange('image', file);
+                      }}
+                    />
                     <div className={classes.policy}>
                       <Checkbox
                         checked={values.policy}
@@ -184,32 +160,18 @@ class Register extends Component {
                         .
                       </Typography>
                     </div>
-                    {showPolicyError && (
-                      <Typography
-                        className={classes.fieldError}
-                        variant="body2">
-                        {errors.policy[0]}
-                      </Typography>
-                    )}
                   </div>
-                  {submitError && (
-                    <Typography className={classes.submitError} variant="body2">
-                      {submitError}
-                    </Typography>
-                  )}
-                  {isLoading ? (
-                    <CircularProgress className={classes.progress} />
-                  ) : (
-                    <Button
-                      className={classes.registerButton}
-                      color="primary"
-                      disabled={!isValid}
-                      onClick={this.handleRegister}
-                      size="large"
-                      variant="contained">
-                      Register now
-                    </Button>
-                  )}
+
+                  <Button
+                    className={classes.registerButton}
+                    color="primary"
+                    disabled={!isValid}
+                    onClick={this.handleRegister}
+                    size="large"
+                    variant="contained">
+                    Register now
+                  </Button>
+
                   <Typography className={classes.login} variant="body1">
                     Have an account?{' '}
                     <Link className={classes.loginUrl} to="/login">
@@ -233,9 +195,13 @@ Register.propTypes = {
   register: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.authState.isAuthenticated
+});
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     { register }
   )(Register)
 );

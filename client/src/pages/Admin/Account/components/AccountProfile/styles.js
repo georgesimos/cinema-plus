@@ -3,7 +3,6 @@ export default theme => ({
   details: {
     display: 'flex'
   },
-  info: {},
   emailText: {
     marginTop: theme.spacing(1),
     color: theme.palette.text.secondary
@@ -21,6 +20,7 @@ export default theme => ({
   progressWrapper: {
     marginTop: theme.spacing(2)
   },
+  input: { display: 'none' },
   uploadButton: {
     marginRight: theme.spacing(2)
   }

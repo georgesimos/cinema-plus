@@ -15,7 +15,8 @@ import {
   setInvitation,
   toggleLoginPopup,
   showInvitationForm,
-  resetCheckout
+  resetCheckout,
+  setAlert
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -41,19 +42,16 @@ class BookingPage extends Component {
   }
 
   onSelectSeat = (row, seat) => {
-    const { cinema, selectedSeats, setSelectedSeats } = this.props;
+    const { cinema, setSelectedSeats } = this.props;
     const seats = [...cinema.seats];
     if (seats[row][seat] === 1) return;
 
     const newSeats = [...seats];
-    // let selectedSeatsTotal = 0;
 
     if (seats[row][seat] === 2) {
       newSeats[row][seat] = 0;
-      // selectedSeatsTotal = selectedSeats - 1;
     } else {
       newSeats[row][seat] = 2;
-      // selectedSeatsTotal = selectedSeats + 1;
     }
     setSelectedSeats([row, seat]);
   };
@@ -67,7 +65,6 @@ class BookingPage extends Component {
       getReservations,
       isAuth,
       toggleLoginPopup,
-      resetCheckout,
       showInvitationForm
     } = this.props;
 
@@ -169,7 +166,6 @@ class BookingPage extends Component {
 
   sendInvitations = async () => {
     const invitations = this.createInvitations();
-    console.log(invitations);
     try {
       const token = localStorage.getItem('jwtToken');
       const url = '/invitations';
@@ -182,11 +178,12 @@ class BookingPage extends Component {
         body: JSON.stringify(invitations)
       });
       if (response.ok) {
-        // dispatch(setAlert('invitations Send', 'success', 5000));
+        this.props.setAlert('invitations Send', 'success', 5000);
+        this.props.resetCheckout();
         return { status: 'success', message: 'invitations Send' };
       }
     } catch (error) {
-      // dispatch(setAlert(error.message, 'error', 5000));
+      this.props.setAlert(error.message, 'error', 5000);
       return {
         status: 'error',
         message: ' invitations have not send, try again.'
@@ -331,7 +328,8 @@ const mapDispatchToProps = {
   setInvitation,
   toggleLoginPopup,
   showInvitationForm,
-  resetCheckout
+  resetCheckout,
+  setAlert
 };
 
 export default connect(

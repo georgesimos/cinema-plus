@@ -15,17 +15,15 @@ import styles from './styles';
 
 class AccountProfile extends Component {
   render() {
-    const { user, classes, className, ...rest } = this.props;
+    const { user, classes, className, file, onUpload } = this.props;
     const rootClassName = classNames(classes.root, className);
 
     return (
-      <Portlet {...rest} className={rootClassName}>
+      <Portlet className={rootClassName}>
         <PortletContent>
           <div className={classes.details}>
             <div className={classes.info}>
-              <Typography variant="h2">
-                {user.firstname + ' ' + user.lastname}
-              </Typography>
+              <Typography variant="h2">{user.name}</Typography>
               <Typography className={classes.emailText} variant="body1">
                 {user.email}
               </Typography>
@@ -35,18 +33,28 @@ class AccountProfile extends Component {
             </div>
             <Avatar
               className={classes.avatar}
-              src="/images/avatars/avatar.png"
+              src={user.imageurl ? user.imageurl : '/images/avatars/avatar.png'}
             />
           </div>
         </PortletContent>
         <PortletFooter>
-          <Button
-            className={classes.uploadButton}
-            color="primary"
-            variant="text">
-            Upload picture
-          </Button>
-          <Button variant="text">Remove picture</Button>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="icon-button-file"
+            type="file"
+            onChange={onUpload}
+          />
+          <label htmlFor="icon-button-file">
+            <Button
+              className={classes.uploadButton}
+              component="span"
+              color="primary"
+              variant="text">
+              Upload picture
+            </Button>
+          </label>
+          <span>{file && file.name}</span>
         </PortletFooter>
       </Portlet>
     );

@@ -1,4 +1,5 @@
 const express = require("express");
+const upload = require('../utils/multer')
 const User = require("../models/user");
 const auth = require("../middlewares/auth");
 
@@ -15,6 +16,27 @@ router.post("/users", async (req, res) => {
     res.status(400).send(e);
   }
 });
+
+router.post('/users/photo/:id', upload.single('file'), async (req,res, next) => {
+  const url = req.protocol + '://' + req.get('host')
+  const file = req.file
+  const userId = req.params.id
+  try {
+  if (!file) {
+    const error = new Error('Please upload a file')
+    error.httpStatusCode = 400
+    return next(error)
+  }
+    const user = await User.findById(userId);
+    if (!user) return res.sendStatus(404);
+    user['imageurl'] = url + '/' + file.path
+    await user.save();
+    res.send({user, file});
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(400).send(e);
+  }
+})
 
 // Login User
 router.post("/users/login", async (req, res) => {
@@ -100,7 +122,7 @@ router.post("/users/logoutAll", auth, async (req, res) => {
 
 // Get all users
 router.get("/users", auth, async (req, res) => {
-  if (!req.user.role === 'superadmin')
+  if (req.user.role !== 'superadmin')
     return res.status(400).send({
       error: "Only the god can see all the users!"
     });
@@ -123,7 +145,7 @@ router.get("/users/me", auth, async (req, res) => {
 
 // Get user by id only for admin
 router.get("/users/:id", auth, async (req, res) => {
-  if (!req.user.role === 'superadmin')
+  if (req.user.role !== 'superadmin')
     return res.status(400).send({
       error: "Only the god can see the user!"
     });
@@ -142,8 +164,8 @@ router.patch("/users/me", auth, async (req, res) => {
   console.log(req.body);
   const updates = Object.keys(req.body);
   const allowedUpdates = [
-    "firstname",
-    "lastname",
+    "name",
+    "phone",
     "username",
     "email",
     "password"
@@ -166,7 +188,7 @@ router.patch("/users/me", auth, async (req, res) => {
 
 // Admin can update user by id
 router.patch("/users/:id", auth, async (req, res) => {
-  if (!req.user.role === 'superadmin')
+  if (req.user.role !== 'superadmin')
     return res.status(400).send({
       error: "Only the god can update the user!"
     });
@@ -174,8 +196,8 @@ router.patch("/users/:id", auth, async (req, res) => {
 
   const updates = Object.keys(req.body);
   const allowedUpdates = [
-    "firstname",
-    "lastname",
+    "name",
+    "phone",
     "username",
     "email",
     "password"
@@ -201,7 +223,7 @@ router.patch("/users/:id", auth, async (req, res) => {
 
 // Delete by id
 router.delete("/users/:id", auth, async (req, res) => {
-  if (req.user.role === 'superadmin')
+  if (req.user.role !== 'superadmin')
     return res.status(400).send({
       error: "Only the god can delete the user!"
     });
@@ -218,7 +240,7 @@ router.delete("/users/:id", auth, async (req, res) => {
 });
 
 router.delete("/users/me", auth, async (req, res) => {
-  if (req.user.role === 'superadmin')
+  if (req.user.role !== 'superadmin')
     return res.status(400).send({
       error: "You cannot delete yourself!"
     });

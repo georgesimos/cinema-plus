@@ -51,7 +51,7 @@ const userSchema = Schema(
 
     phone: {
       type: String,
-      // unique: true,
+      unique: true,
       trim: true,
       validate(value) {
         if (!validator.isMobilePhone(value)) {
@@ -59,7 +59,9 @@ const userSchema = Schema(
         }
       }
     },
-    
+    imageurl: {
+      type: String
+    },
     tokens: [
       {
         token: {

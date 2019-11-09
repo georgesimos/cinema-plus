@@ -4,8 +4,7 @@ const path = require('path')
 if (process.env.NODE_ENV !== 'production' ) { 
   require('dotenv').config({path: path.join(__dirname, '../.env')}) 
 }
-// Multer Uploader
-const upload = require('./utils/multer')
+
 require('./db/mongoose')
 
 // Routes
@@ -46,21 +45,6 @@ app.use(cinemaRouter)
 app.use(showtimeRouter)
 app.use(reservationRouter)
 app.use(invitationsRouter)
-
-// For testing
-app.post('/profile', upload.single('file'), (req,res, next) => {
-  const url = req.protocol + '://' + req.get('host')
-  console.log(url)
-  const file = req.file
-  if (!file) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }
-    res.send(file)
-})
-
-
 
 // app.get('/api/test', (req, res) => res.send('Hello World'))
 
