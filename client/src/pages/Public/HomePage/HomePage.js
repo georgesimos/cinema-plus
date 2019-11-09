@@ -14,39 +14,13 @@ class HomePage extends Component {
     this.props.getShowtimes();
   }
 
-  // nowShowingFilter = (showtimes, movies) =>
-  //   showtimes
-  //     .map(showtime => ({
-  //       ...movies.find(movie => movie._id === showtime.movieId),
-  //       startDate: showtime.startDate,
-  //       endDate: showtime.endDate
-  //     }))
-  //     .filter(
-  //       showtime =>
-  //         new Date(showtime.endDate) >= new Date() &&
-  //         new Date(showtime.startDate) < new Date()
-  //     );
-
-  // comingSoonFilter = (showtimes, movies) =>
-  //   showtimes
-  //     .map(showtime => ({
-  //       ...movies.find(movie => movie._id === showtime.movieId),
-  //       startDate: showtime.startDate,
-  //       endDate: showtime.endDate
-  //     }))
-  //     .filter(showtime => new Date(showtime.startDate) > new Date());
-
   render() {
-    const { classes, movies, comingSoon, nowShowing } = this.props;
-
-    // const nowShowing = this.nowShowingFilter(showtimes, movies);
-    // const comingSoon = this.comingSoonFilter(showtimes, movies);
-
+    const { classes, randomMovie, comingSoon, nowShowing } = this.props;
     return (
       <Fragment>
         <div className={classes.root}>
           <Navbar />
-          <MovieBanner movie={movies[0]} height="85vh" />
+          <MovieBanner movie={randomMovie} height="85vh" />
           <Box height={60} />
           <MovieCarousel
             carouselClass={classes.carousel}
@@ -82,6 +56,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = ({ movieState, showtimeState }) => ({
   movies: movieState.movies,
+  randomMovie: movieState.randomMovie,
   latestMovies: movieState.latestMovies,
   comingSoon: movieState.comingSoon,
   nowShowing: movieState.nowShowing,

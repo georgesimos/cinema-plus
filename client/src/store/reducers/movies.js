@@ -2,6 +2,7 @@ import { GET_MOVIES, SELECT_MOVIE } from '../types';
 
 const initialState = {
   movies: [],
+  randomMovie: null,
   latestMovies: [],
   nowShowing: [],
   comingSoon: [],
@@ -23,7 +24,14 @@ const getMovies = (state, payload) => {
     movie => new Date(movie.releaseDate) > new Date()
   );
 
-  return { ...state, movies: payload, latestMovies, nowShowing, comingSoon };
+  return {
+    ...state,
+    movies: payload,
+    randomMovie: payload[Math.floor(Math.random() * payload.length)],
+    latestMovies,
+    nowShowing,
+    comingSoon
+  };
 };
 
 const onSelectMovie = (state, payload) => ({
