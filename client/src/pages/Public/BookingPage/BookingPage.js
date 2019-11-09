@@ -11,12 +11,14 @@ import {
   getReservations,
   setSelectedSeats,
   setSelectedCinema,
+  setSelectedDate,
   setSelectedTime,
   setInvitation,
   toggleLoginPopup,
   showInvitationForm,
   resetCheckout,
-  setAlert
+  setAlert,
+  addReservation
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -56,14 +58,16 @@ class BookingPage extends Component {
     setSelectedSeats([row, seat]);
   };
 
-  async checkout(seats) {
+  async checkout() {
     const {
       movie,
       cinema,
       selectedSeats,
+      selectedDate,
       selectedTime,
       getReservations,
       isAuth,
+      addReservation,
       toggleLoginPopup,
       showInvitationForm
     } = this.props;
@@ -71,31 +75,18 @@ class BookingPage extends Component {
     if (selectedSeats.length === 0) return;
     if (!isAuth) return toggleLoginPopup();
 
-    try {
-      const url = '/reservations';
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          startAt: selectedTime,
-          seats: this.bookSeats(),
-          ticketPrice: cinema.ticketPrice,
-          total: selectedSeats.length * cinema.ticketPrice,
-          movieId: movie._id,
-          cinemaId: cinema._id
-        })
-      });
-      const reservation = await response.json();
-      if (response.ok) {
-        console.log(reservation);
-        getReservations();
-        showInvitationForm();
-
-        // Need to reset Checkout State
-        // resetCheckout();
-      }
-    } catch (error) {
-      console.log(error);
+    const response = await addReservation({
+      date: selectedDate,
+      startAt: selectedTime,
+      seats: this.bookSeats(),
+      ticketPrice: cinema.ticketPrice,
+      total: selectedSeats.length * cinema.ticketPrice,
+      movieId: movie._id,
+      cinemaId: cinema._id
+    });
+    if (response.status === 'success') {
+      getReservations();
+      showInvitationForm();
     }
   }
 
@@ -162,6 +153,7 @@ class BookingPage extends Component {
   };
 
   onChangeCinema = event => this.props.setSelectedCinema(event.target.value);
+  onChangeDate = date => this.props.setSelectedDate(date);
   onChangeTime = event => this.props.setSelectedTime(event.target.value);
 
   sendInvitations = async () => {
@@ -192,7 +184,14 @@ class BookingPage extends Component {
   };
 
   createInvitations = () => {
-    const { user, movie, cinema, selectedTime, invitations } = this.props;
+    const {
+      user,
+      movie,
+      cinema,
+      selectedDate,
+      selectedTime,
+      invitations
+    } = this.props;
 
     const invArray = Object.keys(invitations)
       .map(key => ({
@@ -200,6 +199,7 @@ class BookingPage extends Component {
         host: user.name,
         movie: movie.title,
         time: selectedTime,
+        date: selectedDate,
         cinema: cinema.name,
         seat: key
       }))
@@ -212,8 +212,10 @@ class BookingPage extends Component {
       classes,
       movie,
       cinema,
+      showtimes,
       selectedSeats,
       selectedCinema,
+      selectedDate,
       selectedTime,
       showLoginPopup,
       toggleLoginPopup,
@@ -235,9 +237,12 @@ class BookingPage extends Component {
               <BookingForm
                 cinemas={uniqueCinemas}
                 times={uniqueTimes}
+                showtimes={showtimes}
                 selectedCinema={selectedCinema}
+                selectedDate={selectedDate}
                 selectedTime={selectedTime}
                 onChangeCinema={this.onChangeCinema}
+                onChangeDate={this.onChangeDate}
                 onChangeTime={this.onChangeTime}
               />
 
@@ -310,6 +315,7 @@ const mapStateToProps = (
   reservations: reservationState.reservations,
   selectedSeats: checkoutState.selectedSeats,
   selectedCinema: checkoutState.selectedCinema,
+  selectedDate: checkoutState.selectedDate,
   selectedTime: checkoutState.selectedTime,
   showLoginPopup: checkoutState.showLoginPopup,
   showInvitation: checkoutState.showInvitation,
@@ -322,8 +328,10 @@ const mapDispatchToProps = {
   getCinemas,
   getShowtimes,
   getReservations,
+  addReservation,
   setSelectedSeats,
   setSelectedCinema,
+  setSelectedDate,
   setSelectedTime,
   setInvitation,
   toggleLoginPopup,

@@ -5,8 +5,9 @@ import CustomizedSnackbar from '../../components/CustomizedSnackbar';
 
 const Alert = ({ alerts }) =>
   alerts.length > 0 &&
-  alerts.map(alert => (
+  alerts.map((alert, index) => (
     <CustomizedSnackbar
+      key={`custom-alert-${index}-${alert.id}`}
       isOpen={true}
       vertical="top"
       horizontal="right"

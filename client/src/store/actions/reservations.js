@@ -20,60 +20,60 @@ export const getReservations = () => async dispatch => {
   }
 };
 
-export const createCinemas = cinema => async dispatch => {
+export const addReservation = reservation => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
-    const url = '/cinemas';
+    const url = '/reservations';
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(cinema)
+      body: JSON.stringify(reservation)
     });
     if (response.ok) {
-      dispatch(setAlert('Cinema Created', 'success', 5000));
-      return { status: 'success', message: 'Cinema Created' };
+      dispatch(setAlert('Reservation Created', 'success', 5000));
+      return { status: 'success', message: 'Reservation Created' };
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Cinema have not been saved, try again.'
+      message: ' Reservation have not been created, try again.'
     };
   }
 };
 
-export const updateCinemas = (cinema, id) => async dispatch => {
+export const updateReservation = (reservation, id) => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
-    const url = '/cinemas/' + id;
+    const url = '/reservations/' + id;
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(cinema)
+      body: JSON.stringify(reservation)
     });
     if (response.ok) {
-      dispatch(setAlert('Cinema Updated', 'success', 5000));
-      return { status: 'success', message: 'Cinema Updated' };
+      dispatch(setAlert('Reservation Updated', 'success', 5000));
+      return { status: 'success', message: 'Reservation Updated' };
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Cinema have not been updated, try again.'
+      message: ' Reservation have not been updated, try again.'
     };
   }
 };
 
-export const removeCinemas = id => async dispatch => {
+export const removeReservation = id => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
-    const url = '/cinemas/' + id;
+    const url = '/reservations/' + id;
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
@@ -82,14 +82,14 @@ export const removeCinemas = id => async dispatch => {
       }
     });
     if (response.ok) {
-      dispatch(setAlert('Cinema Deleted', 'success', 5000));
-      return { status: 'success', message: 'Cinema Removed' };
+      dispatch(setAlert('Reservation Deleted', 'success', 5000));
+      return { status: 'success', message: 'Reservation Removed' };
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Cinema have not been deleted, try again.'
+      message: ' Reservation have not been deleted, try again.'
     };
   }
 };

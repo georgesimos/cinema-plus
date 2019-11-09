@@ -4,15 +4,17 @@ const mail = require('../utils/mail')
 const router = new express.Router()
 
 const createMailOptions = (data) => {
-    const {to, host, movie, time, cinema, seat} = data;
+    const {to, host, movie, date, time, cinema, seat} = data;
 
     const htmlContent = `
                 <h1><strong>Invitation For Movie</strong></h1>
                 <p>Hi, You have been invited by ${host}</p>
                 <p>Movie name: ${movie}</p>
+                <p>Date name: ${date}</p>
                 <p>Time name: ${time}</p>
                 <p>Cinema name: ${cinema}</p>
                 <p>Cinema seat: ${seat}</p>
+                <img src="" alt="cinema Image"/>
                 <br/>
               `;
     return  {

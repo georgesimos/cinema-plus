@@ -1,6 +1,7 @@
 import {
   SET_SELECTED_SEATS,
   SET_SELECTED_CINEMA,
+  SET_SELECTED_DATE,
   SET_SELECTED_TIME,
   SET_INVITATION,
   TOGGLE_LOGIN_POPUP,
@@ -16,6 +17,10 @@ export const setSelectedSeats = seats => ({
 export const setSelectedCinema = cinema => ({
   type: SET_SELECTED_CINEMA,
   payload: cinema
+});
+export const setSelectedDate = date => ({
+  type: SET_SELECTED_DATE,
+  payload: date
 });
 export const setSelectedTime = time => ({
   type: SET_SELECTED_TIME,
