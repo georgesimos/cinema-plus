@@ -7,6 +7,7 @@ import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
 import MovieBanner from '../components/MovieBanner/MovieBanner';
 import styles from './styles';
+import Footer from '../../../layouts/Dashboard/components/Footer/Footer';
 
 class HomePage extends Component {
   componentDidMount() {
@@ -41,6 +42,7 @@ class HomePage extends Component {
             </Grid>
           )}
         </div>
+        <Footer />
       </Fragment>
     );
   }
