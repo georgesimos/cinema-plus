@@ -9,15 +9,19 @@ import styles from './styles';
 import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import AddMovie from './components/AddMovie/AddMovie';
 import { getMovies, onSelectMovie } from '../../../store/actions';
+import { match } from '../../../utils/utils';
 
 class MovieList extends Component {
+  state = { search: '' };
   componentDidMount() {
     const { movies, getMovies } = this.props;
     if (!movies.length) getMovies();
   }
 
   renderMovies() {
-    const { classes, movies } = this.props;
+    const { classes } = this.props;
+    const movies = match(this.state.search, this.props.movies, 'title');
+
     if (!movies.length) {
       return (
         <div className={classes.progressWrapper}>
@@ -47,7 +51,10 @@ class MovieList extends Component {
     return (
       <Dashboard title="Movies">
         <div className={classes.root}>
-          <MovieToolbar />
+          <MovieToolbar
+            search={this.state.search}
+            onChangeSearch={e => this.setState({ search: e.target.value })}
+          />
           <div className={classes.content}>{this.renderMovies()}</div>
           <ResponsiveDialog
             id="Edit-movie"

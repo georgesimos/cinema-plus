@@ -73,7 +73,7 @@ const App = () => {
                 component={ShowTimes}
               />
 
-              <ProtectedRoute
+              <Route
                 exact
                 path="/admin/reservations"
                 component={ReservationList}

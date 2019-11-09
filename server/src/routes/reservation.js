@@ -40,7 +40,7 @@ router.post('/reservations/:id', async (req, res) => {
 router.patch('/reservations/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['date','startAt', 'seats', 'ticketPrice', 'total']
+    const allowedUpdates = ['date','startAt', 'seats', 'ticketPrice', 'total', 'username', 'phone']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })

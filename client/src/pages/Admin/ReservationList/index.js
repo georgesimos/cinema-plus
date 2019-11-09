@@ -7,8 +7,11 @@ import styles from './styles';
 import { ReservationsToolbar, ReservationsTable } from './components';
 import { getReservations, getMovies, getCinemas } from '../../../store/actions';
 import ReservationsCalendar from './components/ReservationsCalendar/ReservationsCalendar';
+import { match } from '../../../utils/utils';
 
 class ReservationList extends Component {
+  state = { mode: 'list', search: '' };
+
   static propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired
@@ -23,29 +26,44 @@ class ReservationList extends Component {
     }
   }
 
-  renderReservations() {
-    const { reservations, movies, cinemas } = this.props;
+  onChangeMode = () =>
+    this.setState(({ mode }) => ({ mode: mode === 'grid' ? 'list' : 'grid' }));
 
-    if (!reservations.length) {
-      return <Typography variant="h6">There are no reservations</Typography>;
-    }
+  onChangeSearch = e => this.setState({ search: e.target.value });
 
-    return (
-      <ReservationsTable
-        reservations={reservations}
-        movies={movies}
-        cinemas={cinemas}
-      />
-    );
-  }
   render() {
-    const { classes, reservations } = this.props;
+    const { mode, search } = this.state;
+    const { classes, reservations, movies, cinemas } = this.props;
+
+    const filteredReservations = match(search, reservations, 'phone');
+
     return (
       <Dashboard title="Users">
         <div className={classes.root}>
-          <ReservationsToolbar reservations={reservations} />
-          <div className={classes.content}>{this.renderReservations()}</div>
-          <ReservationsCalendar reservations={reservations} />
+          <ReservationsToolbar
+            reservations={filteredReservations}
+            search={search}
+            onChangeSearch={this.onChangeSearch}
+            mode={mode}
+            onChangeMode={this.onChangeMode}
+          />
+          <div className={classes.content}>
+            {!filteredReservations.length ? (
+              <Typography variant="h6">There are no reservations</Typography>
+            ) : mode === 'list' ? (
+              <ReservationsTable
+                reservations={filteredReservations}
+                movies={movies}
+                cinemas={cinemas}
+              />
+            ) : (
+              <ReservationsCalendar
+                reservations={filteredReservations}
+                movies={movies}
+                cinemas={cinemas}
+              />
+            )}
+          </div>
         </div>
       </Dashboard>
     );

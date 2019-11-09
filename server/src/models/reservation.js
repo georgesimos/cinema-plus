@@ -30,7 +30,16 @@ const reservationSchema = new Schema({
     cinemaId: {
         type: Schema.Types.ObjectId, ref: 'Cinema',
         required: true
-    }
+    },
+    username: {
+        type: String,
+        required: true,
+    },
+    phone: {
+        type: String,
+        required: true,
+
+    },
 })
 
 const Reservation = mongoose.model('Reservation', reservationSchema)

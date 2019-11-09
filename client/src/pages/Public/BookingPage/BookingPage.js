@@ -67,6 +67,7 @@ class BookingPage extends Component {
       selectedTime,
       getReservations,
       isAuth,
+      user,
       addReservation,
       toggleLoginPopup,
       showInvitationForm
@@ -82,7 +83,9 @@ class BookingPage extends Component {
       ticketPrice: cinema.ticketPrice,
       total: selectedSeats.length * cinema.ticketPrice,
       movieId: movie._id,
-      cinemaId: cinema._id
+      cinemaId: cinema._id,
+      username: user.username,
+      phone: user.phone
     });
     if (response.status === 'success') {
       getReservations();

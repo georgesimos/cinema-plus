@@ -27,7 +27,9 @@
     "uuid": "3.3.3",
     "@fullcalendar/core": "^4.3.1",
     "@fullcalendar/daygrid": "^4.3.0",
-    "@fullcalendar/react": "^4.3.0"
+    "@fullcalendar/interaction": "^4.3.0",
+    "@fullcalendar/react": "^4.3.0",
+    "@fullcalendar/timegrid": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

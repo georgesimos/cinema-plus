@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 
-import { SearchInput } from '../../../../../components';
+import { SearchInput, DisplayMode } from '../../../../../components';
 import styles from './styles';
 
 class ReservationsToolbar extends Component {
@@ -13,7 +13,14 @@ class ReservationsToolbar extends Component {
   };
 
   render() {
-    const { classes, className } = this.props;
+    const {
+      classes,
+      className,
+      search,
+      mode,
+      onChangeSearch,
+      onChangeMode
+    } = this.props;
     const rootClassName = classNames(classes.root, className);
 
     return (
@@ -21,8 +28,11 @@ class ReservationsToolbar extends Component {
         <div className={classes.row}>
           <SearchInput
             className={classes.searchInput}
-            placeholder="Search reservation"
+            placeholder="Search reservation by Phone"
+            value={search}
+            onChange={onChangeSearch}
           />
+          <DisplayMode mode={mode} onChange={onChangeMode} />
         </div>
       </div>
     );

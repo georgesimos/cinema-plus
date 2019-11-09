@@ -10,6 +10,7 @@ import styles from './styles';
 import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import AddCinema from './components/AddCinema/AddCinema';
 import CinemaCard from '../../Public/components/CinemaCard/CinemaCard';
+import { match } from '../../../utils/utils';
 
 class CinemaList extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class CinemaList extends Component {
       isLoading: false,
       editCinema: null,
       error: null,
-      openEditDialog: false
+      openEditDialog: false,
+      search: ''
     };
     this.signal = true;
   }
@@ -46,8 +48,9 @@ class CinemaList extends Component {
 
   renderCinemas() {
     const { classes, cinemas } = this.props;
-    const { isLoading } = this.state;
+    const { isLoading, search } = this.state;
 
+    const filteredCinemas = match(search, cinemas, 'name');
     if (isLoading) {
       return (
         <div className={classes.progressWrapper}>
@@ -56,7 +59,7 @@ class CinemaList extends Component {
       );
     }
 
-    if (cinemas.length === 0) {
+    if (filteredCinemas.length === 0) {
       return (
         <Typography variant="h6">There are no cinemas available</Typography>
       );
@@ -64,7 +67,7 @@ class CinemaList extends Component {
 
     return (
       <Grid container spacing={3}>
-        {cinemas.map(cinema => (
+        {filteredCinemas.map(cinema => (
           <Grid
             item
             key={cinema._id}
@@ -85,7 +88,10 @@ class CinemaList extends Component {
     return (
       <Dashboard title="Cinemas">
         <div className={classes.root}>
-          <CinemaToolbar />
+          <CinemaToolbar
+            search={this.state.search}
+            onChangeSearch={e => this.setState({ search: e.target.value })}
+          />
           <div className={classes.content}>{this.renderCinemas()}</div>
           <ResponsiveDialog
             id="Edit-cinema"

@@ -32,7 +32,7 @@ class MovieToolbar extends Component {
 
   render() {
     const { openAddDialog } = this.state;
-    const { classes, className } = this.props;
+    const { classes, className, search, onChangeSearch } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -43,6 +43,8 @@ class MovieToolbar extends Component {
             <SearchInput
               className={classes.searchInput}
               placeholder="Search movie"
+              value={search}
+              onChange={onChangeSearch}
             />
             <Button
               onClick={() => this.OpenAddDialog()}

@@ -62,6 +62,8 @@ class ReservationsTable extends Component {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell align="left">User</TableCell>
+                <TableCell align="left">Phone</TableCell>
                 <TableCell align="left">Start At</TableCell>
                 <TableCell align="left">Movie</TableCell>
                 <TableCell align="left">Cinema</TableCell>
@@ -77,6 +79,12 @@ class ReservationsTable extends Component {
                     className={classes.tableRow}
                     hover
                     key={reservation._id}>
+                    <TableCell className={classes.tableCell}>
+                      {reservation.username}
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {reservation.phone}
+                    </TableCell>
                     <TableCell className={classes.tableCell}>
                       {reservation.startAt}
                     </TableCell>
