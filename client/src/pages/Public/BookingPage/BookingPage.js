@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles, Grid, Container } from '@material-ui/core';
-import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import {
   getMovie,
   getCinema,
@@ -231,53 +230,50 @@ class BookingPage extends Component {
     const seats = this.onGetReservedSeats();
 
     return (
-      <div className={classes.root}>
-        <Navbar />
-        <Container maxWidth="xl" className={classes.container}>
-          <Grid container spacing={2} style={{ height: '100%' }}>
-            <MovieInfo movie={movie} />
-            <Grid item lg={9} xs={12} md={12}>
-              <BookingForm
-                cinemas={uniqueCinemas}
-                times={uniqueTimes}
-                showtimes={showtimes}
-                selectedCinema={selectedCinema}
-                selectedDate={selectedDate}
-                selectedTime={selectedTime}
-                onChangeCinema={this.onChangeCinema}
-                onChangeDate={this.onChangeDate}
-                onChangeTime={this.onChangeTime}
+      <Container maxWidth="xl" className={classes.container}>
+        <Grid container spacing={2} style={{ height: '100%' }}>
+          <MovieInfo movie={movie} />
+          <Grid item lg={9} xs={12} md={12}>
+            <BookingForm
+              cinemas={uniqueCinemas}
+              times={uniqueTimes}
+              showtimes={showtimes}
+              selectedCinema={selectedCinema}
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              onChangeCinema={this.onChangeCinema}
+              onChangeDate={this.onChangeDate}
+              onChangeTime={this.onChangeTime}
+            />
+
+            {showInvitation && !!selectedSeats.length && (
+              <BookingInvitation
+                selectedSeats={selectedSeats}
+                sendInvitations={this.sendInvitations}
+                ignore={resetCheckout}
+                invitations={invitations}
+                onSetInvitation={setInvitation}
               />
+            )}
 
-              {showInvitation && !!selectedSeats.length && (
-                <BookingInvitation
-                  selectedSeats={selectedSeats}
-                  sendInvitations={this.sendInvitations}
-                  ignore={resetCheckout}
-                  invitations={invitations}
-                  onSetInvitation={setInvitation}
+            {cinema && selectedCinema && selectedTime && !showInvitation && (
+              <>
+                <BookingSeats
+                  seats={seats}
+                  onSelectSeat={(indexRow, index) =>
+                    this.onSelectSeat(indexRow, index)
+                  }
                 />
-              )}
-
-              {cinema && selectedCinema && selectedTime && !showInvitation && (
-                <>
-                  <BookingSeats
-                    seats={seats}
-                    onSelectSeat={(indexRow, index) =>
-                      this.onSelectSeat(indexRow, index)
-                    }
-                  />
-                  <BookingCheckout
-                    ticketPrice={cinema.ticketPrice}
-                    seatsAvailable={cinema.seatsAvailable}
-                    selectedSeats={selectedSeats.length}
-                    onBookSeats={() => this.checkout()}
-                  />
-                </>
-              )}
-            </Grid>
+                <BookingCheckout
+                  ticketPrice={cinema.ticketPrice}
+                  seatsAvailable={cinema.seatsAvailable}
+                  selectedSeats={selectedSeats.length}
+                  onBookSeats={() => this.checkout()}
+                />
+              </>
+            )}
           </Grid>
-        </Container>
+        </Grid>
         <ResponsiveDialog
           id="Edit-cinema"
           open={showLoginPopup}
@@ -285,7 +281,7 @@ class BookingPage extends Component {
           maxWidth="sm">
           <LoginForm />
         </ResponsiveDialog>
-      </div>
+      </Container>
     );
   }
 }

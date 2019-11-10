@@ -17,7 +17,6 @@ export default theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(https://source.unsplash.com/featured/?cinema)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -60,6 +59,7 @@ export default theme => ({
     }
   },
   title: {
+    color: theme.palette.common.contrastText,
     marginTop: theme.spacing(3)
   },
   subtitle: {

@@ -10,7 +10,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 // Component styles
 import styles from './styles';
 
-class Dashboard extends Component {
+class AdminLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,4 +66,4 @@ class Dashboard extends Component {
   }
 }
 
-export default withStyles(styles)(Dashboard);
+export default withStyles(styles)(AdminLayout);

@@ -2,22 +2,22 @@ import React, { lazy, Suspense } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Loading from './components/Loading';
-import ProtectedRoute from './routes/ProtectedRoute';
+import { ProtectedRoute, WithLayoutRoute } from './routers';
+
+import { AdminLayout, PublicLayout } from './layouts';
 
 // Admin
-const DashboardPage = lazy(() =>
-  import('./pages/Admin/DashboardPage/DashboardPage')
-);
-const MovieList = lazy(() => import('./pages/Admin/MovieList/MovieList'));
-const CinemaList = lazy(() => import('./pages/Admin/CinemaList/CinemaList'));
-const ShowTimes = lazy(() => import('./pages/Admin/ShowTimes/ShowTimes'));
+const DashboardPage = lazy(() => import('./pages/Admin/Dashboard'));
+const MovieList = lazy(() => import('./pages/Admin/MovieList'));
+const CinemaList = lazy(() => import('./pages/Admin/CinemaList'));
+const ShowTimes = lazy(() => import('./pages/Admin/Showtimes'));
 const ReservationList = lazy(() => import('./pages/Admin/ReservationList'));
 const User = lazy(() => import('./pages/Admin/User'));
 const Account = lazy(() => import('./pages/Admin/Account'));
 
 // Register - Login
-const Register = lazy(() => import('./pages/Public/Register/Register'));
-const Login = lazy(() => import('./pages/Public/Login/Login'));
+const Register = lazy(() => import('./pages/Public/Register'));
+const Login = lazy(() => import('./pages/Public/Login'));
 
 // Public
 const HomePage = lazy(() => import('./pages/Public/HomePage'));
@@ -26,37 +26,87 @@ const MovieCategoryPage = lazy(() =>
   import('./pages/Public/MovieCategoryPage')
 );
 const CinemasPage = lazy(() => import('./pages/Public/CinemasPage'));
-const BookingPage = lazy(() => import('./pages/Public/BookingPage/'));
+const BookingPage = lazy(() => import('./pages/Public/BookingPage'));
 
 const Routes = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Router>
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/cinemas" component={CinemasPage} />
-          <Route
-            exact
-            path="/movie/category/:category"
-            component={MovieCategoryPage}
-          />
-          <Route exact path="/movie/:id" component={MoviePage} />
-          <Route exact path="/movie/booking/:id" component={BookingPage} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
-
+          <WithLayoutRoute
+            exact
+            path="/"
+            layout={PublicLayout}
+            component={HomePage}
+          />
+          <WithLayoutRoute
+            exact
+            path="/cinemas"
+            layout={PublicLayout}
+            component={CinemasPage}
+          />
+          <WithLayoutRoute
+            exact
+            path="/movie/category/:category"
+            layout={PublicLayout}
+            component={MovieCategoryPage}
+          />
+          <WithLayoutRoute
+            exact
+            path="/movie/:id"
+            layout={PublicLayout}
+            component={MoviePage}
+          />
+          <WithLayoutRoute
+            exact
+            path="/movie/booking/:id"
+            layout={PublicLayout}
+            component={BookingPage}
+          />
           <ProtectedRoute
             exact
             path="/admin/dashboard"
+            layout={AdminLayout}
             component={DashboardPage}
           />
-          <ProtectedRoute exact path="/admin/users" component={User} />
-          <ProtectedRoute exact path="/admin/showtimes" component={ShowTimes} />
-
-          <Route exact path="/admin/reservations" component={ReservationList} />
-          <ProtectedRoute exact path="/admin/cinemas" component={CinemaList} />
-          <ProtectedRoute exact path="/admin/movies" component={MovieList} />
-          <ProtectedRoute exact path="/admin/account" component={Account} />
+          <ProtectedRoute
+            exact
+            path="/admin/users"
+            layout={AdminLayout}
+            component={User}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/showtimes"
+            layout={AdminLayout}
+            component={ShowTimes}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/reservations"
+            layout={AdminLayout}
+            component={ReservationList}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/cinemas"
+            layout={AdminLayout}
+            component={CinemaList}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/movies"
+            layout={AdminLayout}
+            component={MovieList}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/account"
+            layout={AdminLayout}
+            component={Account}
+          />
           <Route path="*" component={() => '404 NOT FOUND'} />
         </Switch>
       </Router>

@@ -2,18 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core';
-import Navbar from '../../../layouts/Public/components/Navbar/Navbar';
 import MovieBanner from '../components/MovieBanner/MovieBanner';
 import { getMovie, onSelectMovie } from '../../../store/actions';
-
-const styles = theme => ({
-  root: {
-    backgroundColor: theme.palette.background.dark,
-    color: theme.palette.common.white,
-    height: '100%'
-  }
-});
 
 class MoviePage extends Component {
   componentDidMount() {
@@ -25,19 +15,13 @@ class MoviePage extends Component {
   }
 
   render() {
-    const { classes, movie } = this.props;
-    return (
-      <div className={classes.root}>
-        <Navbar />
-        {movie && <MovieBanner movie={movie} fullDescription />}
-      </div>
-    );
+    const { movie } = this.props;
+    return <>{movie && <MovieBanner movie={movie} fullDescription />}</>;
   }
 }
 
 MoviePage.propTypes = {
   className: PropTypes.string,
-  classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired
 };
 
@@ -50,4 +34,4 @@ const mapDispatchToProps = { getMovie, onSelectMovie };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(MoviePage));
+)(MoviePage);

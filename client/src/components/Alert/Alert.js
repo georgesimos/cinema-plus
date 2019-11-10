@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomizedSnackbar from '../../components/CustomizedSnackbar';
+import CustomizedSnackbar from '../CustomizedSnackbar/';
 
 const Alert = ({ alerts }) =>
   alerts.length > 0 &&

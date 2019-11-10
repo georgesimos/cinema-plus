@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles, CircularProgress } from '@material-ui/core';
-import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import styles from './styles';
 import { UsersToolbar, UsersTable, AddUser } from './components';
 import {
@@ -68,16 +67,14 @@ class User extends Component {
     } = this.props;
 
     return (
-      <Dashboard title="Users">
-        <div className={classes.root}>
-          <UsersToolbar
-            users={users}
-            selectedUsers={selectedUsers}
-            toggleDialog={toggleUserDialog}
-            deleteUser={() => deleteUser(selectedUsers[0])}
-          />
-          <div className={classes.content}>{this.renderUsers()}</div>
-        </div>
+      <div className={classes.root}>
+        <UsersToolbar
+          users={users}
+          selectedUsers={selectedUsers}
+          toggleDialog={toggleUserDialog}
+          deleteUser={() => deleteUser(selectedUsers[0])}
+        />
+        <div className={classes.content}>{this.renderUsers()}</div>
         <ResponsiveDialog
           id="Add-user"
           open={openDialog}
@@ -88,7 +85,7 @@ class User extends Component {
             updateUser={updateUser}
           />
         </ResponsiveDialog>
-      </Dashboard>
+      </div>
     );
   }
 }

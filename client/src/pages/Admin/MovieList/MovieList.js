@@ -6,7 +6,6 @@ import { CircularProgress, Grid } from '@material-ui/core';
 import { MovieToolbar, MovieCard } from './components';
 import { ResponsiveDialog } from '../../../components';
 import styles from './styles';
-import Dashboard from '../../../layouts/Dashboard/Dashboard';
 import AddMovie from './components/AddMovie/AddMovie';
 import { getMovies, onSelectMovie } from '../../../store/actions';
 import { match } from '../../../utils/utils';
@@ -49,21 +48,19 @@ class MovieList extends Component {
   render() {
     const { classes, selectedMovie } = this.props;
     return (
-      <Dashboard title="Movies">
-        <div className={classes.root}>
-          <MovieToolbar
-            search={this.state.search}
-            onChangeSearch={e => this.setState({ search: e.target.value })}
-          />
-          <div className={classes.content}>{this.renderMovies()}</div>
-          <ResponsiveDialog
-            id="Edit-movie"
-            open={Boolean(selectedMovie)}
-            handleClose={() => this.props.onSelectMovie(null)}>
-            <AddMovie edit={selectedMovie} />
-          </ResponsiveDialog>
-        </div>
-      </Dashboard>
+      <div className={classes.root}>
+        <MovieToolbar
+          search={this.state.search}
+          onChangeSearch={e => this.setState({ search: e.target.value })}
+        />
+        <div className={classes.content}>{this.renderMovies()}</div>
+        <ResponsiveDialog
+          id="Edit-movie"
+          open={Boolean(selectedMovie)}
+          handleClose={() => this.props.onSelectMovie(null)}>
+          <AddMovie edit={selectedMovie} />
+        </ResponsiveDialog>
+      </div>
     );
   }
 }

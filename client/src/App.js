@@ -8,12 +8,13 @@ import store from './store';
 import { loadUser } from './store/actions';
 
 import theme from './theme';
-import Alert from './layouts/Alert/Alert';
+import { Alert } from './components';
 import pageCursors from './utils/pageCursors';
 import Routes from './Routes';
 
 import './assets/scss/index.scss';
 import 'typeface-montserrat';
+import { CssBaseline } from '@material-ui/core';
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <Alert />
           <Routes />
           <div className="cursor" id="cursor" />
