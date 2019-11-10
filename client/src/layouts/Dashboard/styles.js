@@ -31,5 +31,11 @@ export default theme => ({
   },
   contentShift: {
     marginLeft: '270px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    content: {
+      padding: 0,
+      paddingTop: theme.spacing(9)
+    }
   }
 });

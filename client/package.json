@@ -17,6 +17,7 @@
     "chart.js": "^2.9.2",
     "classnames": "2.2.6",
     "moment": "2.24.0",
+    "node-sass": "^4.13.0",
     "react": "16.11.0",
     "react-chartjs-2": "^2.8.0",
     "react-dom": "16.11.0",
