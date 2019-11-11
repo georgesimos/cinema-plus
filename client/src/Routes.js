@@ -57,12 +57,14 @@ const Routes = () => {
             exact
             path="/movie/:id"
             layout={PublicLayout}
+            layoutProps={{ withFooter: false }}
             component={MoviePage}
           />
           <WithLayoutRoute
             exact
             path="/movie/booking/:id"
             layout={PublicLayout}
+            layoutProps={{ withFooter: false }}
             component={BookingPage}
           />
           <ProtectedRoute

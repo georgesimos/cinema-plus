@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import Navbar from './components/Navbar';
+import { Navbar, Footer } from './components';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,12 +12,12 @@ const useStyles = makeStyles(theme => ({
 
 function PublicLayout(props) {
   const classes = useStyles(props);
-  const { children } = props;
-
+  const { children, withFooter = true } = props;
   return (
     <div className={classes.root}>
       <Navbar />
       {children}
+      {withFooter && <Footer />}
     </div>
   );
 }

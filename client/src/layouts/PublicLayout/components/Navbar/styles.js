@@ -1,5 +1,4 @@
 export default theme => ({
-  root: {},
   navbar: {
     position: 'fixed',
     top: 0,
@@ -37,6 +36,7 @@ export default theme => ({
     color: theme.palette.common.white
   },
   navLinks: {
+    marginLeft: 'auto',
     display: 'flex'
   },
   navLink: {
@@ -66,9 +66,8 @@ export default theme => ({
       height: '9px'
     }
   },
-  navBtn: {
-    marginRight: '50px'
-  },
+  navAccount: { marginLeft: 'auto', marginRight: theme.spacing(3) },
+  navMobile: { marginRight: theme.spacing(1) },
   navIcon: {
     display: 'none',
     height: '30px',

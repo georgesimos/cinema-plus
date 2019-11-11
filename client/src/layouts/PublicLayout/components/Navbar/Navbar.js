@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../../../store/actions';
 import classnames from 'classnames';
-import { withStyles, Typography } from '@material-ui/core';
+import { withStyles, Typography, List, ListItem } from '@material-ui/core';
 
 // Component styles
 import styles from './styles';
+import UserPopover from './components/UserPopover/UserPopover';
 
 class Navbar extends Component {
   state = { showMenu: false, scrollPos: window.pageYOffset };
@@ -44,11 +45,6 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/">
               Home
             </Link>
-            {user && user.role !== 'guest' && (
-              <Link className={classes.navLink} to="/admin/dashboard">
-                Dashboard
-              </Link>
-            )}
             <Link className={classes.navLink} to="/movie/category/nowShowing">
               Now Showing
             </Link>
@@ -58,21 +54,40 @@ class Navbar extends Component {
             <Link className={classes.navLink} to="/cinemas">
               Cinemas
             </Link>
-            {isAuth ? (
-              <Link className={classes.navLink} onClick={logout} to="/">
-                Logout
-              </Link>
-            ) : (
-              <Link className={classes.navLink} to="/login">
-                Login
-              </Link>
-            )}
           </div>
 
-          <div
-            className={classes.navBtn}
-            onClick={() => this.setState({ showMenu: !this.state.showMenu })}>
-            <div className={classes.navIcon}>
+          <div className={classes.navAccount}>
+            <UserPopover logout={logout}>
+              <List component="nav">
+                {user && user.role !== 'guest' && (
+                  <ListItem>
+                    <Link className={classes.navLink} to="/admin/dashboard">
+                      Dashboard
+                    </Link>
+                  </ListItem>
+                )}
+
+                {isAuth ? (
+                  <ListItem>
+                    <Link className={classes.navLink} onClick={logout} to="/">
+                      Logout
+                    </Link>
+                  </ListItem>
+                ) : (
+                  <ListItem>
+                    <Link className={classes.navLink} to="/login">
+                      Login
+                    </Link>
+                  </ListItem>
+                )}
+              </List>
+            </UserPopover>
+          </div>
+
+          <div className={classes.navMobile}>
+            <div
+              className={classes.navIcon}
+              onClick={() => this.setState({ showMenu: !this.state.showMenu })}>
               <div
                 className={classnames(
                   classes.navIconLine,
@@ -102,13 +117,6 @@ class Navbar extends Component {
                   Home
                 </Link>
               </li>
-              {user && user.role !== 'guest' && (
-                <li className={classes.innerNavListItem}>
-                  <Link className={classes.innerNavLink} to="/admin/dashboard">
-                    Dashboard
-                  </Link>
-                </li>
-              )}
               <li className={classes.innerNavListItem}>
                 <Link
                   className={classes.innerNavLink}
@@ -128,22 +136,6 @@ class Navbar extends Component {
                   Cinemas
                 </Link>
               </li>
-              {isAuth ? (
-                <li className={classes.innerNavListItem}>
-                  <Link
-                    className={classes.innerNavLink}
-                    onClick={logout}
-                    to="/">
-                    Logout
-                  </Link>
-                </li>
-              ) : (
-                <li className={classes.innerNavListItem}>
-                  <Link className={classes.innerNavLink} to="/login">
-                    Login
-                  </Link>
-                </li>
-              )}
             </ul>
           </div>
         </div>
