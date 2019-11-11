@@ -34,7 +34,7 @@ function MyDashboard(props) {
     getMovies();
     getReservations();
     getCinemas();
-  }, []);
+  }, [getMovies, getReservations, getCinemas]);
 
   const classes = useStyles(props);
 

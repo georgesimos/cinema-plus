@@ -45,11 +45,10 @@ class BookingPage extends Component {
   onSelectSeat = (row, seat) => {
     const { cinema, setSelectedSeats } = this.props;
     const seats = [...cinema.seats];
-    if (seats[row][seat] === 1) return;
-
     const newSeats = [...seats];
-
-    if (seats[row][seat] === 2) {
+    if (seats[row][seat] === 1) {
+      newSeats[row][seat] = 1;
+    } else if (seats[row][seat] === 2) {
       newSeats[row][seat] = 0;
     } else {
       newSeats[row][seat] = 2;
@@ -139,19 +138,25 @@ class BookingPage extends Component {
   }
 
   onGetReservedSeats = () => {
-    const { reservations, cinema, selectedTime } = this.props;
+    const { reservations, cinema, selectedDate, selectedTime } = this.props;
+
+    if (!cinema) return [];
+    const newSeats = [...cinema.seats];
+
     const filteredReservations = reservations.filter(
-      reservation => reservation.startAt === selectedTime
+      reservation =>
+        new Date(reservation.date).toLocaleDateString() ===
+          new Date(selectedDate).toLocaleDateString() &&
+        reservation.startAt === selectedTime
     );
-    if (filteredReservations.length && cinema && selectedTime) {
+    if (filteredReservations.length && selectedDate && selectedTime) {
       const reservedSeats = filteredReservations
         .map(reservation => reservation.seats)
         .reduce((a, b) => a.concat(b));
-      const newSeats = [...cinema.seats];
       reservedSeats.forEach(([row, seat]) => (newSeats[row][seat] = 1));
       return newSeats;
     }
-    if (cinema) return cinema.seats;
+    return newSeats;
   };
 
   onChangeCinema = event => this.props.setSelectedCinema(event.target.value);
