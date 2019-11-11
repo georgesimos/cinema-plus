@@ -59,9 +59,15 @@ class Navbar extends Component {
           <div className={classes.navAccount}>
             <UserPopover logout={logout}>
               <List component="nav">
-                {user && user.role !== 'guest' && (
+                {user && (
                   <ListItem>
-                    <Link className={classes.navLink} to="/admin/dashboard">
+                    <Link
+                      className={classes.navLink}
+                      to={
+                        user.role !== 'guest'
+                          ? '/admin/dashboard'
+                          : '/mydashboard'
+                      }>
                       Dashboard
                     </Link>
                   </ListItem>

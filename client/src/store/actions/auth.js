@@ -42,8 +42,9 @@ export const login = (username, password) => async dispatch => {
     });
     const responseData = await response.json();
     if (response.ok) {
+      const { user } = responseData;
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
-      dispatch(setAlert('LOGIN Success', 'success', 5000));
+      dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
     }
     if (responseData.error) {
       dispatch({ type: LOGIN_FAIL });
@@ -68,8 +69,9 @@ export const facebookLogin = e => async dispatch => {
     const responseData = await response.json();
 
     if (response.ok) {
+      const { user } = responseData;
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
-      dispatch(setAlert('LOGIN Success', 'success', 5000));
+      dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
     }
     if (responseData.error) {
       dispatch({ type: LOGIN_FAIL });
@@ -133,7 +135,6 @@ export const loadUser = () => async dispatch => {
 
 // Logout
 export const logout = () => async dispatch => {
-  console.log('logout');
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/users/logout';
@@ -144,8 +145,14 @@ export const logout = () => async dispatch => {
         'Content-Type': 'application/json'
       }
     });
-    await response.json();
-    dispatch({ type: LOGOUT });
+    const responseData = await response.json();
+    if (response.ok) {
+      dispatch({ type: LOGOUT });
+      dispatch(setAlert('LOGOUT Success', 'success', 5000));
+    }
+    if (responseData.error) {
+      dispatch(setAlert(responseData.error.message, 'error', 5000));
+    }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
   }

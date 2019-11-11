@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, Grid, Typography } from '@material-ui/core';

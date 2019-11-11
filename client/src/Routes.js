@@ -22,6 +22,7 @@ const Login = lazy(() => import('./pages/Public/Login'));
 // Public
 const HomePage = lazy(() => import('./pages/Public/HomePage'));
 const MoviePage = lazy(() => import('./pages/Public/MoviePage'));
+const MyDashboard = lazy(() => import('./pages/Public/MyDashboard'));
 const MovieCategoryPage = lazy(() =>
   import('./pages/Public/MovieCategoryPage')
 );
@@ -40,6 +41,12 @@ const Routes = () => {
             path="/"
             layout={PublicLayout}
             component={HomePage}
+          />
+          <WithLayoutRoute
+            exact
+            path="/mydashboard"
+            layout={PublicLayout}
+            component={MyDashboard}
           />
           <WithLayoutRoute
             exact
