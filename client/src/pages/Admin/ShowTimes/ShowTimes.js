@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles, Typography } from '@material-ui/core';
 import styles from './styles';
-import { ShowTimesToolbar, ShowTimesTable } from './components';
+import { AddShowtime, ShowtimesToolbar, ShowtimesTable } from './components';
 import {
   getShowtimes,
   toggleDialog,
@@ -12,9 +12,8 @@ import {
   deleteShowtime
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
-import AddShowTime from './components/AddShowTime/AddShowTime';
 
-class ShowTimes extends Component {
+class Showtimes extends Component {
   static propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired
@@ -42,7 +41,7 @@ class ShowTimes extends Component {
 
     return (
       <div className={classes.root}>
-        <ShowTimesToolbar
+        <ShowtimesToolbar
           showtimes={showtimes}
           toggleDialog={toggleDialog}
           selectedShowtimes={selectedShowtimes}
@@ -52,7 +51,7 @@ class ShowTimes extends Component {
           {!showtimes.length ? (
             <Typography variant="h6">There are no showtimes</Typography>
           ) : (
-            <ShowTimesTable
+            <ShowtimesTable
               onSelectShowtime={selectShowtime}
               selectedShowtimes={selectedShowtimes}
               selectAllShowtimes={selectAllShowtimes}
@@ -64,7 +63,7 @@ class ShowTimes extends Component {
           id="Add-showtime"
           open={openDialog}
           handleClose={() => toggleDialog()}>
-          <AddShowTime
+          <AddShowtime
             selectedShowtime={showtimes.find(
               showtime => showtime._id === selectedShowtimes[0]
             )}
@@ -92,4 +91,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(ShowTimes));
+)(withStyles(styles)(Showtimes));

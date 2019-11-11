@@ -6,7 +6,7 @@ import { Button, IconButton } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import styles from './styles';
 
-class ShowTimesToolbar extends Component {
+class ShowtimesToolbar extends Component {
   static propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired,
@@ -54,4 +54,4 @@ class ShowTimesToolbar extends Component {
   }
 }
 
-export default withStyles(styles)(ShowTimesToolbar);
+export default withStyles(styles)(ShowtimesToolbar);

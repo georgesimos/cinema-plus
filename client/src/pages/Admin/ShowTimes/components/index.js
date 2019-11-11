@@ -1,4 +1,3 @@
-export { default as ShowTimesTable } from './ShowTimesTable/ShowTimesTable';
-export {
-  default as ShowTimesToolbar
-} from './ShowTimesToolbar/ShowTimesToolbar';
+export { default as AddShowtime } from './AddShowtime';
+export { default as ShowtimesTable } from './ShowtimesTable';
+export { default as ShowtimesToolbar } from './ShowtimesToolbar';

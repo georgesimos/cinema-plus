@@ -13,7 +13,7 @@ import MomentUtils from '@date-io/moment';
 import styles from './styles';
 import { addShowtime, updateShowtime } from '../../../../../store/actions';
 
-class AddShowTime extends Component {
+class AddShowtime extends Component {
   state = {
     startAt: '',
     startDate: null,
@@ -226,7 +226,7 @@ class AddShowTime extends Component {
   }
 }
 
-AddShowTime.propTypes = {
+AddShowtime.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
@@ -242,4 +242,4 @@ const mapDispatchToProps = { addShowtime, updateShowtime };
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(AddShowTime));
+)(withStyles(styles)(AddShowtime));

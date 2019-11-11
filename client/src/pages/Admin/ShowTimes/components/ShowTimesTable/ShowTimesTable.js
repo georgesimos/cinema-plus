@@ -17,7 +17,7 @@ import {
 import { Portlet, PortletContent } from '../../../../../components';
 import styles from './styles';
 
-class ShowTimesTable extends Component {
+class ShowtimesTable extends Component {
   state = {
     rowsPerPage: 10,
     page: 0
@@ -151,4 +151,4 @@ class ShowTimesTable extends Component {
   }
 }
 
-export default withStyles(styles)(ShowTimesTable);
+export default withStyles(styles)(ShowtimesTable);
