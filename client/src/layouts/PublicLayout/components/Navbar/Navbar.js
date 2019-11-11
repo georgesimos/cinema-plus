@@ -111,7 +111,9 @@ class Navbar extends Component {
           })}>
           <div className={classes.navContent}>
             <div className={classes.currentPageShadow}>Movies</div>
-            <ul className={classes.innerNav}>
+            <ul
+              className={classes.innerNav}
+              onClick={() => this.setState({ showMenu: !this.state.showMenu })}>
               <li className={classes.innerNavListItem}>
                 <Link className={classes.innerNavLink} to="/">
                   Home
