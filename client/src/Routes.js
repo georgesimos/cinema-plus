@@ -10,7 +10,7 @@ import { AdminLayout, PublicLayout } from './layouts';
 const DashboardPage = lazy(() => import('./pages/Admin/Dashboard'));
 const MovieList = lazy(() => import('./pages/Admin/MovieList'));
 const CinemaList = lazy(() => import('./pages/Admin/CinemaList'));
-const ShowTimes = lazy(() => import('./pages/Admin/Showtimes'));
+const Showtimes = lazy(() => import('./pages/Admin/Showtimes'));
 const ReservationList = lazy(() => import('./pages/Admin/ReservationList'));
 const User = lazy(() => import('./pages/Admin/User'));
 const Account = lazy(() => import('./pages/Admin/Account'));
@@ -83,7 +83,7 @@ const Routes = () => {
             exact
             path="/admin/showtimes"
             layout={AdminLayout}
-            component={ShowTimes}
+            component={Showtimes}
           />
           <ProtectedRoute
             exact
