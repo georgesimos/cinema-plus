@@ -13,7 +13,7 @@ import {
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 
-class Showtimes extends Component {
+class ShowtimeList extends Component {
   static propTypes = {
     className: PropTypes.string,
     classes: PropTypes.object.isRequired
@@ -91,4 +91,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Showtimes));
+)(withStyles(styles)(ShowtimeList));

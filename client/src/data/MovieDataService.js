@@ -1,22 +1,17 @@
 export const genreData = [
-"action",
-"adventure",
-"comedy",
-"drama",
-"fantasy",
-"historical",
-"horror",
-"mystery",
-"romance",
-"science fiction",
-"thriller",
-"political",
-"western"
+  'Action',
+  'Adventure',
+  'Comedy',
+  'Drama',
+  'Fantasy',
+  'Historical',
+  'Horror',
+  'Mystery',
+  'Romance',
+  'Science fiction',
+  'Thriller',
+  'Political',
+  'Western'
 ];
 
-export const languageData = [
-    "english",
-    "greek",
-    "german",
-    "french"
-    ];
+export const languageData = ['English', 'Greek', 'German', 'French'];

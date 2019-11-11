@@ -3,9 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { Drawer } from '@material-ui/core';
-import Topbar from './components/Topbar/Topbar';
-import Footer from './components/Footer/Footer';
-import Sidebar from './components/Sidebar/Sidebar';
+import { Footer, Sidebar, Topbar } from './components';
 
 // Component styles
 import styles from './styles';
