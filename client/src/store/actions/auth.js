@@ -103,7 +103,7 @@ export const register = ({
     const responseData = await response.json();
     if (response.ok) {
       const { user } = responseData;
-      dispatch(uploadImage(user._id, image)); // Upload image
+      if (image) dispatch(uploadImage(user._id, image)); // Upload image
       dispatch({ type: REGISTER_SUCCESS, payload: responseData });
       dispatch(setAlert('Register Success', 'success', 5000));
     }

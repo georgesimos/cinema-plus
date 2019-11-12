@@ -47,22 +47,25 @@ function MyDashboard(props) {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography className={classes.title} variant="h2" color="inherit">
-            My Reservations
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {!myReservations.length ? (
-            'No Reservations'
-          ) : (
-            <MyReservationTable
-              reservations={myReservations}
-              movies={movies}
-              cinemas={cinemas}
-            />
-          )}
-        </Grid>
+        {!!myReservations.length && (
+          <>
+            <Grid item xs={12}>
+              <Typography
+                className={classes.title}
+                variant="h2"
+                color="inherit">
+                My Reservations
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <MyReservationTable
+                reservations={myReservations}
+                movies={movies}
+                cinemas={cinemas}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={12}>
           <Typography className={classes.title} variant="h2" color="inherit">
             My Account
