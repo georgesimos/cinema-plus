@@ -30,15 +30,19 @@ import BookingInvitation from './components/BookingInvitation/BookingInvitation'
 
 class BookingPage extends Component {
   componentDidMount() {
-    this.props.getCinemas();
     this.props.getMovie(this.props.match.params.id);
+    this.props.getCinemas();
     this.props.getShowtimes();
     this.props.getReservations();
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.selectedCinema !== this.props.selectedCinema) {
-      this.props.getCinema(this.props.selectedCinema);
+    const { selectedCinema, selectedDate, getCinema } = this.props;
+    if (
+      (selectedCinema && prevProps.selectedCinema !== selectedCinema) ||
+      (selectedCinema && prevProps.selectedDate !== selectedDate)
+    ) {
+      getCinema(selectedCinema);
     }
   }
 
@@ -165,6 +169,7 @@ class BookingPage extends Component {
 
   sendInvitations = async () => {
     const invitations = this.createInvitations();
+    if (!invitations) return;
     try {
       const token = localStorage.getItem('jwtToken');
       const url = '/invitations';
@@ -177,8 +182,8 @@ class BookingPage extends Component {
         body: JSON.stringify(invitations)
       });
       if (response.ok) {
-        this.props.setAlert('invitations Send', 'success', 5000);
         this.props.resetCheckout();
+        this.props.setAlert('invitations Send', 'success', 5000);
         return { status: 'success', message: 'invitations Send' };
       }
     } catch (error) {

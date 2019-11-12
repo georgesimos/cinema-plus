@@ -29,6 +29,8 @@ export default function BookingInvitation(props) {
     onSetInvitation
   } = props;
 
+  const notValidInvitations = !Object.keys(invitations).length;
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -65,6 +67,7 @@ export default function BookingInvitation(props) {
           <Grid item xs={12} container>
             <Grid item>
               <Button
+                disabled={notValidInvitations}
                 color="primary"
                 variant="outlined"
                 onClick={() => sendInvitations()}>

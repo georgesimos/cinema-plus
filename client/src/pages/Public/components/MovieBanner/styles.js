@@ -25,12 +25,13 @@ export default theme => ({
     height: '100%',
     backgroundBlendMode: 'multiply',
     background:
-      'linear-gradient(to right, rgba(0,0,0,.9) 50%, transparent 100%)',
+      'linear-gradient(to right, rgba(0,0,0,.9) 25%, transparent 100%)',
     zIndex: 2
   },
   movieHeader: {
     position: 'relative',
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    maxWidth: '60%'
   },
   tag: {
     padding: theme.spacing(0.3, 3),
@@ -97,6 +98,11 @@ export default theme => ({
   learnMore: { color: theme.palette.common.white },
   buttonIcon: { marginLeft: theme.spacing(2) },
   [theme.breakpoints.down('sm')]: {
+    infoSection: {
+      background:
+        'linear-gradient(to right, rgba(0,0,0,.9) 70%, transparent 100%)'
+    },
+    movieHeader: { maxWidth: '90%' },
     movieTitle: {
       maxWidth: '100%',
       fontSize: '16px'

@@ -68,7 +68,7 @@ const showInvitationForm = state => ({
   ...state,
   showInvitation: !state.showInvitation
 });
-const resetCheckout = () => ({ ...initialState });
+const resetCheckout = () => initialState;
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
