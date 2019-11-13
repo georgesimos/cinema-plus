@@ -14,42 +14,16 @@ const styles = theme => ({
 });
 
 class Account extends Component {
-  state = { user: {}, image: null };
+  state = { image: null };
+
   static propTypes = {
     user: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired
   };
 
-  componentDidMount() {
-    this.getUserProfile();
-  }
-
-  getUserProfile = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const url = '/users/me';
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        const user = await response.json();
-        this.setState({ user });
-      }
-    } catch (error) {
-      if (this.signal) {
-        this.setState({
-          error
-        });
-      }
-    }
-  };
-
   render() {
-    const { user, image } = this.state;
-    const { classes, uploadImage } = this.props;
+    const { image } = this.state;
+    const { classes, user, uploadImage } = this.props;
     return (
       <div className={classes.root}>
         <Grid container spacing={4}>
@@ -80,4 +54,9 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(null, { uploadImage })(withStyles(styles)(Account));
+const mapStateToProps = ({ authState }) => ({
+  user: authState.user
+});
+export default connect(mapStateToProps, { uploadImage })(
+  withStyles(styles)(Account)
+);
