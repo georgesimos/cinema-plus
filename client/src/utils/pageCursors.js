@@ -1,4 +1,4 @@
-export default function pageCursors() {
+const pageCursors = () => {
   let cursor1, cursor2, cursor3;
   cursor1 = document.getElementById('cursor');
   cursor2 = document.getElementById('cursor2');
@@ -14,4 +14,6 @@ export default function pageCursors() {
       cursor3.style.left = event.clientX + 'px';
       cursor3.style.top = event.clientY + 'px';
     });
-}
+};
+
+export default pageCursors;

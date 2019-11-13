@@ -8,7 +8,7 @@ import {
   LOGOUT
 } from '../types';
 import { setAlert } from './alert';
-import setAuthHeaders from '../../utils/setAuthHeaders';
+import { setAuthHeaders, setUser, removeUser, isLoggedIn } from '../../utils';
 
 export const uploadImage = (id, image) => async dispatch => {
   try {
@@ -43,6 +43,7 @@ export const login = (username, password) => async dispatch => {
     const responseData = await response.json();
     if (response.ok) {
       const { user } = responseData;
+      user && setUser(user);
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
       dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
     }
@@ -70,6 +71,7 @@ export const facebookLogin = e => async dispatch => {
 
     if (response.ok) {
       const { user } = responseData;
+      user && setUser(user);
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
       dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
     }
@@ -103,6 +105,7 @@ export const register = ({
     const responseData = await response.json();
     if (response.ok) {
       const { user } = responseData;
+      user && setUser(user);
       if (image) dispatch(uploadImage(user._id, image)); // Upload image
       dispatch({ type: REGISTER_SUCCESS, payload: responseData });
       dispatch(setAlert('Register Success', 'success', 5000));
@@ -119,6 +122,7 @@ export const register = ({
 
 // Load user
 export const loadUser = () => async dispatch => {
+  if (!isLoggedIn()) return;
   try {
     const url = '/users/me';
     const response = await fetch(url, {
@@ -126,7 +130,11 @@ export const loadUser = () => async dispatch => {
       headers: setAuthHeaders()
     });
     const responseData = await response.json();
-    if (response.ok) dispatch({ type: USER_LOADED, payload: responseData });
+    if (response.ok) {
+      const { user } = responseData;
+      user && setUser(user);
+      dispatch({ type: USER_LOADED, payload: responseData });
+    }
     if (!response.ok) dispatch({ type: AUTH_ERROR });
   } catch (error) {
     dispatch({ type: AUTH_ERROR });
@@ -147,6 +155,7 @@ export const logout = () => async dispatch => {
     });
     const responseData = await response.json();
     if (response.ok) {
+      removeUser();
       dispatch({ type: LOGOUT });
       dispatch(setAlert('LOGOUT Success', 'success', 5000));
     }

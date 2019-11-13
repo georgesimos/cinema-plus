@@ -22,7 +22,7 @@ function MovieCategoryPage(props) {
   const { movies, getMovies } = props;
   const category = props.match.params.category;
   useEffect(() => {
-    if (movies.length === 0) {
+    if (!movies.length) {
       getMovies();
     }
   }, [movies, getMovies]);
@@ -69,7 +69,4 @@ const mapStateToProps = ({ movieState }, ownProps) => ({
 
 const mapDispatchToProps = { getMovies };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MovieCategoryPage);
+export default connect(mapStateToProps, mapDispatchToProps)(MovieCategoryPage);

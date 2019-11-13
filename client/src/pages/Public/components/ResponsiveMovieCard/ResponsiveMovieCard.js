@@ -5,7 +5,7 @@ import styles from './styles';
 // import ShareIcon from '@material-ui/icons/Share';
 // import FavoriteIcon from '@material-ui/icons/Favorite';
 // import CaledarIcon from '@material-ui/icons/CalendarToday';
-import { textTruncate } from '../../../../utils/utils';
+import { textTruncate } from '../../../../utils';
 import { Link } from 'react-router-dom';
 
 const MovieCard = props => {

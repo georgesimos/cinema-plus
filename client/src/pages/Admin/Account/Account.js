@@ -14,7 +14,6 @@ const styles = theme => ({
 });
 
 class Account extends Component {
-  signal = true;
   state = { user: {}, image: null };
   static propTypes = {
     user: PropTypes.object.isRequired,
@@ -22,13 +21,7 @@ class Account extends Component {
   };
 
   componentDidMount() {
-    this.signal = true;
-
     this.getUserProfile();
-  }
-
-  componentWillUnmount() {
-    this.signal = false;
   }
 
   getUserProfile = async () => {
@@ -41,7 +34,7 @@ class Account extends Component {
           Authorization: `Bearer ${token}`
         }
       });
-      if (response.ok && this.signal) {
+      if (response.ok) {
         const user = await response.json();
         this.setState({ user });
       }
@@ -87,7 +80,4 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default connect(
-  null,
-  { uploadImage }
-)(withStyles(styles)(Account));
+export default connect(null, { uploadImage })(withStyles(styles)(Account));

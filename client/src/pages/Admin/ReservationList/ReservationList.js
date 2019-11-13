@@ -6,7 +6,7 @@ import styles from './styles';
 import { ReservationsToolbar, ReservationsTable } from './components';
 import { getReservations, getMovies, getCinemas } from '../../../store/actions';
 import ReservationsCalendar from './components/ReservationsCalendar/ReservationsCalendar';
-import { match } from '../../../utils/utils';
+import { match } from '../../../utils';
 
 class ReservationList extends Component {
   state = { mode: 'list', search: '' };
@@ -17,12 +17,18 @@ class ReservationList extends Component {
   };
 
   componentDidMount() {
-    const { reservations, movies, cinemas } = this.props;
-    if (!reservations.length || !movies.length || !cinemas.length) {
-      this.props.getReservations();
-      this.props.getMovies();
-      this.props.getCinemas();
-    }
+    const {
+      reservations,
+      movies,
+      cinemas,
+      getReservations,
+      getMovies,
+      getCinemas
+    } = this.props;
+
+    if (!reservations.length) getReservations();
+    if (!movies.length) getMovies();
+    if (!cinemas.length) getCinemas();
   }
 
   onChangeMode = () =>

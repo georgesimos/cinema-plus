@@ -8,5 +8,4 @@ const setAuthHeaders = headersObject => {
   }
   return headers;
 };
-
 export default setAuthHeaders;

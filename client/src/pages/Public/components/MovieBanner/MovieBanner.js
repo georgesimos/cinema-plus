@@ -8,7 +8,7 @@ import {
   makeStyles,
   withStyles
 } from '@material-ui/core';
-import { textTruncate } from '../../../../utils/utils';
+import { textTruncate } from '../../../../utils';
 import { Link } from 'react-router-dom';
 import ArrowRightAlt from '@material-ui/icons/ArrowRightAlt';
 import StarBorderIcon from '@material-ui/icons/StarBorder';

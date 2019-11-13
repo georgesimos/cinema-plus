@@ -5,7 +5,7 @@ import { Button, TextField, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login';
 import { login, facebookLogin } from '../../../../store/actions';
-import history from '../../../../utils/history';
+import { history } from '../../../../utils';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -147,7 +147,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.authState.isAuthenticated,
   user: state.authState.user
 });
-export default connect(
-  mapStateToProps,
-  { login, facebookLogin }
-)(LoginForm);
+export default connect(mapStateToProps, { login, facebookLogin })(LoginForm);

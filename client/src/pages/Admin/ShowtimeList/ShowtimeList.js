@@ -20,7 +20,8 @@ class ShowtimeList extends Component {
   };
 
   componentDidMount() {
-    this.props.getShowtimes();
+    const { showtimes, getShowtimes } = this.props;
+    if (!showtimes.length) getShowtimes();
   }
 
   handleDeleteShowtime = () => {

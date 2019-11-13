@@ -8,7 +8,7 @@ import { ResponsiveDialog } from '../../../components';
 import styles from './styles';
 import AddMovie from './components/AddMovie/AddMovie';
 import { getMovies, onSelectMovie } from '../../../store/actions';
-import { match } from '../../../utils/utils';
+import { match } from '../../../utils';
 
 class MovieList extends Component {
   state = { search: '' };

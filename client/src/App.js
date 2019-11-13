@@ -9,7 +9,7 @@ import { loadUser } from './store/actions';
 
 import theme from './theme';
 import { Alert } from './components';
-import pageCursors from './utils/pageCursors';
+import { pageCursors } from './utils';
 import Routes from './Routes';
 
 import './assets/scss/index.scss';

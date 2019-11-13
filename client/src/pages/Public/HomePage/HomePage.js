@@ -9,8 +9,9 @@ import styles from './styles';
 
 class HomePage extends Component {
   componentDidMount() {
-    this.props.getMovies();
-    this.props.getShowtimes();
+    const { movies, showtimes, getMovies, getShowtimes } = this.props;
+    if (!movies.length) getMovies();
+    if (!showtimes.length) getShowtimes();
   }
 
   render() {

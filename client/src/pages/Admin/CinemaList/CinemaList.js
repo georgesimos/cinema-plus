@@ -9,7 +9,7 @@ import { ResponsiveDialog } from '../../../components';
 import styles from './styles';
 import AddCinema from './components/AddCinema/AddCinema';
 import CinemaCard from '../../Public/components/CinemaCard/CinemaCard';
-import { match } from '../../../utils/utils';
+import { match } from '../../../utils';
 
 class CinemaList extends Component {
   constructor(props) {
@@ -22,7 +22,8 @@ class CinemaList extends Component {
   }
 
   componentDidMount() {
-    this.props.getCinemas();
+    const { cinemas, getCinemas } = this.props;
+    if (!cinemas.length) getCinemas();
   }
 
   openEditDialog = cinema => {

@@ -18,8 +18,8 @@ function CinemasPage(props) {
   const classes = useStyles(props);
   const { cinemas, getCinemas } = props;
   useEffect(() => {
-    getCinemas();
-  }, [getCinemas]);
+    if (!cinemas.length) getCinemas();
+  }, [cinemas, getCinemas]);
 
   return (
     <Container maxWidth="xl">
@@ -53,7 +53,4 @@ const mapStateToProps = ({ cinemaState }) => ({
 
 const mapDispatchToProps = { getCinemas };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CinemasPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CinemasPage);
