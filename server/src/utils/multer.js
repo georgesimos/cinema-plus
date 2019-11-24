@@ -1,13 +1,13 @@
 const multer = require('multer')
 
-const storage = multer.diskStorage({
-    destination: './uploads',
+const storage = (path) => multer.diskStorage({
+    destination: './uploads/' + path,
     filename:  (req, file, cb) => {
       cb(null,`${Date.now()}-${file.originalname}`)
     }
   })
    
-const upload = multer({ storage: storage,  fileFilter: (req, file, cb) => {
+const upload = (path) => multer({ storage: storage(path),  fileFilter: (req, file, cb) => {
     if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
         cb(null, true);
     } else {

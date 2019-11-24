@@ -6,8 +6,13 @@ export default theme => ({
     display: 'flex'
   },
   textField: {
+    textTransform: 'capitalize',
     width: '100%',
     marginRight: theme.spacing(3)
+  },
+  upload: {
+    width: '100%',
+    marginTop: theme.spacing(2)
   },
   portletFooter: {
     paddingLeft: theme.spacing(3),

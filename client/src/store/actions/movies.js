@@ -1,6 +1,27 @@
 import { GET_MOVIES, SELECT_MOVIE } from '../types';
 import { setAlert } from './alert';
 
+export const uploadMovieImage = (id, image) => async dispatch => {
+  try {
+    const data = new FormData();
+    data.append('file', image);
+    const url = '/movies/photo/' + id;
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      dispatch(setAlert('Image Uploaded', 'success', 5000));
+    }
+    if (responseData.error) {
+      dispatch(setAlert(responseData.error.message, 'error', 5000));
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
 export const getMovies = () => async dispatch => {
   try {
     const url = '/movies';
@@ -38,7 +59,7 @@ export const getMovie = id => async dispatch => {
   }
 };
 
-export const addMovie = movie => async dispatch => {
+export const addMovie = (image, newMovie) => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/movies';
@@ -48,18 +69,20 @@ export const addMovie = movie => async dispatch => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(movie)
+      body: JSON.stringify(newMovie)
     });
+    const movie = await response.json();
     if (response.ok) {
-      dispatch(getMovies());
       dispatch(setAlert('Movie have been saved!', 'success', 5000));
+      if (image) dispatch(uploadMovieImage(movie._id, image));
+      dispatch(getMovies());
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
   }
 };
 
-export const updateMovie = (movieId, movie) => async dispatch => {
+export const updateMovie = (movieId, movie, image) => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/movies/' + movieId;
@@ -72,8 +95,10 @@ export const updateMovie = (movieId, movie) => async dispatch => {
       body: JSON.stringify(movie)
     });
     if (response.ok) {
-      dispatch(getMovies());
+      dispatch(onSelectMovie(null));
       dispatch(setAlert('Movie have been saved!', 'success', 5000));
+      if (image) dispatch(uploadMovieImage(movieId, image));
+      dispatch(getMovies());
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
@@ -93,6 +118,7 @@ export const removeMovie = movieId => async dispatch => {
     });
     if (response.ok) {
       dispatch(getMovies());
+      dispatch(onSelectMovie(null));
       dispatch(setAlert('Movie have been Deleted!', 'success', 5000));
     }
   } catch (error) {

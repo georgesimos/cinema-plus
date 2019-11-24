@@ -63,9 +63,9 @@ function CinemaCard(props) {
   const rootClassName = classNames(classes.root, className);
   return (
     <Paper className={rootClassName}>
-      {/* <div className={classes.imageWrapper}>
+      <div className={classes.imageWrapper}>
         <img alt="cinema" className={classes.image} src={cinema.image} />
-      </div> */}
+      </div>
       <div className={classes.details}>
         <Typography className={classes.name} variant="h4">
           {cinema.name}

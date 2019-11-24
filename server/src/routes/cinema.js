@@ -1,4 +1,5 @@
 const express = require('express')
+const upload = require('../utils/multer')
 const Cinema = require('../models/cinema')
 
 const router = new express.Router()
@@ -13,6 +14,27 @@ router.post('/cinemas', async (req, res) => {
         res.status(400).send(e)
     }
 })
+
+router.post('/cinemas/photo/:id', upload('cinemas').single('file'), async (req,res, next) => {
+    const url = req.protocol + '://' + req.get('host')
+    const file = req.file
+    const movieId = req.params.id
+    try {
+    if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+    }
+      const cinema = await Cinema.findById(movieId);
+      if (!cinema) return res.sendStatus(404);
+      cinema['image'] = url + '/' + file.path
+      await cinema.save();
+      res.send({cinema, file});
+    } catch (e) {
+      console.log(e)
+      res.sendStatus(400).send(e);
+    }
+  })
 
 // Get all cinemas
 router.get('/cinemas', async (req, res) => {

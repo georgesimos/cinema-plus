@@ -12,12 +12,13 @@ import {
   updateCinemas,
   removeCinemas
 } from '../../../../../store/actions';
+import { FileUpload } from '../../../../../components';
 
 class AddCinema extends Component {
   state = {
     _id: '',
     name: '',
-    image: '',
+    image: null,
     ticketPrice: '',
     city: '',
     seatsAvailable: '',
@@ -44,13 +45,21 @@ class AddCinema extends Component {
       updateCinemas,
       removeCinemas
     } = this.props;
-    const { _id, name, ticketPrice, city, seatsAvailable, seats } = this.state;
+    const {
+      _id,
+      name,
+      image,
+      ticketPrice,
+      city,
+      seatsAvailable,
+      seats
+    } = this.state;
     const cinema = { name, ticketPrice, city, seatsAvailable, seats };
     let notification = {};
     type === 'create'
-      ? (notification = await createCinemas(cinema))
+      ? (notification = await createCinemas(image, cinema))
       : type === 'update'
-      ? (notification = await updateCinemas(cinema, _id))
+      ? (notification = await updateCinemas(image, cinema, _id))
       : (notification = await removeCinemas(_id));
     this.setState({ notification });
     if (notification && notification.status === 'success') getCinemas();
@@ -164,16 +173,13 @@ class AddCinema extends Component {
             />
           </div>
           <div className={classes.field}>
-            <TextField
+            <FileUpload
               className={classes.textField}
-              label="Image Url"
-              margin="dense"
-              required
-              value={image}
-              variant="outlined"
-              onChange={event =>
-                this.handleFieldChange('image', event.target.value)
-              }
+              file={image}
+              onUpload={event => {
+                const file = event.target.files[0];
+                this.handleFieldChange('image', file);
+              }}
             />
           </div>
 
@@ -213,6 +219,7 @@ class AddCinema extends Component {
         </Button>
         {this.props.editCinema && (
           <Button
+            color="secondary"
             className={classes.buttonFooter}
             variant="contained"
             onClick={() => this.onSubmitAction('remove')}>

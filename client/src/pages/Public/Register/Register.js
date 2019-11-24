@@ -48,7 +48,6 @@ class Register extends Component {
 
   handleRegister = () => {
     const newUser = this.state.values;
-    console.log(newUser);
     this.props.register(newUser);
   };
 
@@ -200,8 +199,5 @@ const mapStateToProps = state => ({
 });
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    { register }
-  )(Register)
+  connect(mapStateToProps, { register })(Register)
 );

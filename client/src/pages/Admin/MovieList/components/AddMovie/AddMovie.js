@@ -16,11 +16,12 @@ import {
   updateMovie,
   removeMovie
 } from '../../../../../store/actions';
+import FileUpload from '../../../../../components/FileUpload/FileUpload';
 
 class AddMovie extends Component {
   state = {
     title: '',
-    image: '',
+    image: null,
     genre: '',
     language: '',
     duration: '',
@@ -79,33 +80,14 @@ class AddMovie extends Component {
     this.setState(newState);
   };
 
-  onAddMovie = () => this.props.addMovie(this.state);
+  onAddMovie = () => {
+    const { image, ...rest } = this.state;
+    this.props.addMovie(image, rest);
+  };
 
   onUpdateMovie = () => {
-    const {
-      title,
-      image,
-      language,
-      genre,
-      director,
-      cast,
-      description,
-      duration,
-      releaseDate,
-      endDate
-    } = this.state;
-    this.props.updateMovie(this.props.edit._id, {
-      title,
-      image,
-      language,
-      genre,
-      director,
-      cast,
-      description,
-      duration,
-      releaseDate,
-      endDate
-    });
+    const { image, ...rest } = this.state;
+    this.props.updateMovie(this.props.edit._id, rest, image);
   };
 
   onRemoveMovie = () => this.props.removeMovie(this.props.edit._id);
@@ -172,18 +154,8 @@ class AddMovie extends Component {
           </div>
           <div className={classes.field}>
             <TextField
-              className={classes.textField}
-              label="Image Url"
-              margin="dense"
-              required
-              value={image}
-              variant="outlined"
-              onChange={event =>
-                this.handleFieldChange('image', event.target.value)
-              }
-            />
-            <TextField
               fullWidth
+              multiline
               className={classes.textField}
               label="Description"
               margin="dense"
@@ -281,6 +253,16 @@ class AddMovie extends Component {
               />
             </MuiPickersUtilsProvider>
           </div>
+          <div className={classes.field}>
+            <FileUpload
+              className={classes.upload}
+              file={image}
+              onUpload={event => {
+                const file = event.target.files[0];
+                this.handleFieldChange('image', file);
+              }}
+            />
+          </div>
         </form>
 
         <Button
@@ -292,6 +274,7 @@ class AddMovie extends Component {
         </Button>
         {this.props.edit && (
           <Button
+            color="secondary"
             className={classes.buttonFooter}
             variant="contained"
             onClick={this.onRemoveMovie}>

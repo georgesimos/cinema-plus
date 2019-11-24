@@ -1,6 +1,27 @@
 import { GET_CINEMAS, GET_CINEMA } from '../types';
 import { setAlert } from './alert';
 
+export const uploadCinemaImage = (id, image) => async dispatch => {
+  try {
+    const data = new FormData();
+    data.append('file', image);
+    const url = '/cinemas/photo/' + id;
+    const response = await fetch(url, {
+      method: 'POST',
+      body: data
+    });
+    const responseData = await response.json();
+    if (response.ok) {
+      dispatch(setAlert('Image Uploaded', 'success', 5000));
+    }
+    if (responseData.error) {
+      dispatch(setAlert(responseData.error.message, 'error', 5000));
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
 export const getCinemas = () => async dispatch => {
   try {
     const url = '/cinemas';
@@ -33,7 +54,7 @@ export const getCinema = id => async dispatch => {
   }
 };
 
-export const createCinemas = cinema => async dispatch => {
+export const createCinemas = (image, newCinema) => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/cinemas';
@@ -43,11 +64,13 @@ export const createCinemas = cinema => async dispatch => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(cinema)
+      body: JSON.stringify(newCinema)
     });
-
+    const cinema = await response.json();
     if (response.ok) {
       dispatch(setAlert('Cinema Created', 'success', 5000));
+      if (image) dispatch(uploadCinemaImage(cinema._id, image));
+      dispatch(getCinemas());
       return { status: 'success', message: 'Cinema Created' };
     }
   } catch (error) {
@@ -59,7 +82,7 @@ export const createCinemas = cinema => async dispatch => {
   }
 };
 
-export const updateCinemas = (cinema, id) => async dispatch => {
+export const updateCinemas = (image, cinema, id) => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/cinemas/' + id;
@@ -73,6 +96,7 @@ export const updateCinemas = (cinema, id) => async dispatch => {
     });
     if (response.ok) {
       dispatch(setAlert('Cinema Updated', 'success', 5000));
+      if (image) dispatch(uploadCinemaImage(id, image));
       return { status: 'success', message: 'Cinema Updated' };
     }
   } catch (error) {

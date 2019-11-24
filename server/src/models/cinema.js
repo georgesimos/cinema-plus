@@ -24,7 +24,10 @@ const cinemaSchema = new Schema({
     seatsAvailable: {
         type: Number,
         required: true
-    }
+    },
+    image: {
+        type: String,
+      },
 })
 
 const Cinema = mongoose.model('Cinema', cinemaSchema)

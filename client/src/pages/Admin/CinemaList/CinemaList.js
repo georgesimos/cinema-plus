@@ -71,7 +71,10 @@ class CinemaList extends Component {
           id="Edit-cinema"
           open={this.state.openEditDialog}
           handleClose={() => this.CloseEditDialog()}>
-          <AddCinema editCinema={editCinema} />
+          <AddCinema
+            editCinema={editCinema}
+            handleClose={() => this.CloseEditDialog()}
+          />
         </ResponsiveDialog>
       </div>
     );

@@ -17,7 +17,7 @@ router.post("/users", async (req, res) => {
   }
 });
 
-router.post('/users/photo/:id', upload.single('file'), async (req,res, next) => {
+router.post('/users/photo/:id', upload('users').single('file'), async (req,res, next) => {
   const url = req.protocol + '://' + req.get('host')
   const file = req.file
   const userId = req.params.id
