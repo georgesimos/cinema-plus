@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { getCinemas } from '../../../store/actions';
 import { withStyles } from '@material-ui/core';
 import { CircularProgress, Grid } from '@material-ui/core';
-import { CinemaToolbar } from './components';
+import { AddCinema, CinemaToolbar } from './components';
 import { ResponsiveDialog } from '../../../components';
 import styles from './styles';
-import AddCinema from './components/AddCinema/AddCinema';
 import CinemaCard from '../../Public/components/CinemaCard/CinemaCard';
 import { match } from '../../../utils';
 
