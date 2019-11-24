@@ -14,7 +14,7 @@ const createMailOptions = (data) => {
                 <p>Time name: ${time}</p>
                 <p>Cinema name: ${cinema}</p>
                 <p>Cinema seat: ${seat}</p>
-                <img src="" alt="cinema Image"/>
+                <img src="${image}" alt="cinema Image"/>
                 <br/>
               `;
     return  {
