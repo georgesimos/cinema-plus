@@ -223,6 +223,7 @@ class BookingPage extends Component {
   render() {
     const {
       classes,
+      user,
       movie,
       cinema,
       showtimes,
@@ -276,6 +277,7 @@ class BookingPage extends Component {
                   }
                 />
                 <BookingCheckout
+                  user={user}
                   ticketPrice={cinema.ticketPrice}
                   seatsAvailable={cinema.seatsAvailable}
                   selectedSeats={selectedSeats.length}

@@ -18,19 +18,27 @@ const useStyles = makeStyles(theme => ({
 
 export default function BookingCheckout(props) {
   const classes = useStyles(props);
-  const { ticketPrice, selectedSeats, seatsAvailable, onBookSeats } = props;
+  const {
+    user,
+    ticketPrice,
+    selectedSeats,
+    seatsAvailable,
+    onBookSeats
+  } = props;
 
   return (
     <Box marginTop={2} bgcolor="rgb(18, 20, 24)">
       <Grid container>
         <Grid item xs={10}>
           <Grid container spacing={3} style={{ padding: 20 }}>
-            <Grid item>
-              <Typography className={classes.bannerTitle}>Name</Typography>
-              <Typography className={classes.bannerContent}>
-                George Simos
-              </Typography>
-            </Grid>
+            {user && user.name && (
+              <Grid item>
+                <Typography className={classes.bannerTitle}>Name</Typography>
+                <Typography className={classes.bannerContent}>
+                  {user.name}
+                </Typography>
+              </Grid>
+            )}
             <Grid item>
               <Typography className={classes.bannerTitle}>Tickets</Typography>
               {selectedSeats > 0 ? (
