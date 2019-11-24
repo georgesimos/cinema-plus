@@ -211,8 +211,9 @@ class BookingPage extends Component {
         host: user.name,
         movie: movie.title,
         time: selectedTime,
-        date: selectedDate,
+        date: new Date(selectedDate).toDateString(),
         cinema: cinema.name,
+        image: cinema.image,
         seat: key
       }))
       .filter(inv => inv.to !== '');
