@@ -1,4 +1,5 @@
 const Reservation = require('../models/reservation');
+const Movie = require('../models/movie');
 
 // Cinema User modeling (GET ALL CINEMAS)
 // Get all cinemas based on the user's past reservations
@@ -44,9 +45,63 @@ const cinemaUserModeling = async (cinemas,username) => {
     }
 }
 
+const moviesUserModeling = async (username) => {
+    userPreference = {
+        genre:{},
+        director:{},
+        cast:{}
+    };
+
+    const userReservations = JSON.parse(JSON.stringify(await Reservation.find({username:username})));
+    const Allmovies = JSON.parse(JSON.stringify(await Movie.find({})));
+    // const resultsMoviesWatched = userReservations.map( async reservation=>{
+    //     let movie = await Movie.find({"_id":reservation.movieId});
+    //     if(movie.length){
+    //         return movie[0];
+    //     }
+    // });
+    const moviesWatched = userReservations.map( reservation=>{
+        for(let movie of Allmovies){
+            if (movie._id == reservation.movieId){
+                return movie;
+            }
+        }
+    });
+
+    //  console.log(moviesWatched);
+
+    moviesWatched.map(movie=>{
+        //console.log(movie)
+        let genre = movie.genre;
+        let director = movie.director;
+        let casts = movie.cast.replace(/\s*,\s*/g, ",").split(',');
+        userPreference.genre[genre]? ++userPreference.genre[genre] : userPreference.genre[genre] =1;
+        userPreference.director[director]? ++userPreference.director[director] : userPreference.director[director] =1;
+        for(let cast of casts){
+            userPreference.cast[cast]? ++userPreference.cast[cast] : userPreference.cast[cast] =1; 
+        }
+    });
+
+    //find movies that are available for booking
+    availableMovies = availableMovies(Allmovies);
+    console.log(availableMovies)
+
+    
+
+
+}
+
+
+const availableMovies = (Allmovies)=>{
+    Allmovies.map(movie=>{
+        
+    })
+}
+
 
 const userModeling = {
-    cinemaUserModeling
+    cinemaUserModeling,
+    moviesUserModeling
 }
 
 module.exports = userModeling;

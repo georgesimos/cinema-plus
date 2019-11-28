@@ -1,6 +1,7 @@
 const express = require('express');
 const upload = require('../utils/multer')
 const Movie = require('../models/movie');
+const userModeling = require('../utils/userModeling')
 
 const router = new express.Router();
 
@@ -100,6 +101,18 @@ router.delete('/movies/:id', async (req, res) => {
     !movie ? res.sendStatus(404) : res.send(movie);
   } catch (e) {
     res.sendStatus(400);
+  }
+});
+
+// Movies User modeling (Get Movies Suggestions)
+router.get('/movies/usermodeling/:username', async (req, res) => {
+  const username = req.params.username
+  try {
+    // const movies = await Movie.find({});
+    const cinemasUserModeled = await userModeling.moviesUserModeling(username);
+    res.send(movies);
+  } catch (e) {
+    res.status(400).send(e);
   }
 });
 
