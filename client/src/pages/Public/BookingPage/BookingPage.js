@@ -31,10 +31,19 @@ import BookingInvitation from './components/BookingInvitation/BookingInvitation'
 
 class BookingPage extends Component {
   componentDidMount() {
-    this.props.getMovie(this.props.match.params.id);
-    this.props.getCinemasUserModeling(this.props.user.username);
-    this.props.getShowtimes();
-    this.props.getReservations();
+    const {
+      user,
+      match,
+      getMovie,
+      getCinemas,
+      getCinemasUserModeling,
+      getShowtimes,
+      getReservations
+    } = this.props;
+    getMovie(match.params.id);
+    user ? getCinemasUserModeling(user.username) : getCinemas();
+    getShowtimes();
+    getReservations();
   }
 
   componentDidUpdate(prevProps) {
