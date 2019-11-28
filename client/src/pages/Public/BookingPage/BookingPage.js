@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles, Grid, Container } from '@material-ui/core';
 import {
   getMovie,
+  getCinemasUserModeling,
   getCinema,
   getCinemas,
   getShowtimes,
@@ -31,7 +32,7 @@ import BookingInvitation from './components/BookingInvitation/BookingInvitation'
 class BookingPage extends Component {
   componentDidMount() {
     this.props.getMovie(this.props.match.params.id);
-    this.props.getCinemas();
+    this.props.getCinemasUserModeling(this.props.user.username);
     this.props.getShowtimes();
     this.props.getReservations();
   }
@@ -337,6 +338,7 @@ const mapStateToProps = (
 const mapDispatchToProps = {
   getMovie,
   getCinema,
+  getCinemasUserModeling,
   getCinemas,
   getShowtimes,
   getReservations,
