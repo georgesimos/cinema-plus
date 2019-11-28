@@ -83,20 +83,44 @@ const moviesUserModeling = async (username) => {
     });
 
     //find movies that are available for booking
-    availableMovies = availableMovies(Allmovies);
-    console.log(availableMovies)
-
-    
-
+    availableMovies = availableMoviesFilter(Allmovies);
+    moviesNotWatched = moviesNotWatched(availableMovies,userReservations);
+    console.log(moviesNotWatched.length)
 
 }
 
 
-const availableMovies = (Allmovies)=>{
-    Allmovies.map(movie=>{
-        
+const availableMoviesFilter = (Allmovies)=>{
+    const today = new Date();
+    // console.log(Allmovies.length)
+    // console.log(today);
+    return Allmovies.map(movie=>{
+        let releaseDate = new Date(movie.releaseDate);
+        let endDate = new Date(movie.endDate);
+       if(today >= releaseDate && today <= endDate){
+           return movie;
+       }
     })
-}
+};
+
+const moviesNotWatched = (availableMovies,userReservations)=>{
+
+    return availableMovies.map(movie=>{
+        let isFirst = [];
+        for(let reservation of userReservations){
+            if(reservation.movieId == movie._id){
+                isFirst.push(false);
+            }else {
+                isFirst.push(true);
+            }
+        }
+        console.log(isFirst.every(Boolean))
+
+        if(isFirst.every(Boolean)){
+            return movie;
+        }
+    });
+};
 
 
 const userModeling = {
