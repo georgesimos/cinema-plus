@@ -13,8 +13,8 @@ import {
 } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
-import { data, options } from './chart';
+import palette from '../../../../../theme/palette';
+import { options } from './chart';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -27,20 +27,35 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-const LatestSales = props => {
-  const { className } = props;
-
+const BestMovies = props => {
+  const { className, bestMovies } = props;
   const classes = useStyles();
+
+  const data = {
+    labels: bestMovies.map(movie => movie.movie.title.toUpperCase()),
+    datasets: [
+      {
+        label: 'This year',
+        backgroundColor: palette.primary.main,
+        data: bestMovies.map(movie => movie.count)
+      },
+      {
+        label: 'Last year',
+        backgroundColor: palette.neutral,
+        data: [11, 20, 12, 29, 30]
+      }
+    ]
+  };
 
   return (
     <Card className={classnames(classes.root, className)}>
       <CardHeader
         action={
           <Button size="small" variant="text">
-            Last 7 days <ArrowDropDownIcon />
+            Best 5<ArrowDropDownIcon />
           </Button>
         }
-        title="Latest Sales"
+        title="Best Movies"
       />
       <Divider />
       <CardContent>
@@ -58,8 +73,8 @@ const LatestSales = props => {
   );
 };
 
-LatestSales.propTypes = {
+BestMovies.propTypes = {
   className: PropTypes.string
 };
 
-export default LatestSales;
+export default BestMovies;
