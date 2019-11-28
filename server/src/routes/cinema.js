@@ -1,6 +1,7 @@
 const express = require('express')
 const upload = require('../utils/multer')
 const Cinema = require('../models/cinema')
+const userModeling = require('../utils/userModeling')
 
 const router = new express.Router()
 
@@ -85,6 +86,18 @@ router.delete('/cinemas/:id', async (req, res) => {
         !cinema ? res.sendStatus(404) : res.send(cinema)
     } catch (e) {
         res.sendStatus(400)
+    }
+})
+
+// Cinema User modeling (GET ALL CINEMAS)
+router.get('/cinemas/usermodeling/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+        const cinemas = await Cinema.find({});
+        const cinemasUserModeled = await userModeling.cinemaUserModeling(cinemas,username);
+        res.send(cinemasUserModeled);
+    } catch (e) {
+        res.status(400).send(e)
     }
 })
 
