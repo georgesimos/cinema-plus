@@ -71,7 +71,6 @@ const moviesUserModeling = async (username) => {
     //  console.log(moviesWatched);
 
     moviesWatched.map(movie=>{
-        //console.log(movie)
         let genre = movie.genre;
         let director = movie.director;
         let casts = movie.cast.replace(/\s*,\s*/g, ",").split(',');
@@ -82,30 +81,76 @@ const moviesUserModeling = async (username) => {
         }
     });
 
+    //console.log(userPreference)
+
     //find movies that are available for booking
-    availableMovies = availableMoviesFilter(Allmovies);
-    moviesNotWatched = moviesNotWatched(availableMovies,userReservations);
-    console.log(moviesNotWatched.length)
+    const availableMovies = availableMoviesFilter(Allmovies);
+    const moviesNotWatched = moviesNotWatchedFilter(availableMovies,userReservations);
+    // console.log(moviesNotWatched)
+
+    const moviesRated = findRates(moviesNotWatched,userPreference);
+
+    moviesRated.sort((a, b)=> {
+        return b[1] - a[1];
+    });
+    // console.log(moviesRated)
+
+    const moviesToObject = moviesRated.map(array=>{
+        return array[0]
+    })
+    return moviesToObject;
 
 }
 
+const findRates = (moviesNotWatched,userPreference)=>{
+    const result=[];
+    let rate;
+    for(let movie of moviesNotWatched){
+        for(let pref in userPreference){
+            rate = getRateOfProperty(pref,userPreference,movie);
+            //TODO we can use weights here
+        }
+        result.push([movie,rate]);
+    }
+    // console.log(result)
+    return result;
+}
+
+const getRateOfProperty = (pref,userPreference,movie)=>{
+    let rate = 0;
+    const values = Object.keys(userPreference[pref]).map((key)=>{
+        return [key, userPreference[pref][key]];
+      });
+      let movieValues = movie[pref].replace(/\s*,\s*/g, ",").split(',');
+      for(value of values){
+          if(movieValues.length){
+              for(movieValue of movieValues){
+                  if(movieValue == value[0]){
+                    rate += value[1];
+                  }
+              }
+          }
+      }
+
+      return rate;
+}
 
 const availableMoviesFilter = (Allmovies)=>{
     const today = new Date();
-    // console.log(Allmovies.length)
-    // console.log(today);
-    return Allmovies.map(movie=>{
+    const returnMovies = [];
+    Allmovies.map(movie=>{
         let releaseDate = new Date(movie.releaseDate);
         let endDate = new Date(movie.endDate);
        if(today >= releaseDate && today <= endDate){
-           return movie;
+        returnMovies.push(movie);
        }
-    })
+    });
+    return returnMovies;
 };
 
-const moviesNotWatched = (availableMovies,userReservations)=>{
-
-    return availableMovies.map(movie=>{
+const moviesNotWatchedFilter = (availableMovies,userReservations)=>{
+    const returnMovies = [];
+    availableMovies.map(movie=>{
         let isFirst = [];
         for(let reservation of userReservations){
             if(reservation.movieId == movie._id){
@@ -114,12 +159,12 @@ const moviesNotWatched = (availableMovies,userReservations)=>{
                 isFirst.push(true);
             }
         }
-        console.log(isFirst.every(Boolean))
 
         if(isFirst.every(Boolean)){
-            return movie;
+            returnMovies.push(movie);
         }
     });
+    return returnMovies;
 };
 
 
