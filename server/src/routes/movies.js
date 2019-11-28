@@ -108,9 +108,8 @@ router.delete('/movies/:id', async (req, res) => {
 router.get('/movies/usermodeling/:username', async (req, res) => {
   const username = req.params.username
   try {
-    // const movies = await Movie.find({});
     const cinemasUserModeled = await userModeling.moviesUserModeling(username);
-    res.send(movies);
+    res.send(cinemasUserModeled);
   } catch (e) {
     res.status(400).send(e);
   }
