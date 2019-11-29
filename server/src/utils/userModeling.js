@@ -93,7 +93,7 @@ const moviesUserModeling = async (username) => {
     moviesRated.sort((a, b)=> {
         return b[1] - a[1];
     });
-    // console.log(moviesRated)
+     console.log(moviesRated)
 
     const moviesToObject = moviesRated.map(array=>{
         return array[0]
@@ -110,6 +110,7 @@ const findRates = (moviesNotWatched,userPreference)=>{
             rate = getRateOfProperty(pref,userPreference,movie);
             //TODO we can use weights here
         }
+        if(rate!=0)
         result.push([movie,rate]);
     }
     // console.log(result)
