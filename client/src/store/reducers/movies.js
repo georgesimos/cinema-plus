@@ -1,4 +1,4 @@
-import { GET_MOVIES, SELECT_MOVIE } from '../types';
+import { GET_MOVIES, SELECT_MOVIE,GET_SUGGESTIONS } from '../types';
 
 const initialState = {
   movies: [],
@@ -6,7 +6,8 @@ const initialState = {
   latestMovies: [],
   nowShowing: [],
   comingSoon: [],
-  selectedMovie: null
+  selectedMovie: null,
+  suggested:[]
 };
 
 const getMovies = (state, payload) => {
@@ -39,6 +40,11 @@ const onSelectMovie = (state, payload) => ({
   selectedMovie: payload
 });
 
+const getMovieSuggestions = (state, payload) =>({
+  ...state,
+  suggested: payload
+})
+
 export default (state = initialState, action) => {
   const { type, payload } = action;
 
@@ -47,6 +53,8 @@ export default (state = initialState, action) => {
       return getMovies(state, payload);
     case SELECT_MOVIE:
       return onSelectMovie(state, payload);
+    case GET_SUGGESTIONS:
+      return getMovieSuggestions(state, payload);
     default:
       return state;
   }

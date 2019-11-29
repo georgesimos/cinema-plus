@@ -1,4 +1,4 @@
-import { GET_MOVIES, SELECT_MOVIE } from '../types';
+import { GET_MOVIES, SELECT_MOVIE,GET_SUGGESTIONS } from '../types';
 import { setAlert } from './alert';
 
 export const uploadMovieImage = (id, image) => async dispatch => {
@@ -53,6 +53,22 @@ export const getMovie = id => async dispatch => {
     const movie = await response.json();
     if (response.ok) {
       dispatch({ type: SELECT_MOVIE, payload: movie });
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
+export const getMovieSuggestion = id => async dispatch => {
+  try {
+    const url = '/movies/usermodeling/' + id;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const movies = await response.json();
+    if (response.ok) {
+      dispatch({ type: GET_SUGGESTIONS, payload: movies });
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
