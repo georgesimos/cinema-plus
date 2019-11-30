@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Typography } from '@material-ui/core';
+import { withStyles, Typography, Select, Input } from '@material-ui/core';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
@@ -22,7 +22,7 @@ class AddMovie extends Component {
   state = {
     title: '',
     image: null,
-    genre: '',
+    genre: [],
     language: '',
     duration: '',
     description: '',
@@ -36,7 +36,6 @@ class AddMovie extends Component {
     if (this.props.edit) {
       const {
         title,
-        image,
         language,
         genre,
         director,
@@ -48,9 +47,8 @@ class AddMovie extends Component {
       } = this.props.edit;
       this.setState({
         title,
-        image,
         language,
-        genre,
+        genre: genre.split(','),
         director,
         cast,
         description,
@@ -81,13 +79,15 @@ class AddMovie extends Component {
   };
 
   onAddMovie = () => {
-    const { image, ...rest } = this.state;
-    this.props.addMovie(image, rest);
+    const { image, genre, ...rest } = this.state;
+    const movie = { ...rest, genre: genre.join(',') };
+    this.props.addMovie(image, movie);
   };
 
   onUpdateMovie = () => {
-    const { image, ...rest } = this.state;
-    this.props.updateMovie(this.props.edit._id, rest, image);
+    const { image, genre, ...rest } = this.state;
+    const movie = { ...rest, genre: genre.join(',') };
+    this.props.updateMovie(this.props.edit._id, movie, image);
   };
 
   onRemoveMovie = () => this.props.removeMovie(this.props.edit._id);
@@ -133,9 +133,11 @@ class AddMovie extends Component {
                 this.handleFieldChange('title', event.target.value)
               }
             />
-
-            <TextField
-              select
+          </div>
+          <div className={classes.field}>
+            <Select
+              multiple
+              displayEmpty
               className={classes.textField}
               label="Genre"
               margin="dense"
@@ -150,7 +152,7 @@ class AddMovie extends Component {
                   {genreItem}
                 </MenuItem>
               ))}
-            </TextField>
+            </Select>
           </div>
           <div className={classes.field}>
             <TextField
