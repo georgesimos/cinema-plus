@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Typography, Select, Input } from '@material-ui/core';
+import { withStyles, Typography, Select } from '@material-ui/core';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import {
   MuiPickersUtilsProvider,
