@@ -18,8 +18,14 @@ class HomePage extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.user !== prevProps.user) {
+      this.props.getMovieSuggestion(this.props.user.username);
+    }
+  }
+
   render() {
-    const { classes, randomMovie, comingSoon, nowShowing,suggested } = this.props;
+    const { classes, randomMovie, comingSoon, nowShowing, suggested } = this.props;
     return (
       <Fragment>
         <MovieBanner movie={randomMovie} height="85vh" />

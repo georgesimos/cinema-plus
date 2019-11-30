@@ -54,12 +54,7 @@ const moviesUserModeling = async (username) => {
 
     const userReservations = JSON.parse(JSON.stringify(await Reservation.find({username:username})));
     const Allmovies = JSON.parse(JSON.stringify(await Movie.find({})));
-    // const resultsMoviesWatched = userReservations.map( async reservation=>{
-    //     let movie = await Movie.find({"_id":reservation.movieId});
-    //     if(movie.length){
-    //         return movie[0];
-    //     }
-    // });
+   
     const moviesWatched = userReservations.map( reservation=>{
         for(let movie of Allmovies){
             if (movie._id == reservation.movieId){
