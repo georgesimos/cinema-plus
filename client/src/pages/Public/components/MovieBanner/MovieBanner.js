@@ -36,24 +36,16 @@ function MovieBanner(props) {
         <header className={classes.movieHeader}>
           {fullDescription && (
             <Box mb={3} display="flex" alignItems="center" flexWrap="wrap">
-              <Typography
-                className={classes.tag}
-                variant="body1"
-                color="inherit">
-                {movie.genre}
-              </Typography>
-              <Typography
-                className={classes.tag}
-                variant="body1"
-                color="inherit">
-                {movie.genre}
-              </Typography>
-              <Typography
-                className={classes.tag}
-                variant="body1"
-                color="inherit">
-                {movie.genre}
-              </Typography>
+              {movie.genre.split(',').map((genre, index) => (
+                <Typography
+                  key={`${genre}-${index}`}
+                  className={classes.tag}
+                  variant="body1"
+                  color="inherit">
+                  {genre}
+                </Typography>
+              ))}
+
               <StyledRating
                 value={4}
                 readOnly
