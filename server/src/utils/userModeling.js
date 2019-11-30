@@ -109,8 +109,7 @@ const findRates = (moviesNotWatched,userPreference)=>{
             rate = getRateOfProperty(pref,userPreference,movie);
             //TODO we can use weights here
         }
-        if(rate!=0)
-        result.push([movie,rate]);
+        if(rate !==0 ) result.push([movie,rate]);
     }
     // console.log(result)
     return result;
