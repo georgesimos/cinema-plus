@@ -66,11 +66,15 @@ const moviesUserModeling = async (username) => {
     //  console.log(moviesWatched);
 
     moviesWatched.map(movie=>{
-        let genre = movie.genre;
-        let director = movie.director;
+        let genres = movie.genre.replace(/\s*,\s*/g, ",").split(',');;
+        let directors = movie.director.replace(/\s*,\s*/g, ",").split(',');;
         let casts = movie.cast.replace(/\s*,\s*/g, ",").split(',');
-        userPreference.genre[genre]? ++userPreference.genre[genre] : userPreference.genre[genre] =1;
-        userPreference.director[director]? ++userPreference.director[director] : userPreference.director[director] =1;
+        for(let genre of genres){
+            userPreference.genre[genre]? ++userPreference.genre[genre] : userPreference.genre[genre] =1;
+        }
+        for(let director of directors){
+            userPreference.director[director]? ++userPreference.director[director] : userPreference.director[director] =1;
+        }
         for(let cast of casts){
             userPreference.cast[cast]? ++userPreference.cast[cast] : userPreference.cast[cast] =1; 
         }
