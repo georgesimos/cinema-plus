@@ -66,4 +66,15 @@ router.delete('/reservations/:id', async (req, res) => {
     }
 })
 
+// User modeling get suggested seats
+router.get('/reservations/usermodeling/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+    //   const cinemasUserModeled = await userModeling.moviesUserModeling(username);
+    //   res.send(cinemasUserModeled);
+    } catch (e) {
+      res.status(400).send(e);
+    }
+  })
+
 module.exports = router
