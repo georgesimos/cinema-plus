@@ -80,21 +80,30 @@ router.post("/users/login/facebook", async (req, res) => {
 
 });
 
-// router.post("/users/login/google", async (req, res) => {
-//   console.log(req.body);
-//   try {
-//     const user = await User.findByCredentials(
-//       req.body.username,
-//       req.body.password
-//     );
-//     const token = await user.generateAuthToken();
-//     res.send({ user, token });
-//   } catch (e) {
-//     res.status(400).send({
-//       error: { message: "You have entered an invalid username or password" }
-//     });
-//   }
-// });
+router.post("/users/login/google", async (req, res) => {
+  const { email, googleId, name } = req.body;
+  const nameArray = name.split(' ');
+
+    const user = await User.findOne({google : googleId });
+    if (!user) {
+      const newUser = new User({
+        name,
+        username: nameArray.join('') + googleId,
+        email,
+        google: googleId
+      })
+      try {
+        await newUser.save();
+        const token = await newUser.generateAuthToken();
+        res.status(201).send({ user: newUser, token });
+      } catch (e) {
+        res.status(400).send(e);
+      }
+    } else {
+      const token = await user.generateAuthToken();
+      res.send({ user, token });
+    }
+});
 
 // Logout user
 router.post("/users/logout", auth, async (req, res) => {

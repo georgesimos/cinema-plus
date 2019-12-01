@@ -2,30 +2,48 @@ import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles, Box, Grid } from '@material-ui/core';
-import { getMovies, getShowtimes, getMovieSuggestion } from '../../../store/actions';
+import {
+  getMovies,
+  getShowtimes,
+  getMovieSuggestion
+} from '../../../store/actions';
 import MovieCarousel from '../components/MovieCarousel/MovieCarousel';
 import MovieBanner from '../components/MovieBanner/MovieBanner';
 import styles from './styles';
 
 class HomePage extends Component {
   componentDidMount() {
-    const { movies, showtimes, suggested, getMovies, getShowtimes, getMovieSuggestion, user } = this.props;
-    console.log(user)
+    const {
+      movies,
+      showtimes,
+      suggested,
+      getMovies,
+      getShowtimes,
+      getMovieSuggestion,
+      user
+    } = this.props;
     if (!movies.length) getMovies();
     if (!showtimes.length) getShowtimes();
-    if(user){
+    if (user) {
       if (!suggested.length) getMovieSuggestion(user.username);
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.user !== prevProps.user) {
-      this.props.getMovieSuggestion(this.props.user.username);
+      this.props.user &&
+        this.props.getMovieSuggestion(this.props.user.username);
     }
   }
 
   render() {
-    const { classes, randomMovie, comingSoon, nowShowing, suggested } = this.props;
+    const {
+      classes,
+      randomMovie,
+      comingSoon,
+      nowShowing,
+      suggested
+    } = this.props;
     return (
       <Fragment>
         <MovieBanner movie={randomMovie} height="85vh" />

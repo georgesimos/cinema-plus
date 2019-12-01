@@ -28,7 +28,8 @@ class AddCinema extends Component {
 
   componentDidMount() {
     if (this.props.editCinema) {
-      this.setState({ ...this.props.editCinema });
+      const { image, ...rest } = this.props.editCinema;
+      this.setState({ ...rest });
     }
   }
 

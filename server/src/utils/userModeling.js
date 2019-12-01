@@ -80,19 +80,20 @@ const moviesUserModeling = async (username) => {
         }
     });
 
-    //console.log(userPreference)
+   //console.log(userPreference)
 
     //find movies that are available for booking
     const availableMovies = availableMoviesFilter(Allmovies);
+    //console.log(availableMovies)
     const moviesNotWatched = moviesNotWatchedFilter(availableMovies,userReservations);
-    // console.log(moviesNotWatched)
+     //console.log(moviesNotWatched)
 
     const moviesRated = findRates(moviesNotWatched,userPreference);
 
     moviesRated.sort((a, b)=> {
         return b[1] - a[1];
     });
-     console.log(moviesRated)
+     //console.log(moviesRated)
 
     const moviesToObject = moviesRated.map(array=>{
         return array[0]
@@ -109,8 +110,7 @@ const findRates = (moviesNotWatched,userPreference)=>{
             rate = getRateOfProperty(pref,userPreference,movie);
             //TODO we can use weights here
         }
-        if(rate!=0)
-        result.push([movie,rate]);
+        if(rate !== 0) result.push([movie,rate]);
     }
     // console.log(result)
     return result;
