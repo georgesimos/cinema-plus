@@ -337,7 +337,11 @@ class BookingPage extends Component {
     if(suggestedSeats && selectedTime && !suggestedSeat.length) {
       this.onGetSuggestedSeats(seats,suggestedSeats);
     }
-    if(suggestedSeat.length && !this.didSetSuggestion) seats = this.setSuggestionSeats(seats,suggestedSeat);this.didSetSuggestion=true;
+    if(suggestedSeat.length && !this.didSetSuggestion){
+      seats = this.setSuggestionSeats(seats,suggestedSeat);
+      this.didSetSuggestion=true;
+      console.log("TEST ")
+    }
 
     console.log(seats)
     
