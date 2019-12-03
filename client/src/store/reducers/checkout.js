@@ -6,11 +6,13 @@ import {
   TOGGLE_LOGIN_POPUP,
   SHOW_INVITATION_FORM,
   RESET_CHECKOUT,
-  SET_INVITATION
+  SET_INVITATION,
+  SET_SUGGESTED_SEATS
 } from '../types';
 
 const initialState = {
   selectedSeats: [],
+  suggestedSeat: [],
   selectedCinema: '',
   selectedDate: null,
   selectedTime: '',
@@ -33,6 +35,17 @@ const setSelectedSeats = (state, seats) => {
   return {
     ...state,
     selectedSeats: newSeats
+  };
+};
+
+const setSuggestedSeats = (state, seats) => {
+  let newSeats = [];
+
+  newSeats = [...state.suggestedSeat,seats];
+
+  return {
+    ...state,
+    suggestedSeat: newSeats
   };
 };
 
@@ -75,6 +88,8 @@ export default function(state = initialState, action) {
   switch (type) {
     case SET_SELECTED_SEATS:
       return setSelectedSeats(state, payload);
+      case SET_SUGGESTED_SEATS:
+      return setSuggestedSeats(state, payload);
     case SET_SELECTED_CINEMA:
       return setSelectedCinema(state, payload);
     case SET_SELECTED_DATE:

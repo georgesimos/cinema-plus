@@ -43,7 +43,9 @@ export default function BookingSeats(props) {
                       ? 'rgb(65, 66, 70)'
                       : seat === 2
                       ? 'rgb(120, 205, 4)'
-                      : 'rgb(96, 93, 169)'
+                      : seat === 3
+                      ? 'rgb(176, 0, 0)':
+                      'rgb(96, 93, 169)'
                   }>
                   {index + 1}
                 </Box>

@@ -1,5 +1,6 @@
 const Reservation = require('../models/reservation');
 const Movie = require('../models/movie');
+const Cinema = require('../models/cinema');
 
 // Cinema User modeling (GET ALL CINEMAS)
 // Get all cinemas based on the user's past reservations
@@ -80,7 +81,7 @@ const moviesUserModeling = async (username) => {
         }
     });
 
-   console.log(userPreference)
+   //console.log(userPreference)
 
     //find movies that are available for booking
     const availableMovies = availableMoviesFilter(Allmovies);
@@ -171,9 +172,60 @@ const moviesNotWatchedFilter = (availableMovies,userReservations)=>{
 };
 
 
+const reservationSeatsUserModeling = async (username,newSeats) => {
+    let numberOfTicketsArray = []
+    let numberOfTickets = 1;
+    const positions = {
+        front: 0,
+        center:0,
+        back:0
+    } 
+    const cinemas =  JSON.parse(JSON.stringify(await Cinema.find({})));
+    const userReservations = JSON.parse(JSON.stringify(await Reservation.find({username:username})));
+
+   userReservations.map( reservation=>{
+        for(let cinema of cinemas){
+            if (cinema._id == reservation.cinemaId){
+                //find how many rows the cinema has
+               const position = getPosition(cinema.seats.length,reservation.seats);
+               ++positions[position];
+               numberOfTicketsArray.push(reservation.seats.length);
+            }
+        }
+    });
+    numberOfTickets = Math.round(numberOfTicketsArray.reduce((a, b) => a + b, 0) / numberOfTicketsArray.length)
+
+
+return {
+    numberOfTickets,
+    positions
+}
+
+}
+
+const getPosition = (cinemaRows,seats)=>{
+    const rowNum = seats[0][0];
+    const step = cinemaRows/3;
+    let pos = 1;
+    for(let i=step;i<=cinemaRows;i+=step){
+        if(rowNum<i){
+            switch(pos){
+                case 1:
+                    return 'front'
+                case 2:
+                    return 'center'
+                case 3:
+                    return 'back'
+            }
+        }
+        pos++;
+    }
+};
+
 const userModeling = {
     cinemaUserModeling,
-    moviesUserModeling
+    moviesUserModeling,
+    reservationSeatsUserModeling
 }
 
 module.exports = userModeling;

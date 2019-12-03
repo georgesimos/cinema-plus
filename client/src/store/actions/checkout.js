@@ -6,11 +6,17 @@ import {
   SET_INVITATION,
   TOGGLE_LOGIN_POPUP,
   SHOW_INVITATION_FORM,
-  RESET_CHECKOUT
+  RESET_CHECKOUT,
+  SET_SUGGESTED_SEATS
 } from '../types';
 
 export const setSelectedSeats = seats => ({
   type: SET_SELECTED_SEATS,
+  payload: seats
+});
+
+export const setSuggestedSeats = seats => ({
+  type: SET_SUGGESTED_SEATS,
   payload: seats
 });
 

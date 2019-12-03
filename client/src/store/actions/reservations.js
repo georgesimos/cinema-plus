@@ -1,4 +1,4 @@
-import { GET_RESERVATIONS } from '../types';
+import { GET_RESERVATIONS,GET_RESERVATION_SUGGESTED_SEATS } from '../types';
 import { setAlert } from './alert';
 
 export const getReservations = () => async dispatch => {
@@ -14,6 +14,25 @@ export const getReservations = () => async dispatch => {
     const reservations = await response.json();
     if (response.ok) {
       dispatch({ type: GET_RESERVATIONS, payload: reservations });
+    }
+  } catch (error) {
+    dispatch(setAlert(error.message, 'error', 5000));
+  }
+};
+
+export const getSuggestedReservationSeats = (username) => async dispatch => {
+  try {
+    const token = localStorage.getItem('jwtToken');
+    const url = '/reservations/usermodeling/' + username;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const reservationSeats = await response.json();
+    if (response.ok) {
+      dispatch({ type: GET_RESERVATION_SUGGESTED_SEATS, payload: reservationSeats });
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));

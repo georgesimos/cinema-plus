@@ -1,5 +1,6 @@
 const express = require('express')
 const Reservation = require('../models/reservation')
+const userModeling = require('../utils/userModeling')
 
 const router = new express.Router()
 
@@ -70,8 +71,8 @@ router.delete('/reservations/:id', async (req, res) => {
 router.get('/reservations/usermodeling/:username', async (req, res) => {
     const username = req.params.username
     try {
-    //   const cinemasUserModeled = await userModeling.moviesUserModeling(username);
-    //   res.send(cinemasUserModeled);
+        const suggestedSeats = await userModeling.reservationSeatsUserModeling(username)
+        res.send(suggestedSeats);
     } catch (e) {
       res.status(400).send(e);
     }

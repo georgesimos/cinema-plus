@@ -9,6 +9,7 @@ import {
   getCinemas,
   getShowtimes,
   getReservations,
+  getSuggestedReservationSeats,
   setSelectedSeats,
   setSelectedCinema,
   setSelectedDate,
@@ -18,7 +19,8 @@ import {
   showInvitationForm,
   resetCheckout,
   setAlert,
-  addReservation
+  addReservation,
+  setSuggestedSeats
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -30,6 +32,7 @@ import BookingCheckout from './components/BookingCheckout/BookingCheckout';
 import BookingInvitation from './components/BookingInvitation/BookingInvitation';
 
 class BookingPage extends Component {
+  didSetSuggestion = false;
   componentDidMount() {
     const {
       user,
@@ -38,12 +41,14 @@ class BookingPage extends Component {
       getCinemas,
       getCinemasUserModeling,
       getShowtimes,
-      getReservations
+      getReservations,
+      getSuggestedReservationSeats
     } = this.props;
     getMovie(match.params.id);
     user ? getCinemasUserModeling(user.username) : getCinemas();
     getShowtimes();
     getReservations();
+    if(user)getSuggestedReservationSeats(user.username);
   }
 
   componentDidUpdate(prevProps) {
@@ -64,6 +69,8 @@ class BookingPage extends Component {
       newSeats[row][seat] = 1;
     } else if (seats[row][seat] === 2) {
       newSeats[row][seat] = 0;
+    }else if (seats[row][seat] === 3) {
+      newSeats[row][seat] = 2;
     } else {
       newSeats[row][seat] = 2;
     }
@@ -173,6 +180,74 @@ class BookingPage extends Component {
     return newSeats;
   };
 
+  onGetSuggestedSeats = (seats,suggestedSeats) =>{
+    const {numberOfTickets, positions} = suggestedSeats;
+
+    const positionsArray = Object.keys(positions).map((key)=>{
+      return [String(key), positions[key]];
+    });
+
+    positionsArray.sort((a, b)=> {
+      return b[1] - a[1];
+    });
+
+    if(positionsArray.every((position)=> position[1] === 0 )) return;
+
+    const step = Math.round(seats.length/3);
+    let indexArr =[];
+    let suggested;
+    for(let position of positionsArray){
+      switch(position[0]){
+        case 'front':
+          console.log('front');
+          indexArr =[0, step];
+          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          break;
+        case 'center':
+          console.log('center');
+          indexArr =[step, step*2];
+          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          break;
+        case 'back':
+          console.log('back');
+          indexArr =[step*2, step*3];
+          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          break;
+      }
+      if(suggested) this.getSeat(suggested,seats,numberOfTickets);break;
+    }
+
+  };
+
+  checkSeats = (indexArr,seats,numberOfTickets) => {
+    for(let i=indexArr[0]; i<indexArr[1];i++){
+      for(let seat in seats[i]) {
+        let seatNum = Number(seat)
+
+        if(!seats[i][seatNum] &&  seatNum +(numberOfTickets-1) <= seats[i].length){
+          let statusAvailability=[];
+          for(let y=1;y<numberOfTickets;y++) { //check the next seat if available
+            if(!seats[i][seatNum+y]) {
+              statusAvailability.push(true);
+            } else {
+              statusAvailability.push(false);
+            }
+          }
+          if(statusAvailability.every(Boolean)) return [i,seatNum];       
+        } 
+      }
+    }
+    return null;
+  };
+
+  getSeat = (suggested,seats,numberOfTickets) =>{
+    const {setSuggestedSeats} = this.props
+    for(let i=suggested[1]; i<suggested[1]+numberOfTickets;i++){
+      const seat = [suggested[0], i]
+      setSuggestedSeats(seat);
+    }
+  };
+
   onChangeCinema = event => this.props.setSelectedCinema(event.target.value);
   onChangeDate = date => this.props.setSelectedDate(date);
   onChangeTime = event => this.props.setSelectedTime(event.target.value);
@@ -230,6 +305,13 @@ class BookingPage extends Component {
     return invArray;
   };
 
+  setSuggestionSeats = (seats,suggestedSeats)=>{
+    suggestedSeats.map(suggestedSeat=>{
+      seats[suggestedSeat[0]][suggestedSeat[1]] = 3;
+    });
+    return seats;
+  }
+
   render() {
     const {
       classes,
@@ -246,11 +328,19 @@ class BookingPage extends Component {
       showInvitation,
       invitations,
       setInvitation,
-      resetCheckout
+      resetCheckout,
+      suggestedSeats,
+      suggestedSeat
     } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
-    const seats = this.onGetReservedSeats();
+    let seats = this.onGetReservedSeats();
+    if(suggestedSeats && selectedTime && !suggestedSeat.length) {
+      this.onGetSuggestedSeats(seats,suggestedSeats);
+    }
+    if(suggestedSeat.length && !this.didSetSuggestion) seats = this.setSuggestionSeats(seats,suggestedSeat);this.didSetSuggestion=true;
 
+    console.log(seats)
+    
     return (
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={2} style={{ height: '100%' }}>
@@ -336,12 +426,14 @@ const mapStateToProps = (
   ),
   reservations: reservationState.reservations,
   selectedSeats: checkoutState.selectedSeats,
+  suggestedSeat: checkoutState.suggestedSeat,
   selectedCinema: checkoutState.selectedCinema,
   selectedDate: checkoutState.selectedDate,
   selectedTime: checkoutState.selectedTime,
   showLoginPopup: checkoutState.showLoginPopup,
   showInvitation: checkoutState.showInvitation,
-  invitations: checkoutState.invitations
+  invitations: checkoutState.invitations,
+  suggestedSeats: reservationState.suggestedSeats
 });
 
 const mapDispatchToProps = {
@@ -351,8 +443,10 @@ const mapDispatchToProps = {
   getCinemas,
   getShowtimes,
   getReservations,
+  getSuggestedReservationSeats,
   addReservation,
   setSelectedSeats,
+  setSuggestedSeats,
   setSelectedCinema,
   setSelectedDate,
   setSelectedTime,
