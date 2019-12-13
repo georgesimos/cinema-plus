@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Typography, TextField, Grid, Button } from '@material-ui/core';
+import { Typography, TextField, Grid, Button, Box } from '@material-ui/core';
 import { Paper } from '../../../../../components';
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,8 @@ export default function BookingInvitation(props) {
     sendInvitations,
     ignore,
     invitations,
-    onSetInvitation
+    onSetInvitation,
+    onDownloadPDF
   } = props;
 
   const notValidInvitations = !Object.keys(invitations).length;
@@ -44,6 +45,14 @@ export default function BookingInvitation(props) {
           You have successfuly booked your seats. Please fill the emails below,
           to send invitations to your friends!
         </Typography>
+        <Box width={1} textAlign="center">
+          <Button
+            color="primary"
+            variant="outlined"
+            onClick={() => onDownloadPDF()}>
+            Download Invitation
+          </Button>
+        </Box>
         <Grid className={classes.gridContainer} container spacing={3}>
           {selectedSeats.map((seat, index) => (
             <Grid item xs={12} md={6} lg={4} key={'seat-' + index}>

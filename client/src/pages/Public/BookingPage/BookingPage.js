@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Grid, Container } from '@material-ui/core';
+import { withStyles, Grid, Container, Button } from '@material-ui/core';
 import {
   getMovie,
   getCinemasUserModeling,
@@ -30,6 +30,8 @@ import BookingForm from './components/BookingForm/BookingForm';
 import BookingSeats from './components/BookingSeats/BookingSeats';
 import BookingCheckout from './components/BookingCheckout/BookingCheckout';
 import BookingInvitation from './components/BookingInvitation/BookingInvitation';
+
+import jsPDF from 'jspdf';
 
 class BookingPage extends Component {
   didSetSuggestion = false;
@@ -61,6 +63,17 @@ class BookingPage extends Component {
       getCinema(selectedCinema);
     }
   }
+
+  // JSpdf Generator For generating the PDF
+  jsPdfGenerator = () => {
+    const doc = new jsPDF();
+    const imgData = this.state.QRCode;
+    doc.setFontSize(40);
+    doc.text(35, 25, 'QR Code for check in');
+    doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
+    // Save the Data
+    doc.save('Generated.pdf');
+  };
 
   onSelectSeat = (row, seat) => {
     const { cinema, setSelectedSeats } = this.props;
@@ -306,7 +319,8 @@ class BookingPage extends Component {
         date: new Date(selectedDate).toDateString(),
         cinema: cinema.name,
         image: cinema.image,
-        seat: key
+        seat: key,
+        QRCode: this.state.QRCode
       }))
       .filter(inv => inv.to !== '');
     return invArray;
@@ -349,7 +363,6 @@ class BookingPage extends Component {
       this.didSetSuggestion = true;
     }
 
-    console.log(this.state);
     return (
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={2} style={{ height: '100%' }}>
@@ -366,7 +379,6 @@ class BookingPage extends Component {
               onChangeDate={this.onChangeDate}
               onChangeTime={this.onChangeTime}
             />
-
             {showInvitation && !!selectedSeats.length && (
               <BookingInvitation
                 selectedSeats={selectedSeats}
@@ -374,6 +386,7 @@ class BookingPage extends Component {
                 ignore={resetCheckout}
                 invitations={invitations}
                 onSetInvitation={setInvitation}
+                onDownloadPDF={this.jsPdfGenerator}
               />
             )}
 
@@ -394,8 +407,6 @@ class BookingPage extends Component {
                 />
               </>
             )}
-
-            {this.state.QRCode && <img src={this.state.QRCode} alt="QR Code" />}
           </Grid>
         </Grid>
         <ResponsiveDialog
