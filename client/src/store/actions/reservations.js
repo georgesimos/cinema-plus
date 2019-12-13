@@ -1,4 +1,4 @@
-import { GET_RESERVATIONS,GET_RESERVATION_SUGGESTED_SEATS } from '../types';
+import { GET_RESERVATIONS, GET_RESERVATION_SUGGESTED_SEATS } from '../types';
 import { setAlert } from './alert';
 
 export const getReservations = () => async dispatch => {
@@ -20,7 +20,7 @@ export const getReservations = () => async dispatch => {
   }
 };
 
-export const getSuggestedReservationSeats = (username) => async dispatch => {
+export const getSuggestedReservationSeats = username => async dispatch => {
   try {
     const token = localStorage.getItem('jwtToken');
     const url = '/reservations/usermodeling/' + username;
@@ -32,7 +32,10 @@ export const getSuggestedReservationSeats = (username) => async dispatch => {
     });
     const reservationSeats = await response.json();
     if (response.ok) {
-      dispatch({ type: GET_RESERVATION_SUGGESTED_SEATS, payload: reservationSeats });
+      dispatch({
+        type: GET_RESERVATION_SUGGESTED_SEATS,
+        payload: reservationSeats
+      });
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
@@ -52,8 +55,13 @@ export const addReservation = reservation => async dispatch => {
       body: JSON.stringify(reservation)
     });
     if (response.ok) {
+      const { reservation, QRCode } = await response.json();
       dispatch(setAlert('Reservation Created', 'success', 5000));
-      return { status: 'success', message: 'Reservation Created' };
+      return {
+        status: 'success',
+        message: 'Reservation Created',
+        data: { reservation, QRCode }
+      };
     }
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));

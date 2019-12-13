@@ -33,6 +33,7 @@ import BookingInvitation from './components/BookingInvitation/BookingInvitation'
 
 class BookingPage extends Component {
   didSetSuggestion = false;
+  state = { QRCode: '' };
   componentDidMount() {
     const {
       user,
@@ -48,7 +49,7 @@ class BookingPage extends Component {
     user ? getCinemasUserModeling(user.username) : getCinemas();
     getShowtimes();
     getReservations();
-    if(user)getSuggestedReservationSeats(user.username);
+    if (user) getSuggestedReservationSeats(user.username);
   }
 
   componentDidUpdate(prevProps) {
@@ -69,7 +70,7 @@ class BookingPage extends Component {
       newSeats[row][seat] = 1;
     } else if (seats[row][seat] === 2) {
       newSeats[row][seat] = 0;
-    }else if (seats[row][seat] === 3) {
+    } else if (seats[row][seat] === 3) {
       newSeats[row][seat] = 2;
     } else {
       newSeats[row][seat] = 2;
@@ -107,6 +108,8 @@ class BookingPage extends Component {
       phone: user.phone
     });
     if (response.status === 'success') {
+      const { data } = response;
+      this.setState({ QRCode: data.QRCode });
       getReservations();
       showInvitationForm();
     }
@@ -180,70 +183,74 @@ class BookingPage extends Component {
     return newSeats;
   };
 
-  onGetSuggestedSeats = (seats,suggestedSeats) =>{
-    const {numberOfTickets, positions} = suggestedSeats;
+  onGetSuggestedSeats = (seats, suggestedSeats) => {
+    const { numberOfTickets, positions } = suggestedSeats;
 
-    const positionsArray = Object.keys(positions).map((key)=>{
+    const positionsArray = Object.keys(positions).map(key => {
       return [String(key), positions[key]];
     });
 
-    positionsArray.sort((a, b)=> {
+    positionsArray.sort((a, b) => {
       return b[1] - a[1];
     });
 
-    if(positionsArray.every((position)=> position[1] === 0 )) return;
+    if (positionsArray.every(position => position[1] === 0)) return;
 
-    const step = Math.round(seats.length/3);
-    let indexArr =[];
+    const step = Math.round(seats.length / 3);
+    let indexArr = [];
     let suggested;
-    for(let position of positionsArray){
-      switch(position[0]){
+    for (let position of positionsArray) {
+      switch (position[0]) {
         case 'front':
           console.log('front');
-          indexArr =[0, step];
-          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          indexArr = [0, step];
+          suggested = this.checkSeats(indexArr, seats, numberOfTickets);
           break;
         case 'center':
           console.log('center');
-          indexArr =[step, step*2];
-          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          indexArr = [step, step * 2];
+          suggested = this.checkSeats(indexArr, seats, numberOfTickets);
           break;
         case 'back':
           console.log('back');
-          indexArr =[step*2, step*3];
-          suggested = this.checkSeats(indexArr,seats,numberOfTickets);
+          indexArr = [step * 2, step * 3];
+          suggested = this.checkSeats(indexArr, seats, numberOfTickets);
           break;
       }
-      if(suggested) this.getSeat(suggested,seats,numberOfTickets);break;
+      if (suggested) this.getSeat(suggested, seats, numberOfTickets);
+      break;
     }
-
   };
 
-  checkSeats = (indexArr,seats,numberOfTickets) => {
-    for(let i=indexArr[0]; i<indexArr[1];i++){
-      for(let seat in seats[i]) {
-        let seatNum = Number(seat)
+  checkSeats = (indexArr, seats, numberOfTickets) => {
+    for (let i = indexArr[0]; i < indexArr[1]; i++) {
+      for (let seat in seats[i]) {
+        let seatNum = Number(seat);
 
-        if(!seats[i][seatNum] &&  seatNum +(numberOfTickets-1) <= seats[i].length){
-          let statusAvailability=[];
-          for(let y=1;y<numberOfTickets;y++) { //check the next seat if available
-            if(!seats[i][seatNum+y]) {
+        if (
+          !seats[i][seatNum] &&
+          seatNum + (numberOfTickets - 1) <= seats[i].length
+        ) {
+          let statusAvailability = [];
+          for (let y = 1; y < numberOfTickets; y++) {
+            //check the next seat if available
+            if (!seats[i][seatNum + y]) {
               statusAvailability.push(true);
             } else {
               statusAvailability.push(false);
             }
           }
-          if(statusAvailability.every(Boolean)) return [i,seatNum];       
-        } 
+          if (statusAvailability.every(Boolean)) return [i, seatNum];
+        }
       }
     }
     return null;
   };
 
-  getSeat = (suggested,seats,numberOfTickets) =>{
-    const {setSuggestedSeats} = this.props
-    for(let i=suggested[1]; i<suggested[1]+numberOfTickets;i++){
-      const seat = [suggested[0], i]
+  getSeat = (suggested, seats, numberOfTickets) => {
+    const { setSuggestedSeats } = this.props;
+    for (let i = suggested[1]; i < suggested[1] + numberOfTickets; i++) {
+      const seat = [suggested[0], i];
       setSuggestedSeats(seat);
     }
   };
@@ -305,12 +312,12 @@ class BookingPage extends Component {
     return invArray;
   };
 
-  setSuggestionSeats = (seats,suggestedSeats)=>{
-    suggestedSeats.map(suggestedSeat=>{
+  setSuggestionSeats = (seats, suggestedSeats) => {
+    suggestedSeats.map(suggestedSeat => {
       seats[suggestedSeat[0]][suggestedSeat[1]] = 3;
     });
     return seats;
-  }
+  };
 
   render() {
     const {
@@ -334,17 +341,15 @@ class BookingPage extends Component {
     } = this.props;
     const { uniqueCinemas, uniqueTimes } = this.onFilterCinema();
     let seats = this.onGetReservedSeats();
-    if(suggestedSeats && selectedTime && !suggestedSeat.length) {
-      this.onGetSuggestedSeats(seats,suggestedSeats);
+    if (suggestedSeats && selectedTime && !suggestedSeat.length) {
+      this.onGetSuggestedSeats(seats, suggestedSeats);
     }
-    if(suggestedSeat.length && !this.didSetSuggestion){
-      seats = this.setSuggestionSeats(seats,suggestedSeat);
-      this.didSetSuggestion=true;
-      console.log("TEST ")
+    if (suggestedSeat.length && !this.didSetSuggestion) {
+      seats = this.setSuggestionSeats(seats, suggestedSeat);
+      this.didSetSuggestion = true;
     }
 
-    console.log(seats)
-    
+    console.log(this.state);
     return (
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={2} style={{ height: '100%' }}>
@@ -389,6 +394,8 @@ class BookingPage extends Component {
                 />
               </>
             )}
+
+            {this.state.QRCode && <img src={this.state.QRCode} alt="QR Code" />}
           </Grid>
         </Grid>
         <ResponsiveDialog
