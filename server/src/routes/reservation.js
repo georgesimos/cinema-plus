@@ -1,15 +1,19 @@
 const express = require('express')
 const Reservation = require('../models/reservation')
 const userModeling = require('../utils/userModeling')
+const generateQR = require('../utils/generateQRCode')
 
 const router = new express.Router()
 
 // Create a reservation
 router.post('/reservations', async (req, res) => {
     const reservation = new Reservation(req.body)
+
+    const QRCode = await generateQR('https://elcinema.herokuapp.com/checkin/'+ reservation._id)
+    
     try {
         await reservation.save()
-        res.status(201).send(reservation)
+        res.status(201).send({reservation, QRCode})
     } catch (e) {
         res.status(400).send(e)
     }
