@@ -7,6 +7,7 @@
     "node": "10.15.3"
   },
   "scripts": {
+    "start": "cd server && npm install && npm start",
     "client": "cd client && npm start",
     "server": "cd server && npm run dev",
     "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data",
