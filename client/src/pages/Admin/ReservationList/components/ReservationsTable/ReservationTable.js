@@ -56,6 +56,7 @@ class ReservationsTable extends Component {
     const { rowsPerPage, page } = this.state;
     const rootClassName = classNames(classes.root, className);
 
+    console.log(reservations);
     return (
       <Portlet className={rootClassName}>
         <PortletContent noPadding>
@@ -69,10 +70,12 @@ class ReservationsTable extends Component {
                 <TableCell align="left">Cinema</TableCell>
                 <TableCell align="left">Ticket Price</TableCell>
                 <TableCell align="left">Total</TableCell>
+                <TableCell align="left">Checkin</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {reservations
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(reservation => (
                   <TableRow
@@ -100,6 +103,9 @@ class ReservationsTable extends Component {
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       {reservation.total}
+                    </TableCell>
+                    <TableCell className={classes.tableCell}>
+                      {reservation.checkin ? 'yes' : 'no'}
                     </TableCell>
                   </TableRow>
                 ))}
