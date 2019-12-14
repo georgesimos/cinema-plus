@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withStyles, Grid, Container, Button } from '@material-ui/core';
+import { withStyles, Grid, Container } from '@material-ui/core';
 import {
   getMovie,
   getCinemasUserModeling,
@@ -68,14 +68,11 @@ class BookingPage extends Component {
   // JSpdf Generator For generating the PDF
   jsPdfGenerator = () => {
     const { movie, cinema, selectedDate, selectedTime, QRCode } = this.props;
-
     const doc = new jsPDF();
-
     doc.setFont('helvetica');
     doc.setFontType('bold');
     doc.setFontSize(22);
     doc.text(movie.title, 20, 20);
-
     doc.setFontSize(16);
     doc.text(cinema.name, 20, 30);
     doc.text(
@@ -85,9 +82,7 @@ class BookingPage extends Component {
       20,
       40
     );
-
     doc.addImage(QRCode, 'JPEG', 15, 40, 160, 160);
-    // Save the Data
     doc.save(`${movie.title}-${cinema.name}.pdf`);
   };
 
@@ -232,19 +227,18 @@ class BookingPage extends Component {
     for (let position of positionsArray) {
       switch (position[0]) {
         case 'front':
-          console.log('front');
           indexArr = [0, step];
           suggested = this.checkSeats(indexArr, seats, numberOfTickets);
           break;
         case 'center':
-          console.log('center');
           indexArr = [step, step * 2];
           suggested = this.checkSeats(indexArr, seats, numberOfTickets);
           break;
         case 'back':
-          console.log('back');
           indexArr = [step * 2, step * 3];
           suggested = this.checkSeats(indexArr, seats, numberOfTickets);
+          break;
+        default:
           break;
       }
       if (suggested) this.getSeat(suggested, seats, numberOfTickets);
@@ -343,7 +337,7 @@ class BookingPage extends Component {
   };
 
   setSuggestionSeats = (seats, suggestedSeats) => {
-    suggestedSeats.map(suggestedSeat => {
+    suggestedSeats.forEach(suggestedSeat => {
       seats[suggestedSeat[0]][suggestedSeat[1]] = 3;
     });
     return seats;
