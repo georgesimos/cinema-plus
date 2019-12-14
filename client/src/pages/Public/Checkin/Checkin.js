@@ -40,7 +40,6 @@ function Checkin(props) {
   };
 
   const classes = useStyles(props);
-  console.log(reservation);
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

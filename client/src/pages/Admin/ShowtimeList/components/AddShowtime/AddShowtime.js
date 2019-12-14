@@ -81,7 +81,6 @@ class AddShowtime extends Component {
     const { nowShowing } = this.props;
     const { movieId } = this.state;
     const selectedMovie = nowShowing.find(movie => movie._id === movieId);
-    console.log(selectedMovie);
     if (selectedMovie) return selectedMovie.startDate;
     return new Date();
   };
@@ -90,7 +89,6 @@ class AddShowtime extends Component {
     const { nowShowing } = this.props;
     const { movieId } = this.state;
     const selectedMovie = nowShowing.find(movie => movie._id === movieId);
-    console.log(selectedMovie);
     if (selectedMovie) return new Date(selectedMovie.endDate);
     return false;
   };

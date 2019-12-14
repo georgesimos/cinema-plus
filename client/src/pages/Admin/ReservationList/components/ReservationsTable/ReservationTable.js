@@ -56,7 +56,6 @@ class ReservationsTable extends Component {
     const { rowsPerPage, page } = this.state;
     const rootClassName = classNames(classes.root, className);
 
-    console.log(reservations);
     return (
       <Portlet className={rootClassName}>
         <PortletContent noPadding>
