@@ -117,6 +117,39 @@ Cinema + is currently extended with the following plugins. Instructions on how t
  - Write Tests
  - Add Light Mode
 
+
+# Screenshots! 
+
+Movie Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/movie.png" />
+
+Booking Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/booking.png" />
+
+Booking Invitations
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/invitation.png" />
+
+Guest Dashboard Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/guest-dashboard.png" />
+
+My Account Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/my-account.png" />
+
+Admin Home Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/admin-dashboard.png" />
+
+Admin Cinema Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/admin-cinemas.png" />
+
+Admin Movie Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/admin-movies.png" />
+
+Admin Reservation Page
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/reservations.png" />
+
+Admin Reservation Calendar
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/calendar.png" />
+
 License
 ----
 
