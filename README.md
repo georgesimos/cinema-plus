@@ -19,7 +19,7 @@ Cinema + is an online Movie Ticket Booking web app with MEAN Stack.
 
 MERN stack is the idea of using Javascript/Node for fullstack web development.
 
-<img src="https://github.com/georgesimos/react-assignment/blob/master/readme-assets/mern.png" />
+<img src="https://github.com/georgesimos/Movie-app/blob/master/readme-assets/mern.png" />
 
 # Features!
 
