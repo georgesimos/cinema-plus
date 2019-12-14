@@ -47,6 +47,13 @@ Cinema + uses a number of open source projects to work properly:
 
 Cinema + requires [Node.js](https://nodejs.org/)  to run.
 
+Set environment variables 
+
+```sh
+$ Create a .env file in your server and client folder
+$ See the .env sample
+```
+
 Install the dependencies and devDependencies
 
 ```sh
