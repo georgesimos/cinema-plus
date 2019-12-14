@@ -1,5 +1,5 @@
 {
-  "name": "cinema plus",
+  "name": "movie-plus",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,8 +17,8 @@
     "url": "git+https://github.com/georgesimos/Movie-app.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "George Simos <georgesimos.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/georgesimos/Movie-app/issues"
   },

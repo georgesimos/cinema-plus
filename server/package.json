@@ -1,5 +1,5 @@
 {
-  "name": "booking",
+  "name": "movie-plus-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,8 +8,8 @@
     "dev": "nodemon src/index.js",
     "database": "/Users/georgesimos/mongodb/bin/mongod --dbpath=/Users/georgesimos//mongodb-data"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "George Simos <georgesimos.com>",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.16.4",
