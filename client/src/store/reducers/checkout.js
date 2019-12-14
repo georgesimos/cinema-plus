@@ -7,7 +7,8 @@ import {
   SHOW_INVITATION_FORM,
   RESET_CHECKOUT,
   SET_INVITATION,
-  SET_SUGGESTED_SEATS
+  SET_SUGGESTED_SEATS,
+  SET_QR_CODE
 } from '../types';
 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
   selectedTime: '',
   showLoginPopup: false,
   showInvitation: false,
-  invitations: {}
+  invitations: {},
+  QRCode: ''
 };
 
 const setSelectedSeats = (state, seats) => {
@@ -41,7 +43,7 @@ const setSelectedSeats = (state, seats) => {
 const setSuggestedSeats = (state, seats) => {
   let newSeats = [];
 
-  newSeats = [...state.suggestedSeat,seats];
+  newSeats = [...state.suggestedSeat, seats];
 
   return {
     ...state,
@@ -73,6 +75,11 @@ const setInvitation = (state, event) => {
   };
 };
 
+const setQRCode = (state, QRCode) => ({
+  ...state,
+  QRCode
+});
+
 const toggleLoginPopup = state => ({
   ...state,
   showLoginPopup: !state.showLoginPopup
@@ -88,7 +95,7 @@ export default function(state = initialState, action) {
   switch (type) {
     case SET_SELECTED_SEATS:
       return setSelectedSeats(state, payload);
-      case SET_SUGGESTED_SEATS:
+    case SET_SUGGESTED_SEATS:
       return setSuggestedSeats(state, payload);
     case SET_SELECTED_CINEMA:
       return setSelectedCinema(state, payload);
@@ -102,6 +109,8 @@ export default function(state = initialState, action) {
       return toggleLoginPopup(state);
     case SHOW_INVITATION_FORM:
       return showInvitationForm(state);
+    case SET_QR_CODE:
+      return setQRCode(state, payload);
     case RESET_CHECKOUT:
       return resetCheckout();
     default:

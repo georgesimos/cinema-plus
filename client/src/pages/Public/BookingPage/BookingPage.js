@@ -20,7 +20,8 @@ import {
   resetCheckout,
   setAlert,
   addReservation,
-  setSuggestedSeats
+  setSuggestedSeats,
+  setQRCode
 } from '../../../store/actions';
 import { ResponsiveDialog } from '../../../components';
 import LoginForm from '../Login/components/LoginForm';
@@ -35,7 +36,7 @@ import jsPDF from 'jspdf';
 
 class BookingPage extends Component {
   didSetSuggestion = false;
-  state = { QRCode: '' };
+
   componentDidMount() {
     const {
       user,
@@ -66,13 +67,28 @@ class BookingPage extends Component {
 
   // JSpdf Generator For generating the PDF
   jsPdfGenerator = () => {
+    const { movie, cinema, selectedDate, selectedTime, QRCode } = this.props;
+
     const doc = new jsPDF();
-    const imgData = this.state.QRCode;
-    doc.setFontSize(40);
-    doc.text(35, 25, 'QR Code for check in');
-    doc.addImage(imgData, 'JPEG', 15, 40, 180, 160);
+
+    doc.setFont('helvetica');
+    doc.setFontType('bold');
+    doc.setFontSize(22);
+    doc.text(movie.title, 20, 20);
+
+    doc.setFontSize(16);
+    doc.text(cinema.name, 20, 30);
+    doc.text(
+      `Date: ${new Date(
+        selectedDate
+      ).toLocaleDateString()} - Time: ${selectedTime}`,
+      20,
+      40
+    );
+
+    doc.addImage(QRCode, 'JPEG', 15, 40, 160, 160);
     // Save the Data
-    doc.save('Generated.pdf');
+    doc.save(`${movie.title}-${cinema.name}.pdf`);
   };
 
   onSelectSeat = (row, seat) => {
@@ -103,7 +119,8 @@ class BookingPage extends Component {
       user,
       addReservation,
       toggleLoginPopup,
-      showInvitationForm
+      showInvitationForm,
+      setQRCode
     } = this.props;
 
     if (selectedSeats.length === 0) return;
@@ -122,7 +139,7 @@ class BookingPage extends Component {
     });
     if (response.status === 'success') {
       const { data } = response;
-      this.setState({ QRCode: data.QRCode });
+      setQRCode(data.QRCode);
       getReservations();
       showInvitationForm();
     }
@@ -319,8 +336,7 @@ class BookingPage extends Component {
         date: new Date(selectedDate).toDateString(),
         cinema: cinema.name,
         image: cinema.image,
-        seat: key,
-        QRCode: this.state.QRCode
+        seat: key
       }))
       .filter(inv => inv.to !== '');
     return invArray;
@@ -455,6 +471,7 @@ const mapStateToProps = (
   showLoginPopup: checkoutState.showLoginPopup,
   showInvitation: checkoutState.showInvitation,
   invitations: checkoutState.invitations,
+  QRCode: checkoutState.QRCode,
   suggestedSeats: reservationState.suggestedSeats
 });
 
@@ -476,7 +493,8 @@ const mapDispatchToProps = {
   toggleLoginPopup,
   showInvitationForm,
   resetCheckout,
-  setAlert
+  setAlert,
+  setQRCode
 };
 
 export default connect(

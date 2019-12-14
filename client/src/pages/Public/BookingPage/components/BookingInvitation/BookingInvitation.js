@@ -50,7 +50,7 @@ export default function BookingInvitation(props) {
             color="primary"
             variant="outlined"
             onClick={() => onDownloadPDF()}>
-            Download Invitation
+            Download Pass
           </Button>
         </Box>
         <Grid className={classes.gridContainer} container spacing={3}>

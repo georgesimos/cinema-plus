@@ -7,7 +7,8 @@ import {
   TOGGLE_LOGIN_POPUP,
   SHOW_INVITATION_FORM,
   RESET_CHECKOUT,
-  SET_SUGGESTED_SEATS
+  SET_SUGGESTED_SEATS,
+  SET_QR_CODE
 } from '../types';
 
 export const setSelectedSeats = seats => ({
@@ -35,6 +36,11 @@ export const setSelectedTime = time => ({
 export const setInvitation = event => ({
   type: SET_INVITATION,
   payload: event
+});
+
+export const setQRCode = QRCode => ({
+  type: SET_QR_CODE,
+  payload: QRCode
 });
 
 export const toggleLoginPopup = () => ({ type: TOGGLE_LOGIN_POPUP });
