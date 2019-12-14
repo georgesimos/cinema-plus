@@ -9,7 +9,7 @@ const router = new express.Router()
 router.post('/reservations', async (req, res) => {
     const reservation = new Reservation(req.body)
 
-    const QRCode = await generateQR('https://elcinema.herokuapp.com/checkin/'+ reservation._id)
+    const QRCode = await generateQR('https://elcinema.herokuapp.com/reservations/checkin/'+ reservation._id)
     
     try {
         await reservation.save()
@@ -40,12 +40,25 @@ router.post('/reservations/:id', async (req, res) => {
     }
 })
 
+// Get reservation checkin by id 
+router.get('/reservations/checkin/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        const reservation = await Reservation.findById(_id)
+        reservation['checkin'] = true
+        await reservation.save()
+        !reservation ? res.sendStatus(404) : res.send(reservation)
+    } catch (e) {
+        res.status(400).send(e)
+    }
+})
+
 
 // Update reservation by id
 router.patch('/reservations/:id', async (req, res) => {
     const _id = req.params.id
     const updates = Object.keys(req.body)
-    const allowedUpdates = ['date','startAt', 'seats', 'ticketPrice', 'total', 'username', 'phone']
+    const allowedUpdates = ['date','startAt', 'seats', 'ticketPrice', 'total', 'username', 'phone', 'checkin']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' })

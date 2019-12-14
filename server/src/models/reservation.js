@@ -40,6 +40,10 @@ const reservationSchema = new Schema({
         required: true,
 
     },
+    checkin: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Reservation = mongoose.model('Reservation', reservationSchema)

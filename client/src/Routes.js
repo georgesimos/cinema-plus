@@ -29,6 +29,8 @@ const MovieCategoryPage = lazy(() =>
 const CinemasPage = lazy(() => import('./pages/Public/CinemasPage'));
 const BookingPage = lazy(() => import('./pages/Public/BookingPage'));
 
+const Checkin = lazy(() => import('./pages/Public/Checkin'));
+
 const Routes = () => {
   return (
     <Suspense fallback={<Loading />}>
@@ -36,6 +38,14 @@ const Routes = () => {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
+
+          <WithLayoutRoute
+            exact
+            path="/checkin/:reservationId"
+            component={Checkin}
+            layout={PublicLayout}
+          />
+
           <WithLayoutRoute
             exact
             path="/"
