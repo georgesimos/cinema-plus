@@ -13,6 +13,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: theme.spacing(2),
     textTransform: 'capitalize',
     color: theme.palette.common.white
+  },
+  [theme.breakpoints.down('sm')]: {
+    hideOnSmall: {
+      display: 'none'
+    }
   }
 }));
 
@@ -29,10 +34,10 @@ export default function BookingCheckout(props) {
   return (
     <Box marginTop={2} bgcolor="rgb(18, 20, 24)">
       <Grid container>
-        <Grid item xs={10}>
+        <Grid item xs={8} md={10}>
           <Grid container spacing={3} style={{ padding: 20 }}>
             {user && user.name && (
-              <Grid item>
+              <Grid item className={classes.hideOnSmall}>
                 <Typography className={classes.bannerTitle}>Name</Typography>
                 <Typography className={classes.bannerContent}>
                   {user.name}
@@ -59,7 +64,8 @@ export default function BookingCheckout(props) {
         </Grid>
         <Grid
           item
-          xs={2}
+          xs={4}
+          md={2}
           style={{
             color: 'rgb(120, 205, 4)',
             background: 'black',

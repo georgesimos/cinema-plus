@@ -18,8 +18,28 @@ const useStyles = makeStyles(theme => ({
       background: 'rgb(120, 205, 4)'
     }
   },
+  seatInfoContainer: {
+    width: '50%',
+    margin: 'auto',
+    display: 'flex',
+    alignItems: 'center',
+    textAlign: 'center',
+    color: '#eee'
+  },
+
+  seatInfo: { marginRight: theme.spacing(2) },
+
+  seatInfoLabel: {
+    marginRight: theme.spacing(1),
+    display: 'inline-block',
+    width: 10,
+    height: 10
+  },
+
   [theme.breakpoints.down('sm')]: {
-    seat: { padding: theme.spacing(0.8), margin: theme.spacing(0.5) }
+    seat: { padding: theme.spacing(1.2), margin: theme.spacing(0.5) },
+    seatInfoContainer: { width: '100%', display: 'block' },
+    seatInfo: { marginTop: theme.spacing(2) }
   }
 }));
 
@@ -44,8 +64,8 @@ export default function BookingSeats(props) {
                       : seat === 2
                       ? 'rgb(120, 205, 4)'
                       : seat === 3
-                      ? 'rgb(176, 0, 0)':
-                      'rgb(96, 93, 169)'
+                      ? 'rgb(14, 151, 218)'
+                      : 'rgb(96, 93, 169)'
                   }>
                   {index + 1}
                 </Box>
@@ -54,46 +74,32 @@ export default function BookingSeats(props) {
           ))}
       </Box>
       <Box width={1} mt={10}>
-        <Box
-          width="50%"
-          margin="auto"
-          display="flex"
-          alignItems="center"
-          textAlign="center"
-          color="#eee">
-          <div>
-            <Box
-              mr={1}
-              display="inline-block"
-              width={10}
-              height={10}
-              bgcolor="rgb(96, 93, 169)"
-            />
+        <div className={classes.seatInfoContainer}>
+          <div className={classes.seatInfo}>
+            <div
+              className={classes.seatInfoLabel}
+              style={{ background: 'rgb(96, 93, 169)' }}></div>
             Seat Available
           </div>
-          <div>
-            <Box
-              mr={1}
-              ml={2}
-              display="inline-block"
-              width={10}
-              height={10}
-              bgcolor="rgb(65, 66, 70)"
-            />
+          <div className={classes.seatInfo}>
+            <div
+              className={classes.seatInfoLabel}
+              style={{ background: 'rgb(65, 66, 70)' }}></div>
             Reserved Seat
           </div>
-          <div>
-            <Box
-              mr={1}
-              ml={2}
-              display="inline-block"
-              width={10}
-              height={10}
-              bgcolor="rgb(120, 205, 4)"
-            />
+          <div className={classes.seatInfo}>
+            <div
+              className={classes.seatInfoLabel}
+              style={{ background: 'rgb(120, 205, 4)' }}></div>
             Selected Seat
           </div>
-        </Box>
+          <div className={classes.seatInfo}>
+            <div
+              className={classes.seatInfoLabel}
+              style={{ background: 'rgb(14, 151, 218)' }}></div>
+            Recommended Seat
+          </div>
+        </div>
       </Box>
     </Fragment>
   );
