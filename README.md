@@ -103,7 +103,7 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 | fullcalendar | [plugins/fullcalendar/README.md](https://github.com/fullcalendar/fullcalendar/blob/master/README.md) |
 | material-ui | [plugins/material-ui/README.md](https://github.com/mui-org/material-ui/blob/master/README.md) |
 | moment | [plugins/moment/README.md](https://www.npmjs.com/package/@date-io/moment?activeTab=readme) |
-| jspdf | [plugins/jspdf/README.md][(https://github.com/MrRio/jsPDF) |
+| jspdf | [plugins/jspdf/README.md](https://github.com/MrRio/jsPDF) |
 | react | [plugins/react/README.md](https://github.com/facebook/react/blob/master/README.md) |
 | react-facebook-login | [plugins/react-facebook-login /README.md](https://github.com/keppelen/react-facebook-login/blob/master/README.md) |
 | react-google-login | [plugins/react-google-login/README.md](https://www.npmjs.com/package/react-google-login) |
