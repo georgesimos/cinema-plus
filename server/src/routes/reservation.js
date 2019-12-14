@@ -9,7 +9,7 @@ const router = new express.Router()
 router.post('/reservations', async (req, res) => {
     const reservation = new Reservation(req.body)
 
-    const QRCode = await generateQR('https://elcinema.herokuapp.com/reservations/checkin/'+ reservation._id)
+    const QRCode = await generateQR('https://elcinema.herokuapp.com/#/checkin/'+ reservation._id)
     
     try {
         await reservation.save()
