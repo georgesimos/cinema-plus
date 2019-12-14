@@ -19,6 +19,7 @@ Cinema + is an online Movie Ticket Booking web app with MEAN Stack.
 
 MERN stack is the idea of using Javascript/Node for fullstack web development.
 
+<img src="https://github.com/georgesimos/react-assignment/blob/master/readme-assets/mern.png" />
 
 # Features!
 
@@ -36,10 +37,10 @@ You can also:
 
 ### Tech
 Cinema + uses a number of open source projects to work properly:
-* [MongoDB] - A document-oriented, No-SQL database used to store the application data.
-* [ExpressJS] - fast node.js network app framework.
-* [ReactJS] - A JavaScript library for building user interfaces.
-* [Redux] - A predictable state container for JavaScript apps.
+* [MongoDB](https://www.mongodb.com/) - A document-oriented, No-SQL database used to store the application data.
+* [ExpressJS](https://expressjs.com/) - fast node.js network app framework.
+* [ReactJS](https://reactjs.org/) - A JavaScript library for building user interfaces.
+* [Redux](https://redux.js.org/) - A predictable state container for JavaScript apps.
 * [nodeJS](https://nodejs.org/) - A JavaScript runtime built on Chrome's V8 JavaScript engine
 
 ### Installation
@@ -102,7 +103,7 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 | fullcalendar | [plugins/fullcalendar/README.md](https://github.com/fullcalendar/fullcalendar/blob/master/README.md) |
 | material-ui | [plugins/material-ui/README.md](https://github.com/mui-org/material-ui/blob/master/README.md) |
 | moment | [plugins/moment/README.md](https://www.npmjs.com/package/@date-io/moment?activeTab=readme) |
-| jspdf | [plugins/googleanalytics/README.md][PlGa] |
+| jspdf | [plugins/jspdf/README.md][(https://github.com/MrRio/jsPDF) |
 | react | [plugins/react/README.md](https://github.com/facebook/react/blob/master/README.md) |
 | react-facebook-login | [plugins/react-facebook-login /README.md](https://github.com/keppelen/react-facebook-login/blob/master/README.md) |
 | react-google-login | [plugins/react-google-login/README.md](https://www.npmjs.com/package/react-google-login) |
