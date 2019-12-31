@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const movieSchema = new Schema({
   title: {
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   image: {
     type: String,
@@ -15,44 +15,44 @@ const movieSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   genre: {
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   director: {
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   cast: {
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   description: {
     type: String,
     required: true,
     trim: true,
-    lowercase: true
+    lowercase: true,
   },
   duration: {
     type: Number,
-    required: true
+    required: true,
   },
   releaseDate: {
     type: Date,
-    required: true
+    required: true,
   },
   endDate: {
     type: Date,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const Movie = mongoose.model('Movie', movieSchema);

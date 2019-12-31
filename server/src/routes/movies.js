@@ -1,7 +1,7 @@
 const express = require('express');
-const upload = require('../utils/multer')
+const upload = require('../utils/multer');
 const Movie = require('../models/movie');
-const userModeling = require('../utils/userModeling')
+const userModeling = require('../utils/userModeling');
 
 const router = new express.Router();
 
@@ -16,27 +16,26 @@ router.post('/movies', async (req, res) => {
   }
 });
 
-router.post('/movies/photo/:id', upload('movies').single('file'), async (req,res, next) => {
-  const url = req.protocol + '://' + req.get('host')
-  const file = req.file
-  const movieId = req.params.id
+router.post('/movies/photo/:id', upload('movies').single('file'), async (req, res, next) => {
+  const url = `${req.protocol}://${req.get('host')}`;
+  const { file } = req;
+  const movieId = req.params.id;
   try {
-  if (!file) {
-    const error = new Error('Please upload a file')
-    error.httpStatusCode = 400
-    return next(error)
-  }
+    if (!file) {
+      const error = new Error('Please upload a file');
+      error.httpStatusCode = 400;
+      return next(error);
+    }
     const movie = await Movie.findById(movieId);
     if (!movie) return res.sendStatus(404);
-    movie['image'] = url + '/' + file.path
+    movie.image = `${url}/${file.path}`;
     await movie.save();
-    res.send({movie, file});
+    res.send({ movie, file });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.sendStatus(400).send(e);
   }
-})
-
+});
 
 // Get all movies
 router.get('/movies', async (req, res) => {
@@ -54,9 +53,10 @@ router.get('/movies/:id', async (req, res) => {
 
   try {
     const movie = await Movie.findById(_id);
-    !movie ? res.sendStatus(404) : res.send(movie);
+    if (!movie) return res.sendStatus(404);
+    return res.send(movie);
   } catch (e) {
-    res.status(400).send(e);
+    return res.status(400).send(e);
   }
 });
 
@@ -74,22 +74,19 @@ router.put('/movies/:id', async (req, res) => {
     'description',
     'duration',
     'releaseDate',
-    'endDate'
+    'endDate',
   ];
-  const isValidOperation = updates.every(update =>
-    allowedUpdates.includes(update)
-  );
+  const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
-  if (!isValidOperation)
-    return res.status(400).send({ error: 'Invalid updates!' });
+  if (!isValidOperation) return res.status(400).send({ error: 'Invalid updates!' });
 
   try {
     const movie = await Movie.findById(_id);
     updates.forEach(update => (movie[update] = req.body[update]));
     await movie.save();
-    !movie ? res.sendStatus(404) : res.send(movie);
+    return !movie ? res.sendStatus(404) : res.send(movie);
   } catch (e) {
-    res.status(400).send(e);
+    return res.status(400).send(e);
   }
 });
 
@@ -98,15 +95,15 @@ router.delete('/movies/:id', async (req, res) => {
   const _id = req.params.id;
   try {
     const movie = await Movie.findByIdAndDelete(_id);
-    !movie ? res.sendStatus(404) : res.send(movie);
+    return !movie ? res.sendStatus(404) : res.send(movie);
   } catch (e) {
-    res.sendStatus(400);
+    return res.sendStatus(400);
   }
 });
 
 // Movies User modeling (Get Movies Suggestions)
 router.get('/movies/usermodeling/:username', async (req, res) => {
-  const username = req.params.username
+  const { username } = req.params;
   try {
     const cinemasUserModeled = await userModeling.moviesUserModeling(username);
     res.send(cinemasUserModeled);

@@ -1,22 +1,22 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 const userSchema = Schema(
   {
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     username: {
       type: String,
       unique: true,
       required: true,
       trim: true,
-      lowercase: true
+      lowercase: true,
     },
     email: {
       type: String,
@@ -26,24 +26,24 @@ const userSchema = Schema(
       lowercase: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error("email is invalid");
+          throw new Error('email is invalid');
         }
-      }
+      },
     },
     password: {
       type: String,
       trim: true,
       minlength: 7,
       validate(value) {
-        if (value.toLowerCase().includes("password")) {
-          throw new Error("Password should not contain word: password");
+        if (value.toLowerCase().includes('password')) {
+          throw new Error('Password should not contain word: password');
         }
-      }
+      },
     },
     role: {
       type: String,
       default: 'guest',
-      enum: ["guest", "admin", "superadmin"]
+      enum: ['guest', 'admin', 'superadmin'],
     },
 
     facebook: String,
@@ -55,24 +55,24 @@ const userSchema = Schema(
       trim: true,
       validate(value) {
         if (!validator.isMobilePhone(value)) {
-          throw new Error("Phone is invalid");
+          throw new Error('Phone is invalid');
         }
-      }
+      },
     },
     imageurl: {
-      type: String
+      type: String,
     },
     tokens: [
       {
         token: {
           type: String,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
@@ -91,7 +91,7 @@ userSchema.methods.toJSON = function() {
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, "mySecret");
+  const token = jwt.sign({ _id: user._id.toString() }, 'mySecret');
   user.tokens = user.tokens.concat({ token });
   await user.save();
   return token;
@@ -99,23 +99,23 @@ userSchema.methods.generateAuthToken = async function() {
 
 userSchema.statics.findByCredentials = async (username, password) => {
   const user = await User.findOne({ username });
-  if (!user) throw new Error("Unable to login");
+  if (!user) throw new Error('Unable to login');
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error("Unable to login");
+  if (!isMatch) throw new Error('Unable to login');
 
   return user;
 };
 
 // Hash the plain text password before save
-userSchema.pre("save", async function(next) {
+userSchema.pre('save', async function(next) {
   const user = this;
-  if (user.isModified("password")) {
+  if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
   }
   next();
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

@@ -2,7 +2,7 @@
   "name": "movie-plus",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/src/index.js",
   "engines": {
     "node": "10.15.3"
   },
@@ -26,5 +26,19 @@
   "homepage": "https://github.com/georgesimos/Movie-app#readme",
   "dependencies": {
     "concurrently": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-node": "^4.0.0",
+    "eslint-config-prettier": "^6.8.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
   }
 }
