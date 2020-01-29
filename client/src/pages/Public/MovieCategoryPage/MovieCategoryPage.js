@@ -40,7 +40,7 @@ function MovieCategoryPage(props) {
         <>
           <Grid item xs={12}>
             <Typography className={classes.title} variant="h2" color="inherit">
-              Movie List
+              {category}
             </Typography>
           </Grid>
           <Grid

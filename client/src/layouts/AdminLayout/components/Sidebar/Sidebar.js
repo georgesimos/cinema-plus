@@ -116,19 +116,6 @@ class Sidebar extends Component {
               primary="Account"
             />
           </ListItem>
-          {/* <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/admin/settings">
-            <ListItemIcon className={classes.listItemIcon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Settings"
-            />
-          </ListItem> */}
         </List>
         <Divider className={classes.listDivider} />
         <List

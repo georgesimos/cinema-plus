@@ -59,12 +59,16 @@ const useStyles = makeStyles(theme => ({
 function CinemaCard(props) {
   const classes = useStyles(props);
   const { className, cinema } = props;
+  const cinemaImage =
+    cinema && cinema.image
+      ? cinema.image
+      : 'https://source.unsplash.com/featured/?cinema';
 
   const rootClassName = classNames(classes.root, className);
   return (
     <Paper className={rootClassName}>
       <div className={classes.imageWrapper}>
-        <img alt="cinema" className={classes.image} src={cinema.image} />
+        <img alt="cinema" className={classes.image} src={cinemaImage} />
       </div>
       <div className={classes.details}>
         <Typography className={classes.name} variant="h4">
