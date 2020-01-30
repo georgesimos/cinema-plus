@@ -121,8 +121,9 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 
 ### Todos
 
- - Write Tests
  - Add Light Mode
+ - Write Tests
+
 
 
 # Screenshots! 
