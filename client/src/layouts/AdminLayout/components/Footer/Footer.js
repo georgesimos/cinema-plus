@@ -1,40 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
-import { Divider, Typography } from '@material-ui/core';
+import React from 'react';
+import { Divider, Typography, Link } from '@material-ui/core';
+import useStyles from './styles';
 
-// Component styles
-const styles = theme => ({
-  root: {
-    padding: theme.spacing(4),
-    color: theme.palette.common.contrastText
-  },
-  company: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(0.5)
-  }
-});
-
-class Footer extends Component {
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Divider />
-        <Typography className={classes.company} variant="body1">
-          &copy; George Simos. 2019
-        </Typography>
-        <Typography variant="caption">
-          Created with love for by George Simos...
-        </Typography>
-      </div>
-    );
-  }
+export default function Footer() {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <Divider />
+      <Typography className={classes.copyright} variant="body1">
+        &copy; George Simos. 2020
+      </Typography>
+      <Typography variant="caption">
+        Crafted with love |{' '}
+        <Link href="http://georgesimos.com/" target="_blank" rel="noopener">
+          George Simos
+        </Link>
+      </Typography>
+    </div>
+  );
 }
-
-Footer.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Footer);
