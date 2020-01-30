@@ -43,7 +43,7 @@ class Topbar extends Component {
       <div className={`${classes.root} , ${ToolbarClasses}`}>
         <Toolbar className={classes.toolbar}>
           <div className={classes.brandWrapper}>
-            <div className={classes.logo}>Movie +</div>
+            <div className={classes.logo}>Cinema +</div>
             <IconButton
               className={classes.menuButton}
               aria-label="Menu"
@@ -77,7 +77,4 @@ class Topbar extends Component {
 const mapStateToProps = state => ({
   auth: state.authState
 });
-export default connect(
-  mapStateToProps,
-  { logout }
-)(withStyles(styles)(Topbar));
+export default connect(mapStateToProps, { logout })(withStyles(styles)(Topbar));
