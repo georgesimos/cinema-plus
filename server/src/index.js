@@ -17,7 +17,7 @@ const invitationsRouter = require('./routes/invitations');
 
 const app = express();
 app.disable('x-powered-by');
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8080;
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../client/build')));
