@@ -122,7 +122,6 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 ### Todos
 
  - Add Light Mode / More themes
- - Write Tests
 
 
 
