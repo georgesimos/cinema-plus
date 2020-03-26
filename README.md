@@ -130,32 +130,37 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 Movie Page
 <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/movie.png" />
 
-Booking Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/booking.png" />
+<details>
+  <summary>More Screenshots</summary>
+  Booking Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/booking.png" />
 
-Booking Invitations
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/invitation.png" />
+  Booking Invitations
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/invitation.png" />
 
-Guest Dashboard Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/guest-dashboard.png" />
+  Guest Dashboard Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/guest-dashboard.png" />
 
-My Account Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/my-account.png" />
+  My Account Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/my-account.png" />
 
-Admin Home Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-dashboard.png" />
+  Admin Home Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-dashboard.png" />
 
-Admin Cinema Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-cinemas.png" />
+  Admin Cinema Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-cinemas.png" />
 
-Admin Movie Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-movies.png" />
+  Admin Movie Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-movies.png" />
 
-Admin Reservation Page
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/reservations.png" />
+  Admin Reservation Page
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/reservations.png" />
 
-Admin Reservation Calendar
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/calendar.png" />
+  Admin Reservation Calendar
+  <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/calendar.png" />
+</details>
+
+
 
 License
 ----
