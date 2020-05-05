@@ -52,6 +52,7 @@ Set environment variables
 ```sh
 $ Create a .env file in your server and client folder
 $ See the .env sample
+create a mongodb database and add your connection string into .env file
 ```
 
 Install the dependencies and devDependencies
