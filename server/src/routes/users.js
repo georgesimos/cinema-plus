@@ -7,8 +7,10 @@ const router = new express.Router();
 
 // Create a user
 router.post('/users', async (req, res) => {
-  const user = new User(req.body);
   try {
+    const {role} = req.body;
+    if (role) throw new Error('you cannot set role property.');
+    const user = new User(req.body);
     await user.save();
     const token = await user.generateAuthToken();
     res.status(201).send({ user, token });
