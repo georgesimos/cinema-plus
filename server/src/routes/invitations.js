@@ -1,9 +1,10 @@
 const express = require('express');
+const auth = require('../middlewares/auth');
 const mail = require('../utils/mail');
 
 const router = new express.Router();
 
-const createMailOptions = data => {
+const createMailOptions = (data) => {
   const { to, host, movie, date, time, cinema, image, seat } = data;
 
   const htmlContent = `
@@ -26,9 +27,9 @@ const createMailOptions = data => {
 };
 
 // Send Invitation Emails
-router.post('/invitations', async (req, res) => {
+router.post('/invitations', auth.simple, async (req, res) => {
   const invitations = req.body;
-  const promises = invitations.map(invitation => {
+  const promises = invitations.map((invitation) => {
     const mailOptions = createMailOptions(invitation);
     return mail
       .sendEMail(mailOptions)
@@ -36,9 +37,9 @@ router.post('/invitations', async (req, res) => {
         success: true,
         msg: `The Invitation to ${mailOptions.to} was sent!`,
       }))
-      .catch(exception => ({ success: false, msg: exception }));
+      .catch((exception) => ({ success: false, msg: exception }));
   });
 
-  Promise.all(promises).then(result => res.status(201).json(result));
+  Promise.all(promises).then((result) => res.status(201).json(result));
 });
 module.exports = router;
