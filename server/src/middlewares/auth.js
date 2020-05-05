@@ -26,7 +26,7 @@ const enhance = async (req, res, next) => {
       _id: decoded._id,
       'tokens.token': token,
     });
-    if (!user || user.role !== 'admin') throw new Error();
+    if (!user || user.role !== 'superadmin') throw new Error();
     req.token = token;
     req.user = user;
     next();
