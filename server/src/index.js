@@ -5,6 +5,8 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config({ path: path.join(__dirname, '../.env') });
 }
 
+//console.log('Check Path',__dirname);
+
 require('./db/mongoose');
 
 // Routes
@@ -33,7 +35,6 @@ app.use(function(req, res, next) {
   // Request headers you wish to allow
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers,X-Access-Token,XKey,Authorization'
   );
 
   //  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
