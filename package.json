@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/src/index.js",
   "engines": {
-    "node": "12.18.2"
+    "node": "12.19.0"
   },
   "scripts": {
     "start": "cd server && npm install && npm start",
