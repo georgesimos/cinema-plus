@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/src/index.js",
+  "engines": {
+    "node": "12.18.2"
+  },
   "scripts": {
     "start": "cd server && npm install && npm start",
     "client": "cd client && npm start",
     "server": "cd server && npm run dev",
     "client-build": "cd client && npm install && npm run build",
-    "heroku-postbuild": "npm run client build"
+    "heroku-postbuild": "npm run client-build"
   },
   "repository": {
     "type": "git",
@@ -21,9 +24,6 @@
     "url": "https://github.com/georgesimos/cinema-plus/issues"
   },
   "homepage": "https://github.com/georgesimos/cinema-plus#readme",
-  "dependencies": {
-    "concurrently": "^5.0.0"
-  },
   "devDependencies": {
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
