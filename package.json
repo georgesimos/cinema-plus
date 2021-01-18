@@ -1,16 +1,14 @@
 {
-  "name": "movie-plus",
+  "name": "cinema-plus",
   "version": "1.0.0",
   "description": "",
   "main": "server/src/index.js",
-  "engines": {
-    "node": "10.15.3"
-  },
   "scripts": {
     "start": "cd server && npm install && npm start",
     "client": "cd client && npm start",
     "server": "cd server && npm run dev",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "client-build": "cd client && npm install && npm run build"
+    "heroku-postbuild": "npm run client build"
   },
   "repository": {
     "type": "git",
@@ -20,9 +18,9 @@
   "author": "George Simos <georgesimos.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/georgesimos/Movie-app/issues"
+    "url": "https://github.com/georgesimos/cinema-plus/issues"
   },
-  "homepage": "https://github.com/georgesimos/Movie-app#readme",
+  "homepage": "https://github.com/georgesimos/cinema-plus#readme",
   "dependencies": {
     "concurrently": "^5.0.0"
   },
