@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/src/index.js",
   "engines": {
-    "node": "12.19.0"
+    "node": "12.x"
   },
   "scripts": {
     "start": "cd server && npm install && npm start",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/georgesimos/Movie-app.git"
+    "url": "git+https://github.com/georgesimos/cinema-plus.git"
   },
   "keywords": [],
   "author": "George Simos <georgesimos.com>",
