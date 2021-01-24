@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/src/index.js",
-  "engines": {
-    "node": "12.x"
-  },
   "scripts": {
     "client": "cd client && npm install && npm run start",
     "server": "cd server && npm install && npm run dev",
