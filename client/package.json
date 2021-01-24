@@ -37,6 +37,7 @@
     "uuid": "3.3.3"
   },
   "scripts": {
+    "clean": "rm -rf node_modules/ && npm cache clean",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

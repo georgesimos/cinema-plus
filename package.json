@@ -7,10 +7,9 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "cd server && npm install && npm start",
-    "client": "cd client && npm start",
-    "server": "cd server && npm run dev",
-    "client-build": "cd client && npm install && npm run build",
+    "client": "cd client && npm install && npm run start",
+    "server": "cd server && npm install && npm run dev",
+    "start": "cd server && npm install && npm run start",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
@@ -36,6 +35,7 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "nodemon": "^2.0.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "react-scripts": "3.2.0"
   }
 }
