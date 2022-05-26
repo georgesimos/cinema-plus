@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
 });
 
 transporter.sendEMail = function(mailRequest) {
-  console.log(transporter)
   return new Promise(function(resolve, reject) {
     transporter.sendMail(mailRequest, (error, info) => {
       if (error) {
