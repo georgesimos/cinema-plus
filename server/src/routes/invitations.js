@@ -19,7 +19,7 @@ const createMailOptions = (data) => {
                 <br/>
               `;
   return {
-    from: 'geosimos91@gmail.com',
+    from: process.env.MAIL_FROM,
     to,
     subject: 'Cinema + Invitation',
     html: htmlContent,
