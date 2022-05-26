@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
   service: process.env.MAIL_SERVICE, // smtp.gmail.com  //in place of service use host...
-  secure: process.env.MAIL_SECURED, // true
+  secure: process.env.MAIL_SECURE, // true
   port: process.env.MAIL_PORT, // 465
   auth: {
     user: process.env.MAIL_USER,
@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
 });
 
 transporter.sendEMail = function(mailRequest) {
-  console.log(transporter)
   return new Promise(function(resolve, reject) {
     transporter.sendMail(mailRequest, (error, info) => {
       if (error) {
