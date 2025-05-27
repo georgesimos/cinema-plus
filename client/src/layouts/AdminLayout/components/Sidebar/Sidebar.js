@@ -7,12 +7,10 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  ListSubheader
+  ListItemText
 } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/DashboardOutlined';
 import PeopleIcon from '@material-ui/icons/PeopleOutlined';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
 import AccountBoxIcon from '@material-ui/icons/AccountBoxOutlined';
 // Component styles
 import styles from './styles';
@@ -33,7 +31,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Dashboard"
+              primary="Панель управления"
             />
           </ListItem>
           <ListItem
@@ -46,7 +44,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Movies"
+              primary="Фильмы"
             />
           </ListItem>
           <ListItem
@@ -59,7 +57,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Cinemas"
+              primary="Залы"
             />
           </ListItem>
           <ListItem
@@ -72,7 +70,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Showtimes"
+              primary="Сеансы"
             />
           </ListItem>
           <ListItem
@@ -85,7 +83,7 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Reservations"
+              primary="Бронирования"
             />
           </ListItem>
           {user && user.role === 'superadmin' && (
@@ -99,7 +97,7 @@ class Sidebar extends Component {
               </ListItemIcon>
               <ListItemText
                 classes={{ primary: classes.listItemText }}
-                primary="Users"
+                primary="Пользователи"
               />
             </ListItem>
           )}
@@ -113,33 +111,11 @@ class Sidebar extends Component {
             </ListItemIcon>
             <ListItemText
               classes={{ primary: classes.listItemText }}
-              primary="Account"
+              primary="Аккаунт"
             />
           </ListItem>
         </List>
         <Divider className={classes.listDivider} />
-        <List
-          component="div"
-          disablePadding
-          subheader={
-            <ListSubheader className={classes.listSubheader}>
-              Support
-            </ListSubheader>
-          }>
-          <ListItem
-            className={classes.listItem}
-            component="a"
-            href="http://georgesimos.com"
-            target="_blank">
-            <ListItemIcon className={classes.listItemIcon}>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Customer support"
-            />
-          </ListItem>
-        </List>
       </section>
     );
   }

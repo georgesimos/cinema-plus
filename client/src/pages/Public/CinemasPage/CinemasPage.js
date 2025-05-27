@@ -26,7 +26,7 @@ function CinemasPage(props) {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography className={classes.title} variant="h2" color="inherit">
-            Our Cinemas
+            Наши залы
           </Typography>
         </Grid>
         <Grid

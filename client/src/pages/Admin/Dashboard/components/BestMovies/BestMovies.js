@@ -31,18 +31,21 @@ const BestMovies = props => {
   const { className, bestMovies } = props;
   const classes = useStyles();
 
+  // Фильтруем элементы, чтобы избежать ошибки с undefined
+  const validMovies = bestMovies.filter(item => item.movie);
+
   const data = {
-    labels: bestMovies.map(movie => movie.movie.title.toUpperCase()),
+    labels: validMovies.map(movie => movie.movie?.title?.toUpperCase() || 'Неизвестный'),
     datasets: [
       {
-        label: 'This year',
+        label: 'Текущий год',
         backgroundColor: palette.primary.main,
-        data: bestMovies.map(movie => movie.count)
+        data: validMovies.map(movie => movie.count)
       },
       {
-        label: 'Last year',
+        label: 'Прошлый год',
         backgroundColor: palette.neutral,
-        data: [11, 20, 12, 29, 30]
+        data: validMovies.map(() => Math.floor(Math.random() * 30) + 10) // Генерируем случайные данные для примера
       }
     ]
   };
@@ -52,10 +55,10 @@ const BestMovies = props => {
       <CardHeader
         action={
           <Button size="small" variant="text">
-            Best 5<ArrowDropDownIcon />
+            Лучшие 5<ArrowDropDownIcon />
           </Button>
         }
-        title="Best Movies"
+        title="Лучшие фильмы"
       />
       <Divider />
       <CardContent>
@@ -66,7 +69,7 @@ const BestMovies = props => {
       <Divider />
       <CardActions className={classes.actions}>
         <Button color="primary" size="small" variant="text">
-          Overview <ArrowRightIcon />
+          Обзор <ArrowRightIcon />
         </Button>
       </CardActions>
     </Card>

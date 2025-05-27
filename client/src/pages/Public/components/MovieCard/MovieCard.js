@@ -26,6 +26,7 @@ const MovieCard = props => {
           <p>{movie.language}</p>
           <p>{movie.cast}</p>
           <p>{movie.director}</p>
+          <p>{movie.country}</p>
           <p>{textTruncate(movie.description)}</p>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../../../store/actions';
 import { withStyles } from '@material-ui/core/styles';
-import { Badge, Toolbar, IconButton } from '@material-ui/core';
+import { Badge, Toolbar, IconButton, Hidden, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
@@ -43,7 +43,7 @@ class Topbar extends Component {
       <div className={`${classes.root} , ${ToolbarClasses}`}>
         <Toolbar className={classes.toolbar}>
           <div className={classes.brandWrapper}>
-            <div className={classes.logo}>Cinema +</div>
+            <div className={classes.logo}>Фокус</div>
             <IconButton
               className={classes.menuButton}
               aria-label="Menu"
@@ -52,9 +52,9 @@ class Topbar extends Component {
             </IconButton>
           </div>
 
-          <NavLink className={classes.title} to="/">
-            Cinema App
-          </NavLink>
+          <Hidden smDown>
+            <Typography variant="h6">Фокус</Typography>
+          </Hidden>
 
           <IconButton
             className={classes.notificationsButton}

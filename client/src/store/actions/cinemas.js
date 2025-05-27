@@ -12,13 +12,18 @@ export const uploadCinemaImage = (id, image) => async dispatch => {
     });
     const responseData = await response.json();
     if (response.ok) {
-      dispatch(setAlert('Image Uploaded', 'success', 5000));
+      dispatch(setAlert('Изображение загружено', 'success', 5000));
+      // Получаем обновленные данные зала
+      await dispatch(getCinemas());
+      return responseData;
     }
     if (responseData.error) {
       dispatch(setAlert(responseData.error.message, 'error', 5000));
     }
+    return null;
   } catch (error) {
     dispatch(setAlert(error.message, 'error', 5000));
+    return null;
   }
 };
 
@@ -29,12 +34,18 @@ export const getCinemas = () => async dispatch => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     });
-    const cinemas = await response.json();
-    if (response.ok) {
-      dispatch({ type: GET_CINEMAS, payload: cinemas });
+    
+    if (!response.ok) {
+      throw new Error(`Ошибка загрузки кинотеатров: ${response.status}`);
     }
+    
+    const cinemas = await response.json();
+      dispatch({ type: GET_CINEMAS, payload: cinemas });
+    return cinemas;
   } catch (error) {
+    console.error('Ошибка при загрузке кинотеатров:', error);
     dispatch(setAlert(error.message, 'error', 5000));
+    throw error;
   }
 };
 
@@ -66,18 +77,29 @@ export const createCinemas = (image, newCinema) => async dispatch => {
       },
       body: JSON.stringify(newCinema)
     });
-    const cinema = await response.json();
+    const data = await response.json();
+    
     if (response.ok) {
-      dispatch(setAlert('Cinema Created', 'success', 5000));
-      if (image) dispatch(uploadCinemaImage(cinema._id, image));
+      dispatch(setAlert('Кинотеатр создан', 'success', 5000));
+      if (image) dispatch(uploadCinemaImage(data._id, image));
       dispatch(getCinemas());
-      return { status: 'success', message: 'Cinema Created' };
+      return { status: 'success', message: 'Кинотеатр создан' };
+    } else {
+      const errorMessage = data.error || 'Кинотеатр не сохранен, попробуйте снова.';
+      dispatch(setAlert(errorMessage, 'error', 5000));
+      return { status: 'error', message: errorMessage };
     }
   } catch (error) {
-    dispatch(setAlert(error.message, 'error', 5000));
+    dispatch(
+      setAlert(
+        error.message || 'Кинотеатр не сохранен, попробуйте снова.',
+        'error',
+        5000
+      )
+    );
     return {
       status: 'error',
-      message: ' Cinema have not been saved, try again.'
+      message: 'Кинотеатр не сохранен, попробуйте снова.'
     };
   }
 };
@@ -94,16 +116,29 @@ export const updateCinemas = (image, cinema, id) => async dispatch => {
       },
       body: JSON.stringify(cinema)
     });
+    const data = await response.json();
+    
     if (response.ok) {
-      dispatch(setAlert('Cinema Updated', 'success', 5000));
+      dispatch(setAlert('Кинотеатр обновлен', 'success', 5000));
       if (image) dispatch(uploadCinemaImage(id, image));
-      return { status: 'success', message: 'Cinema Updated' };
+      dispatch(getCinemas());
+      return { status: 'success', message: 'Кинотеатр обновлен' };
+    } else {
+      const errorMessage = data.error || 'Кинотеатр не обновлен, попробуйте снова.';
+      dispatch(setAlert(errorMessage, 'error', 5000));
+      return { status: 'error', message: errorMessage };
     }
   } catch (error) {
-    dispatch(setAlert(error.message, 'error', 5000));
+    dispatch(
+      setAlert(
+        error.message || 'Кинотеатр не обновлен, попробуйте снова.',
+        'error',
+        5000
+      )
+    );
     return {
       status: 'error',
-      message: ' Cinema have not been updated, try again.'
+      message: 'Кинотеатр не обновлен, попробуйте снова.'
     };
   }
 };
@@ -120,14 +155,25 @@ export const removeCinemas = id => async dispatch => {
       }
     });
     if (response.ok) {
-      dispatch(setAlert('Cinema Deleted', 'success', 5000));
-      return { status: 'success', message: 'Cinema Removed' };
+      dispatch(setAlert('Кинотеатр удален', 'success', 5000));
+      await dispatch(getCinemas());
+      return { status: 'success', message: 'Кинотеатр удален' };
+    } else {
+      const errorMessage = 'Кинотеатр не удален, попробуйте снова.';
+      dispatch(setAlert(errorMessage, 'error', 5000));
+      return { status: 'error', message: errorMessage };
     }
   } catch (error) {
-    dispatch(setAlert(error.message, 'error', 5000));
+    dispatch(
+      setAlert(
+        error.message || 'Кинотеатр не удален, попробуйте снова.',
+        'error',
+        5000
+      )
+    );
     return {
       status: 'error',
-      message: ' Cinema have not been deleted, try again.'
+      message: 'Кинотеатр не удален, попробуйте снова.'
     };
   }
 };

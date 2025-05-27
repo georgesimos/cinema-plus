@@ -93,7 +93,12 @@ export default theme => ({
     width: 200,
     height: 70,
     borderRadius: 0,
-    zIndex: 2
+    zIndex: 2,
+    backgroundColor: '#ADD8E6',
+    color: '#000000',
+    '&:hover': {
+      backgroundColor: '#7ac5e5'
+    }
   },
   learnMore: { color: theme.palette.common.white },
   buttonIcon: { marginLeft: theme.spacing(2) },

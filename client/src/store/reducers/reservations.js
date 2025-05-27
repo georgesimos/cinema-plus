@@ -1,7 +1,8 @@
-import { GET_RESERVATIONS,GET_RESERVATION_SUGGESTED_SEATS } from '../types';
+import { GET_RESERVATIONS, GET_RESERVATION_SUGGESTED_SEATS, DELETE_RESERVATION } from '../types';
 
 const initialState = {
-  reservations: []
+  reservations: [],
+  suggestedSeats: []
 };
 
 const getReservations = (state, payload) => ({
@@ -14,6 +15,11 @@ const getReservationSuggestedSeats = (state, payload) => ({
   suggestedSeats: payload
 });
 
+const deleteReservation = (state, payload) => ({
+  ...state,
+  reservations: state.reservations.filter(reservation => reservation._id !== payload)
+});
+
 export default (state = initialState, action) => {
   const { type, payload } = action;
 
@@ -22,6 +28,8 @@ export default (state = initialState, action) => {
       return getReservations(state, payload);
     case GET_RESERVATION_SUGGESTED_SEATS:
       return getReservationSuggestedSeats(state, payload);
+    case DELETE_RESERVATION:
+      return deleteReservation(state, payload);
     default:
       return state;
   }

@@ -2,7 +2,7 @@ export default theme => ({
   root: {
     borderBottom: `1px solid ${theme.palette.borderShadow}`,
     boxShadow: `0 0 35px 0  ${theme.palette.borderShadow}`,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#00008B',
     display: 'flex',
     alignItems: 'center',
     height: theme.topBar.height,
@@ -44,9 +44,11 @@ export default theme => ({
     marginLeft: '-4px'
   },
   notificationsButton: {
-    marginLeft: 'auto'
+    marginLeft: 'auto',
+    color: theme.palette.common.white
   },
   signOutButton: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    color: theme.palette.common.white
   }
 });

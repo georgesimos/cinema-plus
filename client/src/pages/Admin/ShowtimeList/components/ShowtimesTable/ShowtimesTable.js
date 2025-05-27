@@ -28,11 +28,15 @@ class ShowtimesTable extends Component {
     classes: PropTypes.object.isRequired,
     onSelect: PropTypes.func,
     onShowDetails: PropTypes.func,
-    showtimes: PropTypes.array.isRequired
+    showtimes: PropTypes.array.isRequired,
+    movies: PropTypes.array.isRequired,
+    cinemas: PropTypes.array.isRequired
   };
 
   static defaultProps = {
     showtimes: [],
+    movies: [],
+    cinemas: [],
     onSelect: () => {},
     onShowDetails: () => {}
   };
@@ -43,6 +47,16 @@ class ShowtimesTable extends Component {
 
   handleChangeRowsPerPage = event => {
     this.setState({ rowsPerPage: event.target.value });
+  };
+
+  getMovieTitle = (movieId) => {
+    const movie = this.props.movies.find(m => m._id === movieId);
+    return movie ? movie.title : movieId;
+  };
+
+  getCinemaName = (cinemaId) => {
+    const cinema = this.props.cinemas.find(c => c._id === cinemaId);
+    return cinema ? cinema.name : cinemaId;
   };
 
   render() {
@@ -75,11 +89,11 @@ class ShowtimesTable extends Component {
                   />
                   ID
                 </TableCell>
-                <TableCell align="left">Movie</TableCell>
-                <TableCell align="left">Cinema</TableCell>
-                <TableCell align="left">Start Date</TableCell>
-                <TableCell align="left">End Date</TableCell>
-                <TableCell align="left">Time</TableCell>
+                <TableCell align="left">Фильм</TableCell>
+                <TableCell align="left">Зал</TableCell>
+                <TableCell align="left">Дата начала</TableCell>
+                <TableCell align="left">Дата окончания</TableCell>
+                <TableCell align="left">Время</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -87,7 +101,7 @@ class ShowtimesTable extends Component {
                 .filter(showtime => {
                   return showtime;
                 })
-                .slice(0, rowsPerPage)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(showtime => (
                   <TableRow
                     className={classes.tableRow}
@@ -112,10 +126,10 @@ class ShowtimesTable extends Component {
                       </div>
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      {showtime.movieId}
+                      {this.getMovieTitle(showtime.movieId)}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
-                      {showtime.cinemaId}
+                      {this.getCinemaName(showtime.cinemaId)}
                     </TableCell>
                     <TableCell className={classes.tableCell}>
                       {moment(showtime.startDate).format('DD/MM/YYYY')}
@@ -132,18 +146,20 @@ class ShowtimesTable extends Component {
           </Table>
           <TablePagination
             backIconButtonProps={{
-              'aria-label': 'Previous Page'
+              'aria-label': 'Предыдущая страница'
             }}
             component="div"
             count={showtimes.length}
             nextIconButtonProps={{
-              'aria-label': 'Next Page'
+              'aria-label': 'Следующая страница'
             }}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
             page={page}
             rowsPerPage={rowsPerPage}
             rowsPerPageOptions={[5, 10, 25]}
+            labelRowsPerPage="Строк на странице:"
+            labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
           />
         </PortletContent>
       </Portlet>

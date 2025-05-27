@@ -18,9 +18,12 @@ router.post('/showtimes', auth.enhance, async (req, res) => {
 // Get all showtimes
 router.get('/showtimes', async (req, res) => {
   try {
+    console.log('Fetching all showtimes');
     const showtimes = await Showtime.find({});
+    console.log('Found showtimes:', showtimes);
     res.send(showtimes);
   } catch (e) {
+    console.error('Error fetching showtimes:', e);
     res.status(400).send(e);
   }
 });

@@ -32,6 +32,8 @@ class Dashboard extends Component {
   }
 
   getBestMovies = (reservations, movies, total = 5) => {
+    if (!reservations.length || !movies.length) return [];
+    
     const reservationCounter = reservations.map(reservation => ({
       movieId: reservation.movieId,
       count: reservations.filter(r => r.movieId === reservation.movieId).length
@@ -48,13 +50,19 @@ class Dashboard extends Component {
         });
       }
     }
+    
+    // Возвращаем только те бронирования, для которых найден фильм
     return result
       .sort((a, b) => b.count - a.count)
       .slice(0, total)
-      .map(res => ({
-        movie: movies.find(movie => movie._id === res.movieId),
-        count: res.count
-      }));
+      .map(res => {
+        const movie = movies.find(movie => movie._id === res.movieId);
+        return {
+          movie: movie || null, // Возвращаем null, если фильм не найден
+          count: res.count
+        };
+      })
+      .filter(item => item.movie !== null); // Отфильтровываем записи с несуществующими фильмами
   };
 
   render() {

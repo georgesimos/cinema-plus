@@ -17,7 +17,7 @@ router.post('/movies', auth.enhance, async (req, res) => {
   }
 });
 
-router.get(
+router.post(
   '/movies/photo/:id',
   auth.enhance,
   upload('movies').single('file'),
@@ -77,6 +77,7 @@ router.put('/movies/:id', auth.enhance, async (req, res) => {
     'genre',
     'director',
     'cast',
+    'country',
     'description',
     'duration',
     'releaseDate',

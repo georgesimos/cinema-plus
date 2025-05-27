@@ -22,24 +22,26 @@ const cinemaUserModeling = async (cinemas, username) => {
     sortedCinemaResult.sort((a, b) => {
       return b[1] - a[1];
     });
-    console.log(sortedCinemaResult);
+    console.log('Sorted cinema result:', sortedCinemaResult);
 
     const newCinemas = JSON.parse(JSON.stringify(cinemas));
     let i = 0;
     let extractedObj;
+    
     for (let sortedCinema of sortedCinemaResult) {
-      newCinemas.forEach((cinema, index) => {
-        if (cinema._id == sortedCinema[0]) {
-          console.log('FOUND');
+      for (let index = 0; index < newCinemas.length; index++) {
+        if (newCinemas[index]._id.toString() === sortedCinema[0]) {
           extractedObj = newCinemas.splice(index, 1);
+          if (extractedObj && extractedObj.length > 0) {
+            newCinemas.splice(i, 0, extractedObj[0]);
+            i++;
+          }
+          break;
         }
-      });
-      newCinemas.splice(i, 0, extractedObj[0]);
-      i++;
+      }
     }
 
-    console.log(newCinemas);
-
+    console.log('New cinemas order:', newCinemas);
     return newCinemas;
   } else {
     return cinemas;
@@ -47,7 +49,7 @@ const cinemaUserModeling = async (cinemas, username) => {
 };
 
 const moviesUserModeling = async username => {
-  userPreference = {
+  const userPreference = {
     genre: {},
     director: {},
     cast: {},
@@ -64,78 +66,64 @@ const moviesUserModeling = async username => {
         return movie;
       }
     }
-  });
+  }).filter(Boolean);
 
-  //  console.log(moviesWatched);
-
-  moviesWatched.map(movie => {
+  moviesWatched.forEach(movie => {
     let genres = movie.genre.replace(/\s*,\s*/g, ',').split(',');
     let directors = movie.director.replace(/\s*,\s*/g, ',').split(',');
     let casts = movie.cast.replace(/\s*,\s*/g, ',').split(',');
-    for (let genre of genres) {
+    
+    genres.forEach(genre => {
       userPreference.genre[genre]
         ? ++userPreference.genre[genre]
         : (userPreference.genre[genre] = 1);
-    }
-    for (let director of directors) {
+    });
+    
+    directors.forEach(director => {
       userPreference.director[director]
         ? ++userPreference.director[director]
         : (userPreference.director[director] = 1);
-    }
-    for (let cast of casts) {
-      userPreference.cast[cast] ? ++userPreference.cast[cast] : (userPreference.cast[cast] = 1);
-    }
+    });
+    
+    casts.forEach(cast => {
+      userPreference.cast[cast] 
+        ? ++userPreference.cast[cast] 
+        : (userPreference.cast[cast] = 1);
+    });
   });
 
-  //console.log(userPreference)
-
-  //find movies that are available for booking
   const availableMovies = availableMoviesFilter(Allmovies);
-  //console.log(availableMovies)
   const moviesNotWatched = moviesNotWatchedFilter(availableMovies, userReservations);
-  //console.log(moviesNotWatched)
-
   const moviesRated = findRates(moviesNotWatched, userPreference);
 
-  moviesRated.sort((a, b) => {
-    return b[1] - a[1];
-  });
-  // console.log(moviesRated)
+  moviesRated.sort((a, b) => b[1] - a[1]);
 
-  const moviesToObject = moviesRated.map(array => {
-    return array[0];
-  });
-  return moviesToObject;
+  return moviesRated.map(array => array[0]);
 };
 
 const findRates = (moviesNotWatched, userPreference) => {
   const result = [];
-  let rate;
+  
   for (let movie of moviesNotWatched) {
-    rate = 0;
+    let rate = 0;
     for (let pref in userPreference) {
       rate += getRateOfProperty(pref, userPreference, movie);
-      //TODO we can use weights here
-      console.log(rate, pref);
     }
     if (rate !== 0) result.push([movie, rate]);
   }
-  console.log(result);
+  
   return result;
 };
 
 const getRateOfProperty = (pref, userPreference, movie) => {
   let rate = 0;
-  const values = Object.keys(userPreference[pref]).map(key => {
-    return [key, userPreference[pref][key]];
-  });
-  let movieValues = movie[pref].replace(/\s*,\s*/g, ',').split(',');
-  for (value of values) {
-    if (movieValues.length) {
-      for (movieValue of movieValues) {
-        if (movieValue == value[0]) {
-          rate += value[1];
-        }
+  const values = Object.keys(userPreference[pref]).map(key => [key, userPreference[pref][key]]);
+  const movieValues = movie[pref].replace(/\s*,\s*/g, ',').split(',');
+  
+  for (const [key, value] of values) {
+    for (const movieValue of movieValues) {
+      if (movieValue === key) {
+        rate += value;
       }
     }
   }

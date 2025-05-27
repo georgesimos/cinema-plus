@@ -45,7 +45,7 @@ class ShowtimesToolbar extends Component {
               color="primary"
               size="small"
               variant="outlined">
-              {selectedShowtimes.length === 1 ? 'Edit' : 'Add'}
+              {selectedShowtimes.length === 1 ? 'Редактировать' : 'Добавить'}
             </Button>
           </div>
         </div>

@@ -2,6 +2,18 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
+const seatSchema = new Schema({
+  number: {
+    type: Number,
+    required: true
+  },
+  coefficient: {
+    type: Number,
+    required: true,
+    default: 1.0
+  }
+});
+
 const cinemaSchema = new Schema({
   name: {
     type: String,
@@ -12,14 +24,8 @@ const cinemaSchema = new Schema({
     type: Number,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
-    trim: true,
-    lowercase: true,
-  },
   seats: {
-    type: [Schema.Types.Mixed],
+    type: [[seatSchema]],
     required: true,
   },
   seatsAvailable: {
@@ -28,7 +34,7 @@ const cinemaSchema = new Schema({
   },
   image: {
     type: String,
-  },
+  }
 });
 
 const Cinema = mongoose.model('Cinema', cinemaSchema);

@@ -15,17 +15,30 @@ const styles = theme => ({
   button: {
     minWidth: 100,
     marginRight: theme.spacing(2)
+  },
+  preview: {
+    marginTop: theme.spacing(2),
+    maxWidth: '100%',
+    maxHeight: '200px',
+    objectFit: 'contain'
+  },
+  previewContainer: {
+    marginTop: theme.spacing(2),
+    textAlign: 'center'
   }
 });
 
 const FileUpload = props => {
-  const { classes, className, file, onUpload } = props;
+  const { classes, className, file, preview, onUpload } = props;
   const rootClassName = classNames(
     {
       [classes.root]: true
     },
     className
   );
+
+  // Определяем, является ли превью полным URL или data URL
+  const isFullUrl = preview && !preview.startsWith('data:');
 
   return (
     <Paper className={rootClassName}>
@@ -38,10 +51,23 @@ const FileUpload = props => {
       />
       <label htmlFor="icon-button-file">
         <Button variant="outlined" className={classes.button} component="span">
-          Upload
+          {file ? 'Изменить' : 'Загрузить'}
         </Button>
       </label>
-      <span>{file ? file.name : 'No file selected'}</span>
+      <span>{file ? file.name : (isFullUrl ? 'Изображение загружено' : 'Файл не выбран')}</span>
+      {preview && (
+        <div className={classes.previewContainer}>
+          <img 
+            src={preview} 
+            alt="Preview" 
+            className={classes.preview}
+            onError={(e) => {
+              console.error('Error loading image:', e);
+              e.target.style.display = 'none';
+            }}
+          />
+        </div>
+      )}
     </Paper>
   );
 };
@@ -52,7 +78,10 @@ FileUpload.propTypes = {
   classes: PropTypes.object.isRequired,
   elevation: PropTypes.number,
   outlined: PropTypes.bool,
-  squared: PropTypes.bool
+  squared: PropTypes.bool,
+  file: PropTypes.object,
+  preview: PropTypes.string,
+  onUpload: PropTypes.func.isRequired
 };
 
 FileUpload.defaultProps = {

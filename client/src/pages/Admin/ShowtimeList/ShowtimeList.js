@@ -37,7 +37,9 @@ class ShowtimeList extends Component {
       openDialog,
       toggleDialog,
       selectShowtime,
-      selectAllShowtimes
+      selectAllShowtimes,
+      movies,
+      cinemas
     } = this.props;
 
     return (
@@ -57,6 +59,8 @@ class ShowtimeList extends Component {
               selectedShowtimes={selectedShowtimes}
               selectAllShowtimes={selectAllShowtimes}
               showtimes={showtimes}
+              movies={movies}
+              cinemas={cinemas}
             />
           )}
         </div>
@@ -75,10 +79,12 @@ class ShowtimeList extends Component {
   }
 }
 
-const mapStateToProps = ({ showtimeState }) => ({
+const mapStateToProps = ({ showtimeState, movieState, cinemaState }) => ({
   openDialog: showtimeState.openDialog,
   showtimes: showtimeState.showtimes,
-  selectedShowtimes: showtimeState.selectedShowtimes
+  selectedShowtimes: showtimeState.selectedShowtimes,
+  movies: movieState.movies,
+  cinemas: cinemaState.cinemas
 });
 
 const mapDispatchToProps = {

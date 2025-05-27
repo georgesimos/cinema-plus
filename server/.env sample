@@ -1,3 +1,0 @@
-GMAIL_USER = "user@gmail.com"
-GMAIL_PASSWORD = "password"
-MONGODB_URI = "mongodb://...."

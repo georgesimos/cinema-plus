@@ -1,12 +1,14 @@
 export default theme => ({
   movieCard: {
     position: 'relative',
-    height: 350,
-    width: 800,
+    height: '100%',
+    minHeight: 350,
+    width: '100%',
     color: theme.palette.common.white,
     backgroundColor: theme.palette.background.dark,
     borderRadius: 10,
     transition: 'all 0.4s',
+    overflow: 'hidden',
     '&:hover': {
       transform: 'scale(1.02)',
       transition: 'all 0.4s'
@@ -19,18 +21,20 @@ export default theme => ({
     backgroundBlendMode: 'multiply',
     background: 'linear-gradient(to right, #0d0d0c 50%, transparent 100%)',
     zIndex: 2,
-    borderRadius: 10
+    borderRadius: 10,
+    padding: theme.spacing(2)
   },
   movieHeader: {
     position: 'relative',
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     height: '40%',
     width: '60%'
   },
   movieTitle: {
     fontSize: '25px',
     fontWeight: 400,
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    marginBottom: theme.spacing(1)
   },
   director: {
     color: '#9ac7fa',
@@ -50,7 +54,7 @@ export default theme => ({
     marginLeft: theme.spacing(2)
   },
   description: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     height: '50%',
     width: '50%'
   },
@@ -88,11 +92,10 @@ export default theme => ({
   },
 
   [theme.breakpoints.down('sm')]: {
-    fullWidth: { width: '100%' },
     movieCard: {
-      width: '90%',
+      width: '100%',
       margin: '0 auto',
-      height: 'auto'
+      minHeight: 350
     },
     blurBackground: {
       width: '100%',
@@ -100,14 +103,13 @@ export default theme => ({
     },
     movieHeader: {
       width: '100%',
-      marginTop: theme.spacing(3)
+      marginTop: theme.spacing(2)
     },
     description: {
       width: '100%'
     },
     infoSection: {
-      background:
-        'linear-gradient(to top, rgb(20, 20, 19) 50%, transparent 100%)',
+      background: 'linear-gradient(to top, rgb(20, 20, 19) 50%, transparent 100%)',
       zIndex: 2,
       borderRadius: 10
     }

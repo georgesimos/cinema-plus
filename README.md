@@ -1,60 +1,105 @@
-<h1 align="center">
-Cinema +
-</h1>
-<p align="center">
-MongoDB, Expressjs, React/Redux, Nodejs
-</p>
+# Фокус
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/react) 
+---
 
-Cinema + is an online Movie Ticket Booking web app with MERN Stack.
+## Демонстрация
 
-  - Online Booking System
-  - Admin Dashboard
-  - Dark Theme UI
+---
 
+## Описание
 
-> MERN is a fullstack implementation in MongoDB, Expressjs, React/Redux, Nodejs.
+Фокус — это веб-приложение для онлайн-бронирования билетов на фильмы, созданное с использованием стека MERN.
 
-MERN stack is the idea of using Javascript/Node for fullstack web development.
+---
 
-<img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/mern.png" />
+## Структура проекта
 
-# Features!
+---
 
-  - Add / Update / Delete Movies
-  - Add / Update / Delete Cinemas
-  - Add / Update / Delete Showtimes
-  - Add / Update / Delete Reservations
-  - Add / Update / Delete Users
-  - Generate QR Code for reservation check in
-  - Send HTML emails invitations 
+## Установка
 
+---
 
-You can also:
-  - Export QR Code pass as PDF
+## Лицензия
 
-### Tech
-Cinema + uses a number of open source projects to work properly:
-* [MongoDB](https://www.mongodb.com/) - A document-oriented, No-SQL database used to store the application data.
-* [ExpressJS](https://expressjs.com/) - fast node.js network app framework.
-* [ReactJS](https://reactjs.org/) - A JavaScript library for building user interfaces.
-* [Redux](https://redux.js.org/) - A predictable state container for JavaScript apps.
-* [nodeJS](https://nodejs.org/) - A JavaScript runtime built on Chrome's V8 JavaScript engine
+Код распространяется по лицензии MIT.
 
-### Installation
+---
 
-Cinema + requires [Node.js](https://nodejs.org/)  to run.
+## Технологии
 
-Set environment variables 
+Фокус использует ряд проектов с открытым исходным кодом для своей работы:
+
+#### Клиентская часть
+
+---
+
+#### Серверная часть
+
+---
+
+## Требования
+
+Фокус требует [Node.js](https://nodejs.org/) для работы.
+
+---
+
+## Установка
+
+---
+
+## Функциональность:
+
+---
+
+## Конфигурация
+
+---
+
+## Структура API
+
+---
+
+## Плагины
+
+Фокус в настоящее время расширен следующими плагинами. Инструкции по их использованию в вашем приложении приведены ниже.
+
+---
+
+# Возможности!
+
+  - Добавление / Обновление / Удаление фильмов
+  - Добавление / Обновление / Удаление кинотеатров
+  - Добавление / Обновление / Удаление сеансов
+  - Добавление / Обновление / Удаление бронирований
+  - Добавление / Обновление / Удаление пользователей
+  - Генерация QR-кода для регистрации на сеанс
+  - Отправка HTML-приглашений по электронной почте
+
+Вы также можете:
+  - Экспортировать QR-код в формате PDF
+
+### Технологии
+Cinema + использует ряд проектов с открытым исходным кодом для своей работы:
+* [MongoDB](https://www.mongodb.com/) - Документо-ориентированная NoSQL база данных для хранения данных приложения.
+* [ExpressJS](https://expressjs.com/) - Быстрый фреймворк для создания сетевых приложений на Node.js.
+* [ReactJS](https://reactjs.org/) - Библиотека JavaScript для создания пользовательских интерфейсов.
+* [Redux](https://redux.js.org/) - Предсказуемый контейнер состояния для JavaScript-приложений.
+* [nodeJS](https://nodejs.org/) - Среда выполнения JavaScript, построенная на движке V8 от Chrome.
+
+### Установка
+
+Cinema + требует [Node.js](https://nodejs.org/) для работы.
+
+Настройте переменные окружения 
 
 ```sh
-$ Create a .env file in your server and client folder
-$ See the .env sample
-create a mongodb database and add your connection string into .env file
+$ Создайте файл .env в папках server и client
+$ Ознакомьтесь с примером .env
+Создайте базу данных MongoDB и добавьте строку подключения в файл .env
 ```
 
-Install the dependencies and devDependencies
+Установите зависимости и devDependencies
 
 ```sh
 $ git clone https://github.com/georgesimos/Movie-app.git
@@ -62,14 +107,14 @@ $ npm install
 $ cd server npm install && npm start
 $ cd client npm install && npm start
 ```
-Start the server.
+Запустите сервер.
 
 ```sh
 $ cd server 
 $ npm install 
 ```
 
-Start the client.
+Запустите клиент.
 
 ```sh
 $ cd client 
@@ -77,20 +122,20 @@ $ npm install
 $ npm start
 ```
 
-Start from root path
+Запуск из корневой директории
 ```sh
 $ npm run server
 $ npm run client
 ```
 
-### Plugins
+### Плагины
 
-Cinema + is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
+Cinema + в настоящее время расширен следующими плагинами. Инструкции по их использованию в вашем приложении приведены ниже.
 
-### Server
+### Сервер
 
 
-| Plugin | README |
+| Плагин | README |
 | ------ | ------ |
 | concurrently | [plugins/concurrently/README.md](https://github.com/kimmobrunfeldt/concurrently/blob/master/README.md) |
 | bcryptjs | [plugins/bcryptjs/README.md](https://github.com/dcodeIO/bcrypt.js/blob/master/README.md) |
@@ -103,9 +148,9 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 | nodemon | [plugins/nodemon/README.md](https://github.com/remy/nodemon/blob/master/README.md) |
 | qrcode | [plugins/qrcode/README.md](https://github.com/soldair/node-qrcode/blob/master/README.md) |
 
-### Client
+### Клиент
 
-| Plugin | README |
+| Плагин | README |
 | ------ | ------ |
 | fullcalendar | [plugins/fullcalendar/README.md](https://github.com/fullcalendar/fullcalendar/blob/master/README.md) |
 | material-ui | [plugins/material-ui/README.md](https://github.com/mui-org/material-ui/blob/master/README.md) |
@@ -119,50 +164,50 @@ Cinema + is currently extended with the following plugins. Instructions on how t
 | react-slick | [plugins/react-slick/README.md](https://github.com/akiran/react-slick) |
 | redux | [plugins/redux/README.md](https://github.com/reduxjs/redux)|
 
-### Todos
+### Задачи
 
- - Add Light Mode / More themes
+ - Добавить светлый режим / Больше тем
 
 
 
-# Screenshots! 
+# Скриншоты! 
 
-Movie Page
+Страница фильма
 <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/movie.png" />
 
 <details>
-  <summary>More Screenshots</summary>
-  Booking Page
+  <summary>Больше скриншотов</summary>
+  Страница бронирования
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/booking.png" />
 
-  Booking Invitations
+  Приглашения на бронирование
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/invitation.png" />
 
-  Guest Dashboard Page
+  Страница гостевой панели
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/guest-dashboard.png" />
 
-  My Account Page
+  Страница моего аккаунта
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/my-account.png" />
 
-  Admin Home Page
+  Главная страница администратора
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-dashboard.png" />
 
-  Admin Cinema Page
+  Страница кинотеатров администратора
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-cinemas.png" />
 
-  Admin Movie Page
+  Страница фильмов администратора
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/admin-movies.png" />
 
-  Admin Reservation Page
+  Страница бронирований администратора
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/reservations.png" />
 
-  Admin Reservation Calendar
+  Календарь бронирований администратора
   <img src="https://github.com/georgesimos/readme-assets/blob/master/cinema-plus/calendar.png" />
 </details>
 
 
 
-License
+Лицензия
 ----
 
 MIT

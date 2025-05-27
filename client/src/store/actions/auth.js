@@ -9,6 +9,7 @@ import {
 } from '../types';
 import { setAlert } from './alert';
 import { setAuthHeaders, setUser, removeUser, isLoggedIn } from '../../utils';
+import api from '../../utils/axios';
 
 export const uploadImage = (id, image) => async dispatch => {
   try {
@@ -45,7 +46,7 @@ export const login = (username, password) => async dispatch => {
       const { user } = responseData;
       user && setUser(user);
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
-      dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
+      dispatch(setAlert(`Добро пожаловать, ${user.name}`, 'success', 5000));
     }
     if (responseData.error) {
       dispatch({ type: LOGIN_FAIL });
@@ -73,7 +74,7 @@ export const facebookLogin = e => async dispatch => {
       const { user } = responseData;
       user && setUser(user);
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
-      dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
+      dispatch(setAlert(`Добро пожаловать, ${user.name}`, 'success', 5000));
     }
     if (responseData.error) {
       dispatch({ type: LOGIN_FAIL });
@@ -101,7 +102,7 @@ export const googleLogin = ({ profileObj }) => async dispatch => {
       const { user } = responseData;
       user && setUser(user);
       dispatch({ type: LOGIN_SUCCESS, payload: responseData });
-      dispatch(setAlert(`Welcome ${user.name}`, 'success', 5000));
+      dispatch(setAlert(`Добро пожаловать, ${user.name}`, 'success', 5000));
     }
     if (responseData.error) {
       dispatch({ type: LOGIN_FAIL });
@@ -136,7 +137,7 @@ export const register = ({
       user && setUser(user);
       if (image) dispatch(uploadImage(user._id, image)); // Upload image
       dispatch({ type: REGISTER_SUCCESS, payload: responseData });
-      dispatch(setAlert('Register Success', 'success', 5000));
+      dispatch(setAlert('Регистрация прошла успешно', 'success', 5000));
     }
     if (responseData._message) {
       dispatch({ type: REGISTER_FAIL });
@@ -150,22 +151,24 @@ export const register = ({
 
 // Load user
 export const loadUser = () => async dispatch => {
-  if (!isLoggedIn()) return;
-  try {
-    const url = '/users/me';
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: setAuthHeaders()
-    });
-    const responseData = await response.json();
-    if (response.ok) {
-      const { user } = responseData;
-      user && setUser(user);
-      dispatch({ type: USER_LOADED, payload: responseData });
-    }
-    if (!response.ok) dispatch({ type: AUTH_ERROR });
-  } catch (error) {
+  if (!isLoggedIn()) {
     dispatch({ type: AUTH_ERROR });
+    return;
+  }
+
+  try {
+    const response = await api.get('/users/me');
+    if (response.data && response.data.user) {
+      setUser(response.data.user);
+      dispatch({ type: USER_LOADED, payload: response.data });
+    } else {
+      removeUser();
+      dispatch({ type: AUTH_ERROR });
+    }
+  } catch (error) {
+    removeUser();
+    dispatch({ type: AUTH_ERROR });
+    // Не перенаправляем на страницу логина здесь, так как это уже делает axios интерцептор
   }
 };
 
@@ -185,7 +188,7 @@ export const logout = () => async dispatch => {
     if (response.ok) {
       removeUser();
       dispatch({ type: LOGOUT });
-      dispatch(setAlert('LOGOUT Success', 'success', 5000));
+      dispatch(setAlert('Выход выполнен успешно', 'success', 5000));
     }
     if (responseData.error) {
       dispatch(setAlert(responseData.error.message, 'error', 5000));

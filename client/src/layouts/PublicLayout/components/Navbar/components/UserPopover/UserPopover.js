@@ -20,7 +20,7 @@ export default function UserPopover(props) {
   return (
     <>
       <IconButton aria-describedby={id} onClick={handleClick}>
-        <PersonIcon fontSize="large" />
+        <PersonIcon fontSize="large" style={{ color: '#FFFFFF' }} />
       </IconButton>
       <Popover
         id={id}

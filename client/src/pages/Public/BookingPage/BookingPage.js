@@ -48,11 +48,18 @@ class BookingPage extends Component {
       getReservations,
       getSuggestedReservationSeats
     } = this.props;
-    getMovie(match.params.id);
-    user ? getCinemasUserModeling(user.username) : getCinemas();
+    
+    // Сначала загружаем все необходимые данные
     getShowtimes();
+    getCinemas();
+    getMovie(match.params.id);
     getReservations();
-    if (user) getSuggestedReservationSeats(user.username);
+    
+    // Если пользователь авторизован, загружаем персонализированные данные
+    if (user) {
+      getCinemasUserModeling(user.username);
+      getSuggestedReservationSeats(user.username);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -87,20 +94,74 @@ class BookingPage extends Component {
   };
 
   onSelectSeat = (row, seat) => {
-    const { cinema, setSelectedSeats } = this.props;
+    const { cinema, setSelectedSeats, selectedSeats } = this.props;
     const seats = [...cinema.seats];
     const newSeats = [...seats];
-    if (seats[row][seat] === 1) {
-      newSeats[row][seat] = 1;
-    } else if (seats[row][seat] === 2) {
-      newSeats[row][seat] = 0;
-    } else if (seats[row][seat] === 3) {
-      newSeats[row][seat] = 2;
-    } else {
-      newSeats[row][seat] = 2;
+    
+    // Получаем текущие данные места
+    const currentSeat = seats[row][seat];
+    
+    // Если место занято (значение 1), ничего не делаем
+    if (currentSeat === 1) {
+      return;
     }
+    
+    // Проверяем количество уже выбранных мест
+    const selectedSeatsCount = selectedSeats.length;
+    const isSeatSelected = currentSeat === 2 || (typeof currentSeat === 'object' && currentSeat.selected);
+    
+    // Если пытаемся выбрать новое место и уже выбрано 10 мест, не позволяем выбрать еще
+    if (!isSeatSelected && selectedSeatsCount >= 10) {
+      return;
+    }
+    
+    if (isSeatSelected) {
+      // Отменяем выбор места
+      const isVIP = typeof currentSeat === 'object' && currentSeat.coefficient === 2.0;
+      newSeats[row][seat] = {
+        number: seat + 1,
+        coefficient: isVIP ? 2.0 : 1.0
+      };
+    } else if (currentSeat === 3) {
+      // Выбираем рекомендуемое место
+      const isVIP = typeof currentSeat === 'object' && currentSeat.coefficient === 2.0;
+      newSeats[row][seat] = {
+        number: seat + 1,
+        coefficient: isVIP ? 2.0 : 1.0,
+        selected: true
+      };
+    } else {
+      // Выбираем свободное место
+      const isVIP = typeof currentSeat === 'object' && currentSeat.coefficient === 2.0;
+      newSeats[row][seat] = {
+        number: seat + 1,
+        coefficient: isVIP ? 2.0 : 1.0,
+        selected: true
+      };
+    }
+    
+    // Обновляем места в кинотеатре
+    cinema.seats = newSeats;
     setSelectedSeats([row, seat]);
   };
+
+  bookSeats() {
+    const { cinema, selectedSeats } = this.props;
+    const seats = [...cinema.seats];
+
+    if (!selectedSeats || selectedSeats.length === 0) return [];
+
+    // Собираем все выбранные места
+    const bookedSeats = seats.map((row, rowIndex) => {
+      return row.map((seat, seatIndex) => {
+        // Проверяем, выбрано ли место (значение 2 или объект с selected: true)
+        const isSelected = seat === 2 || (typeof seat === 'object' && seat.selected);
+        return isSelected ? [rowIndex, seatIndex] : null;
+      }).filter(seat => seat !== null);
+    }).flat();
+
+    return bookedSeats;
+  }
 
   async checkout() {
     const {
@@ -118,15 +179,25 @@ class BookingPage extends Component {
       setQRCode
     } = this.props;
 
-    if (selectedSeats.length === 0) return;
+    if (!selectedSeats || selectedSeats.length === 0) return;
     if (!isAuth) return toggleLoginPopup();
+
+    const bookedSeats = this.bookSeats();
+    if (bookedSeats.length === 0) return;
+
+    // Рассчитываем общую стоимость с учетом коэффициентов
+    const total = bookedSeats.reduce((sum, [row, seat]) => {
+      const seatData = cinema.seats[row][seat];
+      const coefficient = typeof seatData === 'object' ? seatData.coefficient : 1.0;
+      return sum + (cinema.ticketPrice * coefficient);
+    }, 0);
 
     const response = await addReservation({
       date: selectedDate,
       startAt: selectedTime,
-      seats: this.bookSeats(),
+      seats: bookedSeats,
       ticketPrice: cinema.ticketPrice,
-      total: selectedSeats.length * cinema.ticketPrice,
+      total: total,
       movieId: movie._id,
       cinemaId: cinema._id,
       username: user.username,
@@ -140,39 +211,45 @@ class BookingPage extends Component {
     }
   }
 
-  bookSeats() {
-    const { cinema, selectedSeats } = this.props;
-    const seats = [...cinema.seats];
-
-    if (selectedSeats.length === 0) return;
-
-    const bookedSeats = seats
-      .map(row =>
-        row.map((seat, i) => (seat === 2 ? i : -1)).filter(seat => seat !== -1)
-      )
-      .map((seats, i) => (seats.length ? seats.map(seat => [i, seat]) : -1))
-      .filter(seat => seat !== -1)
-      .reduce((a, b) => a.concat(b));
-
-    return bookedSeats;
-  }
-
   onFilterCinema() {
     const { cinemas, showtimes, selectedCinema, selectedTime } = this.props;
     const initialReturn = { uniqueCinemas: [], uniqueTimes: [] };
-    if (!showtimes || !cinemas) return initialReturn;
+    
+    // Проверяем наличие необходимых данных
+    if (!showtimes || !cinemas || !showtimes.length || !cinemas.length) {
+      console.log('Missing data:', { showtimes, cinemas });
+      return initialReturn;
+    }
 
-    const uniqueCinemasId = showtimes
-      .filter(showtime =>
+    console.log('Filtering cinemas:', {
+      cinemas,
+      showtimes,
+      selectedCinema,
+      selectedTime
+    });
+
+    // Фильтруем сеансы по времени, если оно выбрано
+    const filteredShowtimes = showtimes.filter(showtime =>
         selectedTime ? showtime.startAt === selectedTime : true
-      )
+    );
+
+    console.log('Filtered showtimes:', filteredShowtimes);
+
+    // Получаем уникальные ID кинотеатров
+    const uniqueCinemasId = filteredShowtimes
       .map(showtime => showtime.cinemaId)
       .filter((value, index, self) => self.indexOf(value) === index);
 
+    console.log('Unique cinema IDs:', uniqueCinemasId);
+
+    // Фильтруем кинотеатры
     const uniqueCinemas = cinemas.filter(cinema =>
       uniqueCinemasId.includes(cinema._id)
     );
 
+    console.log('Filtered cinemas:', uniqueCinemas);
+
+    // Получаем уникальные времена
     const uniqueTimes = showtimes
       .filter(showtime =>
         selectedCinema ? selectedCinema === showtime.cinemaId : true
@@ -209,7 +286,13 @@ class BookingPage extends Component {
   };
 
   onGetSuggestedSeats = (seats, suggestedSeats) => {
+    // Проверяем наличие необходимых данных
+    if (!suggestedSeats || !seats) return;
+    
     const { numberOfTickets, positions } = suggestedSeats;
+    
+    // Проверяем наличие необходимых свойств
+    if (!numberOfTickets || !positions) return;
 
     const positionsArray = Object.keys(positions).map(key => {
       return [String(key), positions[key]];
@@ -241,8 +324,10 @@ class BookingPage extends Component {
         default:
           break;
       }
-      if (suggested) this.getSeat(suggested, seats, numberOfTickets);
+      if (suggested) {
+        this.getSeat(suggested, seats, numberOfTickets);
       break;
+      }
     }
   };
 
@@ -412,7 +497,8 @@ class BookingPage extends Component {
                   user={user}
                   ticketPrice={cinema.ticketPrice}
                   seatsAvailable={cinema.seatsAvailable}
-                  selectedSeats={selectedSeats.length}
+                  selectedSeats={selectedSeats}
+                  cinema={cinema}
                   onBookSeats={() => this.checkout()}
                 />
               </>

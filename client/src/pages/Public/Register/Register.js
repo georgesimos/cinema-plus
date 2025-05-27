@@ -75,15 +75,15 @@ class Register extends Component {
               <div className={classes.contentBody}>
                 <form className={classes.form}>
                   <Typography className={classes.title} variant="h2">
-                    Create new account
+                    Создание нового аккаунта
                   </Typography>
                   <Typography className={classes.subtitle} variant="body1">
-                    Use your email to create new account... it's free.
+                    Используйте свою электронную почту для создания нового аккаунта. Это бесплатно.
                   </Typography>
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
-                      label="Full name"
+                      label="Полное имя"
                       name="name"
                       value={values.name}
                       onChange={event =>
@@ -93,7 +93,7 @@ class Register extends Component {
                     />
                     <TextField
                       className={classes.textField}
-                      label="User name"
+                      label="Имя пользователя"
                       name="username"
                       value={values.username}
                       onChange={event =>
@@ -103,7 +103,7 @@ class Register extends Component {
                     />
                     <TextField
                       className={classes.textField}
-                      label="Email address"
+                      label="Электронная почта"
                       name="email"
                       value={values.email}
                       onChange={event =>
@@ -113,7 +113,7 @@ class Register extends Component {
                     />
                     <TextField
                       className={classes.textField}
-                      label="Mobile Phone"
+                      label="Мобильный телефон"
                       name="phone"
                       value={values.phone}
                       variant="outlined"
@@ -123,7 +123,7 @@ class Register extends Component {
                     />
                     <TextField
                       className={classes.textField}
-                      label="Password"
+                      label="Пароль"
                       type="password"
                       value={values.password}
                       variant="outlined"
@@ -152,9 +152,9 @@ class Register extends Component {
                       <Typography
                         className={classes.policyText}
                         variant="body1">
-                        I have read the &nbsp;
+                        Я прочитал(а) &nbsp;
                         <Link className={classes.policyUrl} to="#">
-                          Terms and Conditions
+                          Условия использования
                         </Link>
                         .
                       </Typography>
@@ -168,13 +168,13 @@ class Register extends Component {
                     onClick={this.handleRegister}
                     size="large"
                     variant="contained">
-                    Register now
+                    Зарегистрироваться
                   </Button>
 
                   <Typography className={classes.login} variant="body1">
-                    Have an account?{' '}
+                    Уже есть аккаунт?{' '}
                     <Link className={classes.loginUrl} to="/login">
-                      Login
+                      Войти
                     </Link>
                   </Typography>
                 </form>

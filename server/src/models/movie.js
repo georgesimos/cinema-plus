@@ -29,6 +29,12 @@ const movieSchema = new Schema({
     trim: true,
     lowercase: true,
   },
+  country: { 
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+  },
   cast: {
     type: String,
     required: true,

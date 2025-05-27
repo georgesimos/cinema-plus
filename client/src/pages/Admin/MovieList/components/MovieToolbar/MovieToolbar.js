@@ -42,7 +42,7 @@ class MovieToolbar extends Component {
           <div className={classes.row}>
             <SearchInput
               className={classes.searchInput}
-              placeholder="Search movie"
+              placeholder="Поиск фильма"
               value={search}
               onChange={onChangeSearch}
             />
@@ -51,7 +51,7 @@ class MovieToolbar extends Component {
               color="primary"
               size="small"
               variant="outlined">
-              Add
+              Добавить
             </Button>
           </div>
         </div>

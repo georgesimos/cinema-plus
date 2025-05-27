@@ -1,16 +1,17 @@
 import { red, blue, blueGrey, yellow, green } from '@material-ui/core/colors';
 const white = '#FFF';
-const black = '#000';
+const black = '#00008B';
+const darkPurple = '#17082b';
 
 export default {
   type: 'light',
   common: {
     black,
     white,
-    commonBackground: white,
-    contrastText: black,
+    commonBackground: darkPurple,
+    contrastText: white,
     neutral: '#E4E7EB',
-    muted: '#9EA0A4'
+    muted: '#ADD8E6'
   },
   default: {
     light: 'rgba(41, 150, 243, .1)',
@@ -57,14 +58,14 @@ export default {
     contrastText: white
   },
   text: {
-    primary: blueGrey[900],
-    secondary: blueGrey[600],
-    link: blue[600]
+    primary: white,
+    secondary: white,
+    link: white
   },
   background: {
-    default: '#f8fafc',
-    dark: 'rgb(26, 26, 26)',
-    paper: white
+    default: darkPurple,
+    dark: darkPurple,
+    paper: darkPurple
   },
   border: '#DFE3E8',
   divider: '#DFE3E8',

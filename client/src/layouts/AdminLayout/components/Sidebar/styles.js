@@ -51,11 +51,13 @@ export default theme => ({
       color: theme.palette.common.contrastText
     },
     '& $listItemIcon': {
-      marginLeft: '-4px'
+      marginLeft: '-4px',
+      color: theme.palette.common.white
     }
   },
   listItemIcon: {
-    marginRight: 0
+    marginRight: 0,
+    color: theme.palette.common.white
   },
   listItemText: {
     fontWeight: 500,
@@ -87,11 +89,17 @@ export default theme => ({
     },
     '&:hover:before': {
       background: theme.palette.default.dark
+    },
+    '& $listItemIcon': {
+      color: theme.palette.common.white
     }
   },
   activeNestedItem: {
     '&:before': {
       background: theme.palette.default.dark
+    },
+    '& $listItemIcon': {
+      color: theme.palette.common.white
     }
   }
 });

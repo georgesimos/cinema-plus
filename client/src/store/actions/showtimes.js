@@ -18,6 +18,7 @@ export const selectAllShowtimes = () => ({ type: SELECT_ALL_SHOWTIMES });
 
 export const getShowtimes = () => async dispatch => {
   try {
+    console.log('Fetching showtimes from client');
     const token = localStorage.getItem('jwtToken');
     const url = '/showtimes';
     const response = await fetch(url, {
@@ -27,10 +28,12 @@ export const getShowtimes = () => async dispatch => {
       }
     });
     const showtimes = await response.json();
+    console.log('Received showtimes:', showtimes);
     if (response.ok) {
       dispatch({ type: GET_SHOWTIMES, payload: showtimes });
     }
   } catch (error) {
+    console.error('Error fetching showtimes:', error);
     dispatch(setAlert(error.message, 'error', 5000));
   }
 };
@@ -55,7 +58,7 @@ export const addShowtime = showtime => async dispatch => {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Cinema have not been saved, try again.'
+      message: 'Кинотеатр не сохранен, попробуйте снова.'
     };
   }
 };
@@ -80,7 +83,7 @@ export const updateShowtime = (showtime, id) => async dispatch => {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Cinema have not been saved, try again.'
+      message: 'Кинотеатр не сохранен, попробуйте снова.'
     };
   }
 };
@@ -106,7 +109,7 @@ export const deleteShowtime = id => async dispatch => {
     dispatch(setAlert(error.message, 'error', 5000));
     return {
       status: 'error',
-      message: ' Showtime have not been deleted, try again.'
+      message: 'Кинотеатр не сохранен, попробуйте снова.'
     };
   }
 };

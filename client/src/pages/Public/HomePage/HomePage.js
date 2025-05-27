@@ -50,18 +50,18 @@ class HomePage extends Component {
         <Box height={60} />
         <MovieCarousel
           carouselClass={classes.carousel}
-          title="Suggested for you"
+          title="Рекомендовано для вас"
           movies={suggested}
         />
         <MovieCarousel
           carouselClass={classes.carousel}
-          title="Now Showing"
+          title="Смотрите сейчас"
           to="/movie/category/nowShowing"
           movies={nowShowing}
         />
         <MovieCarousel
           carouselClass={classes.carousel}
-          title="Coming Soon"
+          title="Скоро в прокате"
           to="/movie/category/comingSoon"
           movies={comingSoon}
         />

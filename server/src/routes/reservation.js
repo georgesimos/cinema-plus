@@ -10,11 +10,11 @@ const router = new express.Router();
 router.post('/reservations', auth.simple, async (req, res) => {
   const reservation = new Reservation(req.body);
 
-  const QRCode = await generateQR(`https://elcinema.herokuapp.com/#/checkin/${reservation._id}`);
-
   try {
+    const QRCode = await generateQR(`https://elcinema.herokuapp.com/#/checkin/${reservation._id}`);
+    reservation.qrCode = QRCode;
     await reservation.save();
-    res.status(201).send({ reservation, QRCode });
+    res.status(201).send({ reservation });
   } catch (e) {
     res.status(400).send(e);
   }
@@ -67,6 +67,7 @@ router.patch('/reservations/:id', auth.enhance, async (req, res) => {
     'username',
     'phone',
     'checkin',
+    'qrCode'
   ];
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
 
@@ -83,13 +84,25 @@ router.patch('/reservations/:id', auth.enhance, async (req, res) => {
 });
 
 // Delete reservation by id
-router.delete('/reservations/:id', auth.enhance, async (req, res) => {
-  const _id = req.params.id;
+router.delete('/reservations/:id', auth.simple, async (req, res) => {
   try {
-    const reservation = await Reservation.findByIdAndDelete(_id);
-    return !reservation ? res.sendStatus(404) : res.send(reservation);
+    const reservation = await Reservation.findByIdAndDelete(req.params.id);
+    
+    if (!reservation) {
+      return res.status(404).send({ error: 'Бронирование не найдено' });
+    }
+
+    res.send({ 
+      success: true,
+      message: 'Бронирование успешно удалено',
+      reservation 
+    });
   } catch (e) {
-    return res.sendStatus(400);
+    console.error('Ошибка при удалении брони:', e);
+    res.status(400).send({ 
+      error: 'Не удалось удалить бронирование',
+      details: e.message 
+    });
   }
 });
 

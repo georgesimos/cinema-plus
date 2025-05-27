@@ -5,7 +5,9 @@ const useStyles = makeStyles(theme => ({
   movieInfos: {
     background: 'rgba(57, 61, 67, 0.5)',
     position: 'relative',
-    height: '100%'
+    height: '100%',
+    overflow: 'hidden',
+    borderRadius: theme.spacing(1)
   },
   background: {
     position: 'absolute',
@@ -28,24 +30,44 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.common.white,
     fontSize: '24px',
     textTransform: 'capitalize',
-    zIndex: 2
+    zIndex: 2,
+    padding: theme.spacing(1),
+    wordWrap: 'break-word'
   },
   info: {
     position: 'absolute',
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
     top: '70%',
     right: 0,
-    width: '100%'
+    width: '100%',
+    maxHeight: '30%',
+    overflowY: 'auto'
   },
   infoBox: {
     color: theme.palette.common.white,
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
+    '& .MuiTypography-subtitle1': {
+      fontWeight: 'bold',
+      marginBottom: theme.spacing(0.5)
+    },
+    '& .MuiTypography-caption': {
+      display: 'block',
+      wordWrap: 'break-word'
+    }
   },
   [theme.breakpoints.down('md')]: {
-    movieInfos: { minHeight: '30vh' },
+    movieInfos: { 
+      minHeight: '30vh',
+      marginBottom: theme.spacing(3)
+    },
     background: { height: '100%' },
-    title: { top: '80%' },
-    info: { display: 'none' }
+    title: { 
+      top: '80%',
+      fontSize: '20px'
+    },
+    info: { 
+      display: 'none'
+    }
   }
 }));
 
@@ -53,7 +75,7 @@ export default function MovieInfo(props) {
   const classes = useStyles(props);
   const { movie } = props;
 
-  if (!movie) return <h1>Movie Loading...</h1>;
+  if (!movie) return <h1>Загрузка фильма...</h1>;
 
   return (
     <Grid item xs={12} md={12} lg={3}>
@@ -69,7 +91,7 @@ export default function MovieInfo(props) {
           {movie.director && (
             <div className={classes.infoBox}>
               <Typography variant="subtitle1" color="inherit">
-                Director
+                Режиссер
               </Typography>
               <Typography variant="caption" color="inherit">
                 {movie.director}
@@ -79,7 +101,7 @@ export default function MovieInfo(props) {
           {movie.cast && (
             <div className={classes.infoBox}>
               <Typography variant="subtitle1" color="inherit">
-                Cast
+                В ролях
               </Typography>
               <Typography variant="caption" color="inherit">
                 {movie.cast}
@@ -89,10 +111,20 @@ export default function MovieInfo(props) {
           {movie.genre && (
             <div className={classes.infoBox}>
               <Typography variant="subtitle1" color="inherit">
-                Genre
+                Жанр
               </Typography>
               <Typography variant="caption" color="inherit">
                 {movie.genre}
+              </Typography>
+            </div>
+          )}
+          {movie.country && (
+            <div className={classes.infoBox}>
+              <Typography variant="subtitle1" color="inherit">
+                Страна
+              </Typography>
+              <Typography variant="caption" color="inherit">
+                {movie.country}
               </Typography>
             </div>
           )}

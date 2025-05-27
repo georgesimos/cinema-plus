@@ -14,6 +14,7 @@ const ShowtimeList = lazy(() => import('./pages/Admin/ShowtimeList'));
 const ReservationList = lazy(() => import('./pages/Admin/ReservationList'));
 const User = lazy(() => import('./pages/Admin/User'));
 const Account = lazy(() => import('./pages/Admin/Account'));
+const ConfigureSeats = lazy(() => import('./pages/Admin/CinemaList/components/ConfigureSeats/ConfigureSeats'));
 
 // Register - Login
 const Register = lazy(() => import('./pages/Public/Register'));
@@ -113,6 +114,12 @@ const Routes = () => {
             path="/admin/cinemas"
             layout={AdminLayout}
             component={CinemaList}
+          />
+          <ProtectedRoute
+            exact
+            path="/admin/cinemas/configure-seats/:id"
+            layout={AdminLayout}
+            component={ConfigureSeats}
           />
           <ProtectedRoute
             exact

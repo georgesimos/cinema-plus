@@ -1,8 +1,13 @@
 const pageCursors = () => {
-  let cursor1, cursor2, cursor3;
-  cursor1 = document.getElementById('cursor');
-  cursor2 = document.getElementById('cursor2');
-  cursor3 = document.getElementById('cursor3');
+  let cursor1 = document.getElementById('cursor');
+  let cursor2 = document.getElementById('cursor2');
+  let cursor3 = document.getElementById('cursor3');
+
+  // Проверяем наличие всех необходимых элементов
+  if (!cursor1 || !cursor2 || !cursor3) {
+    return; // Если какой-то элемент отсутствует, прекращаем выполнение
+  }
+
   //Page cursors
   document
     .getElementsByTagName('body')[0]

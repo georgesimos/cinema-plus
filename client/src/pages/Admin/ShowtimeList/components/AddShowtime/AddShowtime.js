@@ -99,11 +99,11 @@ class AddShowtime extends Component {
 
     const rootClassName = classNames(classes.root, className);
     const title = this.props.selectedShowtime
-      ? 'Edit Showtime'
-      : 'Add Showtime';
+      ? 'Редактировать сеанс'
+      : 'Добавить сеанс';
     const submitButton = this.props.selectedShowtime
-      ? 'Update Showtime'
-      : 'Save Details';
+      ? 'Обновить сеанс'
+      : 'Сохранить';
     const submitAction = this.props.selectedShowtime
       ? () => this.onUpdateShowtime()
       : () => this.onAddShowtime();
@@ -119,8 +119,8 @@ class AddShowtime extends Component {
               fullWidth
               select
               className={classes.textField}
-              helperText="Please specify the Time"
-              label="Time"
+              helperText="Пожалуйста, укажите время"
+              label="Время"
               margin="dense"
               required
               value={startAt}
@@ -128,7 +128,7 @@ class AddShowtime extends Component {
               onChange={event =>
                 this.handleFieldChange('startAt', event.target.value)
               }>
-              {['18:00', '19:00', '20:00', '21:00', ' 22:00', '23:00'].map(
+              {['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'].map(
                 time => (
                   <MenuItem key={`time-${time}`} value={time}>
                     {time}
@@ -142,7 +142,7 @@ class AddShowtime extends Component {
               fullWidth
               select
               className={classes.textField}
-              label="Movie"
+              label="Фильм"
               margin="dense"
               required
               value={movieId}
@@ -161,7 +161,7 @@ class AddShowtime extends Component {
               fullWidth
               select
               className={classes.textField}
-              label="Cinema"
+              label="Зал"
               margin="dense"
               required
               value={cinemaId}
@@ -184,7 +184,7 @@ class AddShowtime extends Component {
                 inputVariant="outlined"
                 margin="normal"
                 id="start-date"
-                label="Start Date"
+                label="Дата начала"
                 minDate={new Date()}
                 maxDate={this.onFilterMaxDate()}
                 value={startDate}
@@ -199,7 +199,7 @@ class AddShowtime extends Component {
                 inputVariant="outlined"
                 margin="normal"
                 id="end-date"
-                label="End Date"
+                label="Дата окончания"
                 minDate={new Date(startDate)}
                 maxDate={this.onFilterMaxDate()}
                 value={endDate}

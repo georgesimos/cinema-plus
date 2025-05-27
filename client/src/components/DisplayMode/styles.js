@@ -12,7 +12,8 @@ export default theme => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: '#00008B',
+    color: '#FFFFFF'
   },
   optionSelected: {
     backgroundColor: theme.palette.background.default,

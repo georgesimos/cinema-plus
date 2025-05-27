@@ -55,7 +55,7 @@ const TotalMovies = props => {
               color="textSecondary"
               gutterBottom
               variant="body2">
-              TOTAL MOVIES
+              ВСЕГО ФИЛЬМОВ
             </Typography>
             <Typography variant="h3">{movies}</Typography>
           </Grid>
@@ -71,7 +71,7 @@ const TotalMovies = props => {
             16%
           </Typography>
           <Typography className={classes.caption} variant="caption">
-            Since last month
+            С прошлого месяца
           </Typography>
         </div>
       </CardContent>

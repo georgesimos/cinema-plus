@@ -26,13 +26,19 @@ const MovieCard = props => {
               className={classes.director}
               variant="h4"
               color="inherit">
-              By: {movie.director}
+              Режиссер: {movie.director}
+            </Typography>
+            <Typography
+              className={classes.country}
+              variant="h4"
+              color="inherit">
+              Страна: {movie.country}
             </Typography>
             <Typography
               className={classes.duration}
               variant="body1"
               color="inherit">
-              {movie.duration} min
+              {movie.duration} мин
             </Typography>
             <Typography
               className={classes.genre}
@@ -65,7 +71,9 @@ const MovieCard = props => {
         <div
           className={classes.blurBackground}
           style={{
-            backgroundImage: `url(${movie.image})`
+            backgroundImage: movie.image ? `url(${movie.image})` : 'none',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
         />
       </Paper>

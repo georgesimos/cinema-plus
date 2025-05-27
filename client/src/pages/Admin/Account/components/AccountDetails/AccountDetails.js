@@ -67,8 +67,8 @@ class Account extends Component {
       <Portlet className={rootClassName}>
         <PortletHeader>
           <PortletLabel
-            subtitle="The information can be edited"
-            title="Profile"
+            subtitle="Информацию можно изменять"
+            title="Профиль"
           />
         </PortletHeader>
         <PortletContent noPadding>
@@ -76,8 +76,8 @@ class Account extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                helperText="Please specify the first name"
-                label="FUll Name"
+                helperText="Пожалуйста, укажите полное имя"
+                label="Полное имя"
                 margin="dense"
                 required
                 value={name}
@@ -88,7 +88,7 @@ class Account extends Component {
               />
               <TextField
                 className={classes.textField}
-                label="Email Address"
+                label="Email адрес"
                 margin="dense"
                 required
                 value={email}
@@ -101,7 +101,7 @@ class Account extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="Phone Number"
+                label="Номер телефона"
                 margin="dense"
                 type="number"
                 value={phone}
@@ -112,7 +112,7 @@ class Account extends Component {
               />
               <TextField
                 className={classes.textField}
-                label="Password"
+                label="Пароль"
                 margin="dense"
                 type="password"
                 value={password}
@@ -129,7 +129,7 @@ class Account extends Component {
             color="primary"
             variant="contained"
             onClick={this.onUpdateUser}>
-            Save details
+            Сохранить
           </Button>
         </PortletFooter>
       </Portlet>

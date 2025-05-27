@@ -67,6 +67,7 @@ const MovieOverview = ({ title, description, image }) => {
               { label: 'Released', value: '19 September 2019' },
               { label: 'Runtime', value: '1h 20mins' },
               { label: 'Director', value: 'George Simos' },
+              { label: 'Country', value: 'USA' },
               { label: 'Genre', value: 'Action' },
               { label: 'Status', value: 'Released' },
               { label: 'Language', value: 'English' }

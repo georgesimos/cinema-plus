@@ -66,7 +66,18 @@ export default theme => ({
       height: '9px'
     }
   },
-  navAccount: { marginLeft: 'auto', marginRight: theme.spacing(3) },
+  navAccount: { 
+    marginLeft: 'auto', 
+    marginRight: theme.spacing(3),
+    display: 'flex',
+    alignItems: 'center'
+  },
+  username: {
+    color: theme.palette.common.white,
+    marginRight: theme.spacing(2),
+    fontSize: '1rem',
+    fontWeight: 500
+  },
   navMobile: { marginRight: theme.spacing(1) },
   navIcon: {
     display: 'none',
